@@ -47,7 +47,7 @@ class ModelPages extends Model {
         return $result;
     }
 
-    function GetPages($params){
+    function GetPages($params = array()){
         $result = false;
         $sort = isset($params['sort']) ? $params['sort'] : '`ID` DESC';
         $sql = "SELECT * FROM $this->table_name ORDER BY $sort";
