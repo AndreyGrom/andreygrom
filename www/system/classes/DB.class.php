@@ -16,7 +16,6 @@ class Database {
             self::$instance;
     }
     public function __construct() {
-        include_once(dirname( __FILE__  ).'/../config/db.php');
         $this->host = db_host;
         $this->user = db_user;
         $this->password = db_password;

@@ -14,7 +14,7 @@ require_once('system/classes/Smart.class.php');
 include_once("system/classes/AdminManager.class.php");
 include_once("system/classes/Model.class.php");
 // ToDo переработать модуль, доработь, вывести информацию об авторстве, версии, и.т.д.
-//include_once("system/classes/init_module.class.php");
+include_once("system/classes/ModuleInit.class.php");
 $mng= new AdminManager();
 
 $mng->getContent();

@@ -1,20 +1,18 @@
 <?php
 
-class AdminPagesController /*extends AdminController*/ {
+class AdminPagesController extends AdminController {
     private $pages = array();
     private $categories = array();
     private $structure = array();
     private $id = 0;
     private $cid = 0;
+    public $module_alias = 'pages';
 
     public function __construct() {
-        //parent::__construct();
-        $this->table_name = '`'.db_pref.'pages`';
+        parent::__construct();
+        $this->table_name = db_pref.'pages';
         $this->module_alias = 'pages';
         $this->admin_page_title = 'Управление страницами сайта';
-        $this->pages         = array();
-        $this->categories    = array();
-        $this->structure     = array();
         $this->id            = isset($this->get['id']) ? $this->get['id'] : 0;
         $this->cid           = isset($this->get['cid']) ? $this->get['cid'] : 0;
         $this->act           = isset($this->get['act']) ? $this->get['act'] : '';

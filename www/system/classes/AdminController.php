@@ -112,6 +112,7 @@ class AdminController {
     }
 
     public function assign($arr){
+
         $this->smarty->assign($arr);
     }
     public function SetTemplate($tpl){

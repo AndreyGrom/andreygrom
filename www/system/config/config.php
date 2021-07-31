@@ -1,4 +1,11 @@
 <?php
+
+define('db_host', 'localhost');
+define('db_name', 'andreygrom3');
+define('db_user', 'root');
+define('db_password', '');
+define('db_pref', 'agcms_');
+
 define('ROOT_PATH',$_SERVER['DOCUMENT_ROOT'].'/');
 define('SYSTEM_DIR', ROOT_PATH.'system/');
 define('PLUGINS_DIR', SYSTEM_DIR.'plugins/');
