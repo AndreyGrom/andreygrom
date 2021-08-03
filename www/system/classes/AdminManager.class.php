@@ -20,26 +20,19 @@ class AdminManager {
             $class = new $class_name();
             $content = $class->Index();
         }
-
         if ($content !== ''){
             echo $content;
         } else{
-            $this->Head('/error404');
+            //header("Location: /error404");
+            //exit;
+            //ar_dump(__FILE__);
         }
 
     }
 
     public function Head($url, $anch=''){
-        if ($anch!==''){
-            $url.='#'.$anch;
-        }
         header("Location: ".$url);
         exit;
     }
-
-
-
-
-
 }
 ?>

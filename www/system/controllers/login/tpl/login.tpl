@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +8,8 @@
     <meta name="author" content="">
     <title>Панель управления</title>
 
-    <link href="/system/AdminDesign/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/system/AdminDesign/css/main.css" rel="stylesheet">
+    <link href="/system/design/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/system/design/css/main.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -30,7 +30,7 @@
                         <div id="form_1" data-animation="bounceIn" class="animated bounceIn">
                         <form method="post">
                             <div class="form-header">
-                                <img src="/system/AdminDesign/img/logo2.png" alt=""/>
+                                <img src="/system/design/img/logo2.png" alt=""/>
                             </div>
                             <div class="form-main">
                                 <div class="form-group">
@@ -56,18 +56,13 @@
         <div class="row">
             <div class="col-md-12">
                 <p>Система управления сайтом AG CMS v. 3.02</p>
-                <p>© <a href="http://andreygrom.ru/" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank"><img src="http://andreygrom.ru/favicon.ico" style="width:16px;">Андрей Гром</a> Все права защищены!</p>
+                <p>© <a href="mailto:grominfo@gmail.com" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank"><img src="/favicon.ico" style="width:16px;">Андрей Гром</a> Все права защищены!</p>
             </div>
         </div>
     </div>
 </section>
-
-<!-- jQuery Version 1.11.1 -->
-<script type="text/javascript" src="/system/AdminDesign/js/jquery.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/system/AdminDesign/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="/system/design/js/jquery.js"></script>
+<script src="/system/design/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();

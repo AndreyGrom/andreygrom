@@ -6,10 +6,15 @@ class AdminPagesController extends AdminController {
     private $structure = array();
     private $id = 0;
     private $cid = 0;
-    public $module_alias = 'pages';
+    private $alias;
+    private $table;
 
     public function __construct() {
         parent::__construct();
+        include_once (__DIR__) . '/init.php';
+        $config = InitModule::getInstance()->GetConfig();
+        $this->alias = $config['alias'];
+        $this->table = $config['table'];
         $this->table_name = db_pref.'pages';
         $this->module_alias = 'pages';
         $this->admin_page_title = 'Управление страницами сайта';
@@ -19,10 +24,8 @@ class AdminPagesController extends AdminController {
     }
 
     public function SetPlugins(){
-  /*      $this->js[]   = HTML_PLUGINS_DIR.'cleeditor/jquery.cleditor.min.js';
-        $this->js[]   = HTML_PLUGINS_DIR.'cleeditor/jquery.cleditor.rfm.js';
-        $this->css[]  = HTML_PLUGINS_DIR.'cleeditor/jquery.cleditor.css';*/
-        $this->js[]   = HTML_PLUGINS_DIR.'tinymce/tinymce.min.js';
+        $this->SetJS(HTML_PLUGINS_DIR.'tinymce/tinymce.min.js');
+        $this->SetJS(HTML_PLUGINS_DIR.'init_mce.js');
     }
 
     public function ShowMenu(){

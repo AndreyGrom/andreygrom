@@ -7,7 +7,6 @@ class AdminLoginController extends AdminController {
     public function Index(){
         if (isset($this->get['out'])){
             unset($this->session['admin']);
-            unset($this->session['superadmin']);
             unset($_SESSION['admin']);
             unset($_SESSION['superadmin']);
             setcookie('admin_hash','',time()+3600*24*30*6,'/');

@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
+    <meta name="description" content="Панель управления содержимым AG CMS">
+    <meta name="author" content="Андрей Гром">
     <title>Центр управления AG CMS - {$title}</title>
     <!-- jQuery Version 1.11.1 -->
-    <script type="text/javascript" src="{$html_plugins_dir}jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="{$html_plugins_dir}jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="{$html_plugins_dir}jquery.cookie.js"></script>
     <script type="text/javascript" src="{$html_plugins_dir}func.js"></script>
-    <link href="{$html_plugins_dir}fancybox/jquery.fancybox.css" rel="stylesheet">
-    <script type="text/javascript" src="{$html_plugins_dir}fancybox/jquery.fancybox.js"></script>
-    <script type="text/javascript" src="{$html_plugins_dir}fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" href="{$html_plugins_dir}fancybox/jquery.fancybox.min.css">
+    <script type="text/javascript" src="{$html_plugins_dir}fancybox/jquery.fancybox.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/system/design/js/bootstrap.min.js"></script>
@@ -217,11 +215,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p>Система управления сайтом AG CMS v. 3.02</p>
-                <p>©
-                    <a href="http://andreygrom.ru/" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank"><img src="http://andreygrom.ru/favicon.ico" style="width:16px;">Андрей Гром</a>
-
-                    Все права защищены!
-                </p>
+                <p>© <a href="mailto:grominfo@gmail.com" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank"><img src="/favicon.ico" style="width:16px;">Андрей Гром</a> Все права защищены!</p>
             </div>
         </div>
     </div>
@@ -264,11 +258,7 @@
            }
        }
    });
-    function OpenFM(){
-        window.open('/filemanager/dialog.php?type=2&popup=1' ,  "rfm_cleditr",
-                "status=0, toolbar=0, location=0, menubar=0, directories=0, " +
-                        "resizable=0, scrollbars=0, width=900, height=600");
-    }
+
 
 </script>
 </body>

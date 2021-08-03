@@ -24,7 +24,7 @@ class Func {
         $_GET[$name] = $value;
     }
 
-    public function generateName($length = 20){
+    public function GenStr($length = 20){
         $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
         $numChars = strlen($chars);
         $string = '';
@@ -54,15 +54,7 @@ class Func {
         $path_info = pathinfo($filename);
         return $this->pcgbasename($filename,'.'.$path_info['extension']);
     }
-    public function generatePassword($length = 8){
-        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
-        $numChars = strlen($chars);
-        $string = '';
-        for ($i = 0; $i < $length; $i++) {
-            $string .= substr($chars, rand(1, $numChars) - 1, 1);
-        }
-        return $string;
-    }
+
     public function getTemplates($path){
         $templates = array();
         if (is_dir($path)){
@@ -117,41 +109,9 @@ class Func {
         }
     }
     public function CreatePath($path){
-/*        $arr = explode('/', $path);
-        $curr=array();
-        foreach($arr as $key => $val){
-            if(!empty($val)){
-                $curr[]=$val;
-                if (!is_dir(implode('/',$curr)."/")){
-                    mkdir(implode('/',$curr)."/");
-                }
-
-            }
-        }*/
         mkdir($path, 0777, true);
     }
-    public function GetImage($old_image, $width, $height, $method, $dir){
-        if ($method=='') $method = 'w';
-        if ($dir!==''){
-            $upload_dir = CACHE_IMAGES.$dir.'/';
-            $html_upload_dir = HTML_CACHE_IMAGES.$dir.'/';
-        } else{
-            $upload_dir = CACHE_IMAGES;
-            $html_upload_dir = HTML_CACHE_IMAGES;
-        }
-        if (!is_dir($upload_dir)) $this->CreatePath($upload_dir);
-        $new_image = '';
-        if (!is_dir($old_image) && file_exists($old_image)){
-            $new_image_name = basename($old_image,'.'.$this->getExt($old_image)).'_'.$width.'x'.$height.'.'.$this->getExt($old_image);
-            $new_image = $upload_dir.$new_image_name;
-            if (!file_exists($new_image)){
-                $image = new Image($old_image);
-                $image->resize($width, $height,$method);
-                $image->save($new_image);
-            }
-        }
-        return $html_upload_dir.$new_image_name;
-    }
+
     public function getParentCount($list, $id){
         $i=0;
         foreach ($list as $c){

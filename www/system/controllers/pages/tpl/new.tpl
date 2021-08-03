@@ -110,19 +110,8 @@
         </div>
     </div>
 </form>
-<script type="text/javascript" src="{$html_plugins_dir}init_mce.js"></script>
+
 <script>
-    {literal}
-    $(document).ready(function(){
-/*        $.cleditor.set_rfm('/filemanager');
-        var  controls=
-                "bold italic underline strikethrough subscript superscript | font size " +
-                        "style | color highlight removeformat | bullets numbering | outdent " +
-                        "indent | alignleft center alignright justify | " +
-                        "rule image link unlink | source";
-        $("#content").cleditor({'controls':controls});*/
-    });
-    {/literal}
 
     var alias_page_new = false;
     if ($("#alias").val()==''){
