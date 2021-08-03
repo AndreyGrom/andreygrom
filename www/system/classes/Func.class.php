@@ -24,6 +24,12 @@ class Func {
         $_GET[$name] = $value;
     }
 
+    public function AliasExists($table, $field, $string){
+        $sql = "SELECT * FROM $table WHERE $field = '$string' && rel = 1";
+        $db = Database::getInstance();
+        return $db->select($sql);
+    }
+
     public function GenStr($length = 20){
         $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
         $numChars = strlen($chars);

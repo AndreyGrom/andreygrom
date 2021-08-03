@@ -1,13 +1,10 @@
 a{
     outline: none;
-
 }
 a:focus{outline:none;}
 .alert-message{
     position: fixed;
     top:-70px;
-    /*left:50%;
-    margin-left: -500px;*/
     padding: 20px;
     text-align: center;
     font-size: 24px;
@@ -40,7 +37,6 @@ a:focus{outline:none;}
 .cleditorMain iframe,.cleditorMain textarea{
     width: 100% !important;
 }
-
 .col-md-8 h1{
     margin-top:-7px;
 }
@@ -78,7 +74,6 @@ a:focus{outline:none;}
     line-height: 1.4;
 }
 @media (min-width: 768px) {
-    /* line 62, ../sass/bootstrap/_type.scss */
     .lead {
         font-size: 21px;
     }
@@ -144,7 +139,7 @@ a:focus{outline:none;}
 }
 .thumb-wrap {
     position: relative;
-    padding-bottom: 56.25%; /* задаёт высоту контейнера для 16:9 (если 4:3 — поставьте 75%) */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
 }
@@ -156,4 +151,45 @@ a:focus{outline:none;}
     height: 100%;
     border-width: 0;
     outline-width: 0;
+}
+.navbar-black{
+    background-color: #000;
+}
+.footer{
+    background-color: #000;
+    color: #fff;
+}
+.mce-branding-powered-by{
+    display: none;
+}
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex: 0 0 auto;
+}
+.panel-dark {
+    border-color: #000;
+}
+.panel-dark > .panel-heading {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+.btn-dark{
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+.btn-dark:hover{
+    color: #f0f0f0 !important;
 }

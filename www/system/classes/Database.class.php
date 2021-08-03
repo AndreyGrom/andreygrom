@@ -93,7 +93,11 @@ class Database {
         while($row = $this->fetch_array($rs)){
             $array[] = $row;
         }
-        return $array;
+        if (isset($params['single']) && $params['single'] && count($array) == 1){
+            return $array[0];
+        } else {
+            return $array;
+        }
     }
 
     public function insert($table, $params, $duplicate = false){

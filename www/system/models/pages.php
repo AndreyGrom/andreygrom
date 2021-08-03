@@ -3,47 +3,50 @@
 class ModelPages extends Model {
     public function __construct() {
         parent::__construct();
-        $this->table_name = db_pref.'pages';
-        $this->table_name_content = 'pages_content';
+        $this->table = db_pref.'pages';
 
     }
     function SavePage($params, $id = 0){
-        $result = false;
-        $title = $params['title'];
-        $parent = $params['parent'];
-        $alias = ($params['alias']!=='')?$this->post['alias']:$this->func->TranslitURL($title);
-        $content = $params['content'];
-        $template = $params['template'];
-        $comments = $params['comments'];
-        $publ = $params['publ'];
-        $meta_title = $params['meta_title'];
-        $meta_desc = $params['meta_description'];
-        $meta_keywords = $params['meta_keywords'];
-        $date = time();
+        $alias = ($params['alias'] !=='') ? $params['alias'] : $this->func->TranslitURL($params['title']);
         $param = array(
-            'PARENT' => $parent,
-            'TITLE' => $title,
-            'ALIAS' => $alias,
-            'CONTENT' => $content,
-            'META_TITLE' => $meta_title,
-            'META_DESC' => $meta_desc,
-            'META_KEYWORDS' => $meta_keywords,
-            'COMMENTS' => $comments,
-            'PUBLIC' => $publ,
-            'TEMPLATE' => $template,
-            'DATE_EDIT' => $date
+            'parent_id' => $params['parent'],
+            'alias' => $alias,
+            'title' => $params['title'],
+            'short_content' => $params['short_content'],
+            'content' => $params['content'],
+            'meta_title' => $params['meta_title'],
+            'meta_desc' => $params['meta_desc'],
+            'meta_keywords' => $params['meta_keywords'],
+            'publ' => $params['publ'],
+            'comments' => $params['comments'],
+            'template' => $params['template'],
+            'position' => (int)$params['position'],
+            'rel' => 1,
+            'user_id' => $this->session['admin']['id'],
+            //'ip' => INET_ATON(), // TODO ПОДУМАТЬ КАК ХРАНИТЬ
         );
 
         if ($id == 0){
-            if ($this->db->insert($this->table_name, $param, true)){
-                $result = $this->db->last_id();
+            if ($this->func->AliasExists($this->table, 'alias', $alias)){
+                $this->error = "Такой алиас уже существует";
+            } else {
+                $param['date_create'] = time();
+                $param['date_edit'] = time();
+                if ($this->db->insert($this->table, $param, true)){
+                    $result = $this->db->last_id();
+                } else{
+                    $this->error = $this->db->error();
+                }
             }
-        }else{
-            if ($this->db->update($this->table_name, $param, "ID = $id")){
+        } else {
+            $param['date_edit'] = time();
+            if ($this->db->update($this->table, $param, "ID = $id")){
                 $result =  $id;
+            }else{
+                $this->error = $this->db->error();
             }
-
         }
+
         return $result;
     }
 

@@ -1,4 +1,16 @@
 <?php
+return array(
+    'alias'  => 'pages',
+    'table'  => 'pages',
+    'name'  => 'Страницы сайта',
+    'title'  => 'Управление страницами сайта',
+    'version'  => 4.0,
+    'author'  => 'Андрей Гром',
+    'email'  => 'grominfo@gmail.com',
+    'visible'  => true,
+
+);
+/*
 class InitModule extends ModuleInit {
     protected static $instance;
     public static function getInstance() {
@@ -19,8 +31,12 @@ class InitModule extends ModuleInit {
         $config = array(
             'alias'  => 'pages',
             'table'  => 'pages',
+            'name'  => $this->name,
+            'version'  => $this->version,
+            'author'  => $this->author,
+            'visible'  => $this->visible,
         );
         return $config;
     }
-}
+}*/
 ?>

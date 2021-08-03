@@ -11,13 +11,17 @@ class AdminPagesController extends AdminController {
 
     public function __construct() {
         parent::__construct();
-        include_once (__DIR__) . '/init.php';
-        $config = InitModule::getInstance()->GetConfig();
+        $config = include (__DIR__) . '/init.php';
         $this->alias = $config['alias'];
-        $this->table = $config['table'];
-        $this->table_name = db_pref.'pages';
-        $this->module_alias = 'pages';
-        $this->admin_page_title = 'Управление страницами сайта';
+        $this->table = db_pref . $config['table'];
+        $this->name = $config['name'];
+        $this->version = $config['version'];
+        $this->page_title = $config['title'];
+        $this->assign(array(
+            'module_config' => $config,
+        ));
+
+
         $this->id            = isset($this->get['id']) ? $this->get['id'] : 0;
         $this->cid           = isset($this->get['cid']) ? $this->get['cid'] : 0;
         $this->act           = isset($this->get['act']) ? $this->get['act'] : '';
@@ -36,32 +40,17 @@ class AdminPagesController extends AdminController {
         $this->assign(array(
             'menu' => $menu,
         ));
-        $this->widget_left_top .=$this->fetch('menu.tpl');
+        $this->widget_left_top .= $this->fetch('menu.tpl');
     }
 
     public function SavePage(){
         $this->LoadModel('pages');
         if ($id = $this->ModelPages->SavePage($this->post, $this->id)){
+            $_SESSION['alert'] = 'Страница сохранена';
             $this->Head('?c=pages&id=' . $id);
+        }  else {
+            $this->alert($this->ModelPages->error);
         }
-    }
-
-    public function ShowPageNew(){
-        $this->assign(array(
-            'page_title'            => $this->post['title'],
-            'page_alias'            => $this->post['alias'],
-            'page_template'         => $this->post['template'],
-            'page_parent'           => $this->post['parent'],
-            'page_publ'             => isset($this->post['publ'])?$this->post['publ']:1,
-            'page_content'          => $this->post['content'],
-            'page_meta_title'       => $this->post['meta_title'],
-            'page_meta_desc'        => $this->post['meta_description'],
-            'page_meta_keywords'    => $this->post['meta_keywords'],
-            'pages'                 => $this->pages,
-            'templates'             => $this->func->getTemplates($this->templates_dir.'pages/'),
-            'new'                   => true,
-        ));
-        $this->content = $this->SetTemplate('new.tpl');
     }
 
     public function DeletePage($id){
@@ -78,8 +67,7 @@ class AdminPagesController extends AdminController {
     }
 
     public function ShowPage(){
-        if ($this->id > 0){
-            $this->LoadModel('pages');
+        if ($this->get['id'] > 0){
             $this->assign(array(
                 'page'            => $this->ModelPages->getPage($this->id),
             ));
@@ -89,66 +77,23 @@ class AdminPagesController extends AdminController {
             'pages'           => $this->pages,
             'templates'       => $this->func->getTemplates($this->templates_dir.$this->module_alias.'/'),
         ));
-        $this->content = $this->SetTemplate('new.tpl');
+        $this->content = $this->SetTemplate('page.tpl');
     }
 
-    public function SaveSettings(){
-        foreach ($this->post as $k=>$p){
-            if ($k == 'save-settings') continue;
-            $this->config->set($k,$p);
-        }
-        $this->Head("?c=pages&act=settings");
-    }
 
-    public function ShowSettings(){
-        $this->assign(array(
-            'templates_comment_form'      => $this->func->getTemplates($this->templates_dir.'comments/form/'),
-            'templates_comment_view'      => $this->func->getTemplates($this->templates_dir.'comments/view/'),
-        ));
-        $this->content = $this->SetTemplate('settings.tpl');
-    }
-
-    public function getSiteMap(){
-        $return = array();
-        $sql = "SELECT ALIAS FROM `".db_pref."pages`  WHERE `PUBLIC`=1 ORDER BY `DATE_PUBL` DESC";
-        $result = $this->db->query($sql);
-        if ($this->db->num_rows($result)){
-            for ($i = 0; $i < $this->db->num_rows($result); $i++){
-                $row = $this->db->fetch_array($result);
-                $return[]  = array(
-                    'loc'           => $this->site_url . $row['ALIAS'] .'/',
-                    'changefreq'    => 'weekly',
-                    'priority'      => '1',
-                );
-            }
-        }
-
-        return $return;
-    }
 
     public function Index(){
         $this->SetPlugins();
-        $this->page_title = $this->admin_page_title;
-
-        $this->assign(array(
-            'module_alias' => $this->module_alias
-        ));
-
-        if (isset($this->post['title']) && trim($this->post['title'])!==''){
+        if (isset($this->post['save-page'])){
             $this->SavePage();
         }
-        if (isset($this->get['del']) && isset($this->get['template']) && $this->get['template']!==''){
-            $this->DeleteTempate();
-        }
-        if (isset($this->post['save-settings'])){
-            $this->SaveSettings();
-        }
+
         $this->LoadModel('pages');
         $this->pages = $this->ModelPages->GetPages();
         $this->structure = $this->func->getStructure($this->pages);
         $this->ShowMenu();
 
-        if ($this->act == 'new'){
+       /* if ($this->act == 'new'){
             $this->ShowPageNew();
         }
         elseif ($this->act=='del'){
@@ -165,6 +110,11 @@ class AdminPagesController extends AdminController {
         }
         if(!isset($this->act) && !isset($this->id)){
             $this->head("?c=$this->module_alias&id=".$this->pages[0]['ID']);
+        }*/
+        if (isset($this->get['id'])){
+            $this->ShowPage();
+        } else {
+            $this->content = $this->SetTemplate('index.tpl');
         }
 
         return $this->content;

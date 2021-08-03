@@ -84,3 +84,28 @@ function SetTranslitRuToLat(text){
     return newString.toLowerCase();
 }
 
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $(".left-widget a[data-toggle='collapse']").click(function(){
+        var el = $(this);
+        var data_val;
+        var data_group = el.attr("aria-controls");
+        if (!$("#"+data_group).hasClass('in')){
+            data_val = 1;
+        } else {
+            data_val = 0;
+        }
+        $.cookie(data_group, data_val, { expires: 360,path: '/'});
+    });
+    $(".left-widget a[data-toggle='collapse']").each(function(i,elem) {
+        var data_group = $(this).attr("aria-controls");
+        if  ($.cookie(data_group)){
+            if ($.cookie(data_group)==1){
+                $("#"+data_group).addClass('in');
+            } else {
+                $("#"+data_group).removeClass('in');
+            }
+        }
+    });
+});
