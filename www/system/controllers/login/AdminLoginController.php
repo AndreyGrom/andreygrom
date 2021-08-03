@@ -11,41 +11,38 @@ class AdminLoginController extends AdminController {
             unset($_SESSION['superadmin']);
             setcookie('admin_hash','',time()+3600*24*30*6,'/');
             if (isset($this->get['all'])){
+                //$this->db->select("SELECT * FROM " . db_pref . "users WHERE hash = '$hash'")
                 $this->config->set('admin_hash','');
             }
             $this->Head("?");
         }
-        if (isset($this->get['login']) && isset($this->get['password'])){
-            if ($this->get['login']==$this->config->AdminLogin && $this->get['password']==$this->config->AdminPassword){
-                $_SESSION['admin']=$this->config->AdminLogin;
-                if (!$this->config->admin_hash || $this->config->admin_hash == ''){
-                    $hash = $this->generatePassword(20);
-                    $this->config->set('admin_hash',$hash);
+        if (isset($this->post['email'])&& isset($this->post['password'])){
+            $u_login = $this->post['email'];
+            $u_password = md5($this->post['password']);
+            if ($user = $this->db->select("SELECT * FROM " . db_pref . "users WHERE email = '$u_login' && password = '$u_password' LIMIT 1")){
+                $user = $user[0];
+                if ($user['group_id'] == 1){
+                    $_SESSION['admin'] = $user;
+                    $hash = $user['hash'];
+                    if ($hash == ''){
+                        $hash = $this->generatePassword(20);
+                        $this->db->query("UPDATE " . db_pref . "users SET hash = '$hash' WHERE id = " . $user['id']);
+                    }
+                    setcookie('admin_hash', $hash, time() + 3600*24*30*6, '/');
+                    $this->Head($_SERVER['HTTP_REFERER']);
                 }
-                setcookie('admin_hash',$this->config->admin_hash,time()+3600*24*30*6,'/');
-                $this->Head($_SERVER['HTTP_REFERER']);
-            }
-        }
-        if (isset($this->post['user'])&& isset($this->post['password'])){
-            if ($this->post['user']==$this->config->AdminLogin && $this->post['password']==$this->config->AdminPassword){
-                $_SESSION['admin']=$this->config->AdminLogin;
-                if (!$this->config->admin_hash || $this->config->admin_hash == ''){
-                    $hash = $this->generatePassword(20);
-                    $this->config->set('admin_hash',$hash);
-                }
-                setcookie('admin_hash',$this->config->admin_hash,time()+3600*24*30*6,'/');
-                $this->Head($_SERVER['HTTP_REFERER']);
             }
             else $error='Неверные данные!';
         }
 
-
         if (isset($_COOKIE['admin_hash'])){
             $hash = $_COOKIE['admin_hash'];
-            if ($this->config->admin_hash == $hash){
-                $_SESSION['admin']=$this->config->AdminLogin;
-                $this->session['admin']=$this->config->AdminLogin;;
-
+            if ($user = $this->db->select("SELECT * FROM " . db_pref . "users WHERE hash = '$hash' LIMIT 1")){
+                $user = $user[0];
+                if ($user['group_id'] == 1){
+                    $_SESSION['admin'] = $user;
+                    $this->session['admin'] = $user;
+                }
             }
         }
 
@@ -60,7 +57,6 @@ class AdminLoginController extends AdminController {
         } else {
             $this->Head($_SERVER['HTTP_REFERER']);
         }
-
         return $this->content;
     }
 

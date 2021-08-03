@@ -16,51 +16,54 @@
     <![endif]-->
 </head>
 <body>
-<section id="signin_main" class="authenty signin-main" style="">
-    <div class="section-content">
-        <div class="wrap">
-            <div class="container">
-                <div class="form-wrap">
-                    <div class="row">
-                        <div class="text-center">
-                            <h1>Вход в админ панель</h1>
-                            <p class="lead">Центр управления AG CMS</p>
-                            {$error}
-                        </div>
-                        <div id="form_1" data-animation="bounceIn" class="animated bounceIn">
-                        <form method="post">
-                            <div class="form-header">
-                                <img src="/system/design/img/logo2.png" alt=""/>
+<div class="wrapper">
+    <section id="signin_main" class="content authenty signin-main" style="">
+        <div class="section-content">
+            <div class="wrap">
+                <div class="container">
+                    <div class="form-wrap">
+                        <div class="row">
+                            <div class="text-center">
+                                <h1>Вход в админ панель</h1>
+                                <p class="lead">Центр управления AG CMS</p>
+                                {$error}
                             </div>
-                            <div class="form-main">
-                                <div class="form-group">
-                                    <input type="text" id="un_1" name="user" class="form-control" placeholder="Логин" required="required">
-                                    <input type="password" id="pw_1" name="password" class="form-control" placeholder="Пароль" required="required">
-                                </div>
-                                <button id="signIn_1" type="submit" class="btn btn-block signin">Вход</button>
+                            <div id="form_1" data-animation="bounceIn" class="animated bounceIn">
+                                <form method="post">
+                                    <div class="form-header">
+                                        <img src="/system/design/img/logo2.png" alt=""/>
+                                    </div>
+                                    <div class="form-main">
+                                        <div class="form-group">
+                                            <input type="text" id="un_1" name="email" class="form-control" placeholder="Email" required="required">
+                                            <input type="password" id="pw_1" name="password" class="form-control" placeholder="Пароль" required="required">
+                                        </div>
+                                        <button id="signIn_1" type="submit" class="btn btn-block signin">Вход</button>
+                                    </div>
+                                    <div class="form-footer">
+                                    </div>
+                                </form>
                             </div>
-                            <div class="form-footer">
-                            </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-    </div>
-</section>
-
-<section class="footer text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p>Система управления сайтом AG CMS v. 3.02</p>
-                <p>© <a href="mailto:grominfo@gmail.com" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank"><img src="/favicon.ico" style="width:16px;">Андрей Гром</a> Все права защищены!</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <section class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Система управления сайтом AG CMS v. 3.02</p>
+                    <p>© <a href="mailto:grominfo@gmail.com" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank"><img src="/favicon.ico" style="width:16px;">Андрей Гром</a> Все права защищены!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 <script type="text/javascript" src="/system/design/js/jquery.js"></script>
 <script src="/system/design/js/bootstrap.min.js"></script>
 <script>

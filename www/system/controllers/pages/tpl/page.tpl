@@ -6,20 +6,16 @@
                 {if !$page}Создание новой страницы{else}Редактирование страницы{/if}
                 {if $page}
                     <span class="pull-right text-lowercase">
-                                            <button class="btn btn-success btn-xs" type="submit">
-                                                <span class="glyphicon glyphicon-floppy-disk"></span>
-                                                Сохранить
-                                            </button>
-                            <a href="?c={$module_alias}&act=new" class="btn btn-info btn-xs" data-toggle="tooltip" title="" data-original-title="Создать новую страницу"><span class="glyphicon glyphicon-copy"></span></a>
-                            {if $page.ID!=1}
-                                <a href="?c={$module_alias}&act=del&id={$page.ID}" class="btn btn-danger btn-xs confirm" data-toggle="tooltip" title="" data-original-title="Удалить страницу"><span class="glyphicon glyphicon-remove"></span></a>
-                            {/if}
+                        <button class="btn btn-success btn-xs" type="submit">
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
+                            Сохранить
+                        </button>
                     </span>
                 {/if}
             </h3>
         </div>
         <div class="panel-body">
-            {if !$new}
+            {if $page}
                 <span class="col-sm-3 text-right">URL страницы</span>
                 <span class="col-sm-9"><a target="_blank" href="{$site_url}{$page.ALIAS}">{$site_url}{$page.ALIAS}</a></span>
                 <hr/>

@@ -7,44 +7,27 @@
     <meta name="description" content="Панель управления содержимым AG CMS">
     <meta name="author" content="Андрей Гром">
     <title>Центр управления AG CMS - {$title}</title>
-    <!-- jQuery Version 1.11.1 -->
     <script type="text/javascript" src="{$html_plugins_dir}jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="{$html_plugins_dir}jquery.cookie.js"></script>
     <script type="text/javascript" src="{$html_plugins_dir}func.js"></script>
     <link rel="stylesheet" href="{$html_plugins_dir}fancybox/jquery.fancybox.min.css">
     <script type="text/javascript" src="{$html_plugins_dir}fancybox/jquery.fancybox.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
     <script src="/system/design/js/bootstrap.min.js"></script>
-    <!-- Bootstrap Core CSS -->
     <link href="/system/design/css/bootstrap.min.css" rel="stylesheet">
     <link href="/system/design/css/main.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
     <style>
         body {
             padding-top: 70px;
-            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
     </style>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     {$js}
     {$css}
-
 </head>
-
 <body>
+<div class="wrapper">
 {$widget_head_top}
-
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-black navbar-fixed-top" role="navigation">
     <div class="container">
-        <!-- Старт главного меню -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
@@ -53,10 +36,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="?"><img style="margin-top: -5px;width: 127px;" src="/system/design/img/logo2.png" alt=""/>
-            {*<span class="glyphicon glyphicon-random"></span> AG CMS*}</a>
+            <a class="navbar-brand" href="?"><img style="margin-top: -5px;width: 127px;" src="/system/design/img/logo2.png" alt=""/></a>
         </div>
-
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li role="presentation" class="dropdown">
@@ -85,11 +66,6 @@
                         <span class="glyphicon glyphicon-user"></span> Инструменты <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" onclick="OpenFM()" data-toggle="tooltip" data-placement="bottom" title="">
-                                <span class="glyphicon glyphicon-file"></span> Файловый менеджер
-                            </a>
-                        </li>
                         <li>
                             <a href="?remove-system-cash" data-toggle="tooltip" data-placement="bottom" title="">
                                 <span class="glyphicon glyphicon-trash"></span> Удалить весь кеш
@@ -142,90 +118,54 @@
                 </li>
             </ul>
         </div>
-
-        <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container -->
 </nav>
-<div id="about-agcms" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Заголовок модального окна -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Система управления содержимым</h4>
-            </div>
-            <!-- Основное содержимое модального окна -->
-            <div class="modal-body">
-                 <div class="text-center"><img style="display: inline-block" src="/system/design/img/logo2.png" class="img-responsive" alt=""/></div>
-                <h4 class="text-center">Индивидуальная система управления содержимым!</h4>
-                <div class="alert alert-info">
-                    <p class="text-center">Разработчик: <span><a target="_blank" href="http://andreygrom.ru/"><img style="width:16px;" src="http://andreygrom.ru/favicon.ico"> Андрей Гром</a></span></p>
-                </div>
-                <p class="text-center">По всем вопросам обращайтесь по адресу: <a href="mailto:grominfo@gmail.com">grominfo@gmail.com</a></p>
-                <p class="text-center">Или звоните по телефону: +7 960 859 96 38</p>
-            </div>
-            <!-- Футер модального окна -->
-            <div class="modal-footer">
-                <div class="pull-right">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{$widget_head_bottom}
 
-<!-- Основной контент -->
-<div class="container">
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="left-widget">
-                {$widget_left_top}
-            </div>
-            {section name=i loop=$modules}
-                {if $modules[i].visible}
-                    <div class="panel-group">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <span class="glyphicon {$modules[i]['icon']}"></span>
-                                    <a href="?c={$modules[i]['alias']}" class="">{$modules[i]['name']}</a>
-                                </h4>
+    <div class="container content">
+        {$widget_head_bottom}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="left-widget">
+                    {$widget_left_top}
+                </div>
+                {section name=i loop=$modules}
+                    {if $modules[i].visible}
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <span class="glyphicon {$modules[i]['icon']}"></span>
+                                        <a href="?c={$modules[i]['alias']}" class="">{$modules[i]['name']}</a>
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {/if}
-            {/section}
-            {$widget_left_bottom}
-        </div>
-        <div class="col-md-8 text-left">
-            {$widget_content_top}
-            {$content}
-            {$widget_content_bottom}
-        </div>
-    </div>
-    <!-- /.row -->
-</div>
-<!-- /.container -->
-{$widget_footer_top}
-<section class="footer text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p>Система управления сайтом AG CMS v. 3.02</p>
-                <p>© <a href="mailto:grominfo@gmail.com" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank"><img src="/favicon.ico" style="width:16px;">Андрей Гром</a> Все права защищены!</p>
+                    {/if}
+                {/section}
+                {$widget_left_bottom}
+            </div>
+            <div class="col-md-8 text-left">
+                {$widget_content_top}
+                {$content}
+                {$widget_content_bottom}
             </div>
         </div>
     </div>
-</section>
 
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
+    <section class="footer text-center">
+        {$widget_footer_top}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Система управления сайтом AG CMS v. 4.0</p>
+                    <p><a href="mailto:grominfo@gmail.com" style="margin-top: -7px;" data-toggle="tooltip" title="Автор программного кода AG CMS. Перейти на сайт разработчика Андрей Гром. Программирование, и не только..." target="_blank">Андрей Гром</a> Все права защищены!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 {if $alert}
     <div class="alert-message">
         {$alert}
@@ -236,31 +176,29 @@
         {/literal}
     </script>
 {/if}
-<script>
-   $(".left-widget a[data-toggle='collapse']").click(function(){
-       var el = $(this);
-       var data_val;
-       var data_group = el.attr("aria-controls");
-       if (!$("#"+data_group).hasClass('in')){
-           data_val = 1;
-       } else {
-           data_val = 0;
-       }
-       $.cookie(data_group, data_val, { expires: 360,path: '/'});
-    });
-   $(".left-widget a[data-toggle='collapse']").each(function(i,elem) {
-       var data_group = $(this).attr("aria-controls");
-       if  ($.cookie(data_group)){
-           if ($.cookie(data_group)==1){
-               $("#"+data_group).addClass('in');
-           } else {
-               $("#"+data_group).removeClass('in');
-           }
-       }
-   });
-
-
-</script>
+<div id="about-agcms" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Система управления содержимым</h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center"><img style="display: inline-block" src="/system/design/img/logo2.png" class="img-responsive" alt=""/></div>
+                <h4 class="text-center">Индивидуальная система управления содержимым!</h4>
+                <div class="alert alert-info">
+                    <p class="text-center">Разработчик: <span><a href="mailto:grominfo@gmail.com">Андрей Гром</a></span></p>
+                </div>
+                <p class="text-center">По всем вопросам обращайтесь по адресу: <a href="mailto:grominfo@gmail.com">grominfo@gmail.com</a></p>
+                <p class="text-center">Или звоните по телефону: +7 960 859 96 38</p>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-
 </html>

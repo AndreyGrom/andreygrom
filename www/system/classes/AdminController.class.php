@@ -65,6 +65,7 @@ class AdminController {
         $model = mb_convert_case($model, MB_CASE_TITLE, "UTF-8");
         if (file_exists($file) && !is_dir($file)){
             include_once ($file);
+
             $class_name = 'Model'. $model;
             $method_name = 'Model' . $model;
             $this->$method_name = new $class_name();
@@ -114,6 +115,7 @@ class AdminController {
     public function assign($arr){
         $this->smarty->assign($arr);
     }
+
     public function SetTemplate($tpl){
         $this->AssingCommonVars();
         $result = $this->smarty->fetch($tpl);
@@ -127,6 +129,7 @@ class AdminController {
         $result = str_replace('</body>', $this->getJs()."\r\n</body>",$result);*/
         return $result;
     }
+
     public function display($temp=''){
         $this->smarty->display($temp);
     }
@@ -138,6 +141,7 @@ class AdminController {
     public function SetPath($path){
         $this->smarty->template_dir = $this->admin_templates_dir . $path;
     }
+
     public function getJs(){
         $r = '';
         if (count($this->js) > 0){
@@ -149,6 +153,7 @@ class AdminController {
         }
         return $r;
     }
+
     public function SetJS($js){
         $b = true;
         if (count($this->js) > 0){
@@ -166,6 +171,7 @@ class AdminController {
             ));
         }
     }
+
     public function getCss(){
         $r = '';
         if (count($this->css) > 0){
@@ -195,10 +201,12 @@ class AdminController {
         $m = array();
         foreach($list as $v){
             if (file_exists(CONTROLLERS_DIR.$v.'/init.php')){
-                include_once(CONTROLLERS_DIR.$v.'/init.php');
-                $class_name = 'Init'.mb_convert_case($v, MB_CASE_TITLE, "UTF-8");
-                if (class_exists($class_name)){
-                    $class = new $class_name();
+                $module = include_once(CONTROLLERS_DIR.$v.'/init.php');
+
+                //$class_name = 'Init'.mb_convert_case($v, MB_CASE_TITLE, "UTF-8");
+                //$class_name = 'InitModule';
+                //if (class_exists($class_name)){
+                    //$class = new $class_name();
                     $module_class_name = mb_convert_case($v, MB_CASE_TITLE, "UTF-8").'Controller';
                     $module_admin_class_name = 'Admin'.$module_class_name;
                     // TODO ПОДУМАТЬ
@@ -206,15 +214,14 @@ class AdminController {
                         'admin_class_name'  => $module_admin_class_name,
                         'class_name'        => $module_class_name,
                         'alias'             => $v,
-                        'name'              => $class->name,
-                        'author'            => $class->author,
-                        'visible'           => $class->visible,
-                        'icon'              => $class->icon,
-                        'type'              => $class->type,
+                        'name'              => $module['name'],
+                        'author'            => $module['author'],
+                        'visible'           => $module['visible'],
                     );
-                }
+                //}
             }
         }
+
         return $m;
     }
     public function GetThemes(){
