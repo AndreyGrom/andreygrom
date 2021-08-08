@@ -68,27 +68,23 @@
         </table>
     </div>
 </div>
+
 <div id="map" style="width: 100%;height: 400px;"></div>
-<script src="https://api-maps.yandex.ru/2.1/?apikey=a6156bac-50fa-492f-8998-943244fe3de3&lang=ru_RU" type="text/javascript"></script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=&lang=ru_RU" type="text/javascript"></script>
 <script>
     ymaps.ready(init);
-    var myMap;
-
     function init(){
+        var myMap;
         myMap = new ymaps.Map("map", {
-            center: [46.334949, 48.042288],
-            zoom: 16
+            center: [{$details2->loc}],
+            zoom: 13
         });
-
-        myPlacemark = new ymaps.Placemark([46.334949, 48.042288], {
-            hintContent: 'На здоровье, сеть аптек, 1 этаж!',
-            balloonContent: 'На здоровье, сеть аптек, 1 этаж'
+        myPlacemark = new ymaps.Placemark([{$details2->loc}], {
+            hintContent: '{$details2->org}',
+            balloonContent: '{$details2->org}'
         });
-
         myMap.geoObjects.add(myPlacemark);
-
     }
-
 </script>
 {*
 <div class="row">
