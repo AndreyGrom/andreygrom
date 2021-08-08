@@ -15,7 +15,7 @@
 <div class="form-group">
     <label class="col-sm-3 control-label">Уровень:</label>
     <div class="col-sm-9">
-        <select {if $page.id==1}disabled{/if} name="parent" class="form-control">
+        <select {if $page.id==1}disabled{/if} name="parent_id" class="form-control">
             <option value="0">Верхний уровень</option>
             {section name=i loop=$pages}
                 {if $pages[i].ID !== $page_id}

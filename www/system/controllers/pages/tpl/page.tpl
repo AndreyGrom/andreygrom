@@ -44,6 +44,7 @@
                     </div>
                 </div>
             </div>
+            <hr>
             <div class="pull-left">
                 <a href="?c=pages" class="btn btn-dark">Отмена</a>
             </div>

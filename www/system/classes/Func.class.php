@@ -131,10 +131,10 @@ class Func {
         $structure = array();
         if ($list){
             foreach ($list as $k=>&$c){
-                if ($c['PARENT']==$id){
+                if ($c['parent_id']==$id){
                     $structure[] = $c;
-                    if ($this->getParentCount($list, $c['ID'])>0){
-                        $structure[count($structure)-1]['SUB'] = $this->getStructure($list,$c['ID']);
+                    if ($this->getParentCount($list, $c['id'])>0){
+                        $structure[count($structure)-1]['sub'] = $this->getStructure($list,$c['id']);
                     }
                 }
             }

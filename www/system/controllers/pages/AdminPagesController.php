@@ -44,12 +44,13 @@ class AdminPagesController extends AdminController {
     }
 
     public function SavePage(){
+       // var_dump($_POST); exit;
         $this->LoadModel('pages');
         if ($id = $this->ModelPages->SavePage($this->post, $this->id)){
             $_SESSION['alert'] = 'Страница сохранена';
             $this->Head('?c=pages&id=' . $id);
         }  else {
-            $this->alert($this->ModelPages->error);
+            $this->alert = "Ошибка: " . $this->ModelPages->error;
         }
     }
 
@@ -68,8 +69,9 @@ class AdminPagesController extends AdminController {
 
     public function ShowPage(){
         if ($this->get['id'] > 0){
+            $page = $this->ModelPages->GetPage($this->id);
             $this->assign(array(
-                'page'            => $this->ModelPages->getPage($this->id),
+                'page'            => $page,
             ));
         }
 
