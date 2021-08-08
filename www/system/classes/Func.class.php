@@ -25,7 +25,7 @@ class Func {
     }
 
     public function AliasExists($table, $field, $string){
-        $sql = "SELECT * FROM $table WHERE $field = '$string' && rel = 1";
+        $sql = "SELECT * FROM $table WHERE $field = '$string' && rel = 0";
         $db = Database::getInstance();
         return $db->select($sql);
     }

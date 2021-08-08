@@ -6,11 +6,10 @@
                 <a class="" data-toggle="collapse" href="#collapseListGroup1" aria-expanded="true"
                    aria-controls="collapseListGroup1">Страницы сайта</a>
                 <span class="caret"></span>
-                <a class="btn btn-info btn-xs" data-target="" data-toggle="tooltip" href="?c={$module_alias}&act=new">
+                <a class="btn btn-dark btn-xs" data-target="" data-toggle="tooltip" href="?c={$module_config.alias}&id=0">
                     <span class="glyphicon glyphicon-plus"></span>
                     Создать страницу
                 </a>
-                <a class="btn btn-info btn-xs" href="?c={$module_alias}&act=settings"><span class="glyphicon glyphicon-cog"></span></a>
             </h4>
         </div>
         <div id="collapseListGroup1" class="panel-collapse collapse in" role="tabpanel"

@@ -186,10 +186,10 @@ a:focus{outline:none;}
     border-color: #000;
 }
 .btn-dark{
-    color: #fff;
+    color: #fff !important;
     background-color: #000;
     border-color: #000;
 }
-.btn-dark:hover{
+.btn-dark:hover, .btn-dark:focus, .btn-dark.focus{
     color: #f0f0f0 !important;
 }

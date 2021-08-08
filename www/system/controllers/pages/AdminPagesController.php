@@ -33,6 +33,7 @@ class AdminPagesController extends AdminController {
     }
 
     public function ShowMenu(){
+
         $this->assign(array(
             'pages' => $this->structure,
         ));
@@ -44,7 +45,6 @@ class AdminPagesController extends AdminController {
     }
 
     public function SavePage(){
-       // var_dump($_POST); exit;
         $this->LoadModel('pages');
         if ($id = $this->ModelPages->SavePage($this->post, $this->id)){
             $_SESSION['alert'] = 'Страница сохранена';
@@ -91,7 +91,7 @@ class AdminPagesController extends AdminController {
         }
 
         $this->LoadModel('pages');
-        $this->pages = $this->ModelPages->GetPages();
+        $this->pages = $this->ModelPages->GetPages(array('where' => "WHERE `release` = 1"));
         $this->structure = $this->func->getStructure($this->pages);
         $this->ShowMenu();
 

@@ -1,5 +1,5 @@
 <form id="page-form" action="" method="post">
-    <div class="panel panel-dark">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title text-uppercase">
                 <span class="glyphicon glyphicon-duplicate"></span>
@@ -16,8 +16,16 @@
         </div>
         <div class="panel-body">
             {if $page}
-                <span class="col-sm-3 text-right">URL страницы</span>
-                <span class="col-sm-9"><a target="_blank" href="{$site_url}{$page.ALIAS}">{$site_url}{$page.ALIAS}</a></span>
+
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <td>URL: <a target="_blank" href="{$site_url}{$page.alias}">{$site_url}{$page.alias}</a></td>
+                            <td>Дата создания: {$page.date_create|date_format:"%D %T"}</td>
+                            <td>Дата изменения: {$page.date_edit|date_format:"%D %T"}</td>
+                        </tr>
+                    </table>
+
+
                 <hr/>
             {/if}
             <div class="form-horizontal" role="form">
@@ -40,18 +48,16 @@
                             <h3>SEO</h3>
                             <p>{include file="page-seo.tpl"}</p>
                         </div>
-
                     </div>
                 </div>
+                <hr>
+                <div class="pull-left">
+                    <a href="?c=pages" class="btn btn-default">Отмена</a>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" name="save-page" class="btn btn-dark"><span class="glyphicon glyphicon-floppy-disk"></span> Сохранить</button>
+                </div>
             </div>
-            <hr>
-            <div class="pull-left">
-                <a href="?c=pages" class="btn btn-dark">Отмена</a>
-            </div>
-            <div class="pull-right">
-                <button name="save-page" type="submit" class="btn btn-dark btn-large"><span class="glyphicon glyphicon-floppy-disk"></span> Сохранить</button>
-            </div>
-
         </div>
     </div>
 </form>

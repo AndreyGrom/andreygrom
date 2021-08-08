@@ -130,17 +130,19 @@
                     {$widget_left_top}
                 </div>
                 {section name=i loop=$modules}
-                    {if $modules[i].visible}
-                        <div class="panel-group">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <span class="glyphicon {$modules[i]['icon']}"></span>
-                                        <a href="?c={$modules[i]['alias']}" class="">{$modules[i]['name']}</a>
-                                    </h4>
+                    {if $modules[i].alias != $smarty.get.c}
+                        {if $modules[i].visible}
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <span class="glyphicon {$modules[i]['icon']}"></span>
+                                            <a href="?c={$modules[i]['alias']}" class="">{$modules[i]['name']}</a>
+                                        </h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {/if}
                     {/if}
                 {/section}
                 {$widget_left_bottom}
