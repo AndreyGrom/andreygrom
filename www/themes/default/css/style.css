@@ -1,0 +1,120 @@
+body{
+    background: none;
+}
+.navbar-custom{
+    background: transparent;
+    padding-top: 18px;
+    -webkit-transition: all 900ms ease;
+    -moz-transition: all 900ms ease;
+    -ms-transition: all 900ms ease;
+    -o-transition: all 900ms ease;
+    transition: all 900ms ease;
+}
+.navbar-custom a{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.navbar-custom-2 {
+    opacity: 1;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    margin-top: 0;
+    display: block !important;
+    background-color: #5c6b8a;
+    padding-bottom: 15px;
+}
+.btn-opacity, .btn-opacity:hover, .btn-opacity:active, .btn-opacity:focus {
+    display: inline-block;
+    width: 320px;
+    text-align: center;
+    line-height: 55px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    margin: 0 13px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.main-page .s1{
+    background-image: url(../img/s1_bg.jpg);
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding-top: 80px;
+    padding-bottom: 91px;
+}
+
+.main-page .s1 h1 {
+
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: 3.9px;
+    text-align: center;
+    color: #ffffff;
+    margin: 40px 0;
+    text-transform: uppercase;
+}
+
+.sites-items{
+    text-align: center;
+}
+.sites-items .sites-item{
+    background-color: #fff;
+    border-radius: 10px;
+    border: 3px solid #fff;
+    cursor: pointer;
+}
+.sites-items .sites-item .sites-item-caption{
+    font-size:18px;
+    font-weight: bold;
+    padding: 20px 0;
+}
+.sites-items .sites-item .sites-item-icon{
+    background: url(../img/medal.png) center no-repeat;
+}
+.sites-items .sites-item:hover .sites-item-icon{
+    background-image: url(../img/medal-check.png);
+}
+.sites-items .sites-item:hover{
+    border: 3px solid #e0e3e3;
+    background-color: #eff3f6;
+}
+.sites-items .sites-item .sites-item-icon img{
+    visibility: hidden;
+}
+.sites-items .sites-item .sites-item-desc{
+    padding: 20px 20px;
+    padding-bottom: 0px;
+}
+.sites-items .sites-item .sites-item-price{
+    font-weight: bold;
+    font-size:24px;
+    padding-bottom: 10px;
+}
+.sites-items .sites-item .sites-item-order{
+    padding: 10px 20px;
+    padding-bottom: 25px;
+}
+
+.main-page .s2{
+    padding-top: 80px;
+    padding-bottom: 91px;
+}
+
+.main-page .s2 h2 {
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: 3.9px;
+    text-align: center;
+    margin: 40px 0;
+    text-transform: uppercase;
+}
