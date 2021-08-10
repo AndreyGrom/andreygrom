@@ -21,7 +21,6 @@ class AdminPagesController extends AdminController {
             'module_config' => $config,
         ));
 
-
         $this->id            = isset($this->get['id']) ? $this->get['id'] : 0;
         $this->cid           = isset($this->get['cid']) ? $this->get['cid'] : 0;
         $this->act           = isset($this->get['act']) ? $this->get['act'] : '';
@@ -74,10 +73,9 @@ class AdminPagesController extends AdminController {
                 'page'            => $page,
             ));
         }
-
         $this->assign(array(
             'pages'           => $this->pages,
-            'templates'       => $this->func->getTemplates($this->templates_dir.$this->module_alias.'/'),
+            'templates'       => $this->func->getTemplates($this->templates_dir.$this->alias.'/'),
         ));
         $this->content = $this->SetTemplate('page.tpl');
     }
@@ -91,28 +89,10 @@ class AdminPagesController extends AdminController {
         }
 
         $this->LoadModel('pages');
-        $this->pages = $this->ModelPages->GetPages(array('where' => "WHERE `release` = 1"));
+        $this->pages = $this->ModelPages->GetPages();
         $this->structure = $this->func->getStructure($this->pages);
         $this->ShowMenu();
 
-       /* if ($this->act == 'new'){
-            $this->ShowPageNew();
-        }
-        elseif ($this->act=='del'){
-            $this->DeletePage($this->id);
-        }
-        elseif (isset($this->id) && $this->id!==''){
-            $this->ShowPage();
-        }
-        elseif ($this->act=='templates'){
-            $this->ShowTemplateEdit();
-        }
-        elseif ($this->act == 'settings'){
-            $this->ShowSettings();
-        }
-        if(!isset($this->act) && !isset($this->id)){
-            $this->head("?c=$this->module_alias&id=".$this->pages[0]['ID']);
-        }*/
         if (isset($this->get['id'])){
             $this->ShowPage();
         } else {

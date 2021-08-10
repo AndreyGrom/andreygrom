@@ -3,8 +3,12 @@
 class PagesController extends Controller {
     public function __construct($query, $controller) {
         parent::__construct($query, $controller);
-        $this->table_name = '`'.db_pref.'pages`';
-        $this->module_alias = 'pages';
+        $config = include (__DIR__) . '/init.php';
+        $this->alias = $config['alias'];
+        $this->table = db_pref . $config['table'];
+        $this->name = $config['name'];
+        $this->version = $config['version'];
+        $this->page_title = $config['title'];
     }
     public function Index(){
         /*$this->LoadModel('pages');

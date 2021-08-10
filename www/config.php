@@ -6,6 +6,12 @@ define('db_user', 'root');
 define('db_password', '');
 define('db_pref', 'agcms_');
 
+/*define('db_host', 'localhost');
+define('db_name', 'f96179tu_grom');
+define('db_user', 'f96179tu_grom');
+define('db_password', 'ArhiMag2018');
+define('db_pref', 'agcms_');*/
+
 define('ROOT_PATH',$_SERVER['DOCUMENT_ROOT'].'/');
 define('SYSTEM_DIR', ROOT_PATH.'system/');
 define('PLUGINS_DIR', SYSTEM_DIR.'plugins/');

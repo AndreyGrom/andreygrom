@@ -4,11 +4,12 @@ class ModelPages extends Model {
     public $table;
     public function __construct() {
         parent::__construct();
-        $this->table = db_pref.'pages';
-
+        $config = include CONTROLLERS_DIR . '/pages/init.php';
+        $this->table = db_pref . $config['table'];
     }
     function SavePage($params, $id = 0){
         $alias = ($params['alias'] !=='') ? $params['alias'] : $this->func->TranslitURL($params['title']);
+        $result = false;
         $param = array(
             'parent_id' => (int)$params['parent_id'],
             'alias' => $alias,
@@ -23,41 +24,20 @@ class ModelPages extends Model {
             'template' => $params['template'],
             'position' => (int)$params['position'],
             'user_id' => $this->session['admin']['id'],
-            'old' => 0,
-            'release' => 1,
             //'ip' => INET_ATON(), // TODO ПОДУМАТЬ КАК ХРАНИТЬ
         );
-
-        if ($id == 0){
-            // Проверяем алиас
-            if ($this->func->AliasExists($this->table, 'alias', $alias)){
-                $this->error = "Такой алиас уже существует";
-            } else {
+        // Проверяем алиас
+        if ($this->func->AliasExists($this->table, 'alias', $alias)){
+            $this->error = "Такой алиас уже существует";
+        } else {
+            if ($id == 0){
                 $param['date_create'] = time();
                 $param['date_edit'] = time();
-                if ($this->db->insert($this->table, $param, true)){
-                    $result = $this->db->last_id();
-                    // ассоциацию с прежними версиями ставим в текущий id, так как прежних версий нет
-                    $this->db->query("UPDATE $this->table SET old = $result WHERE id = $result");
-                } else{
+                if ($result !== $this->db->insert($this->table, $param, true)){
                     $this->error = $this->db->error();
                 }
-            }
-        } else {
-            if ($this->func->AliasExists($this->table, 'alias', $alias)){
-                $this->error = "Такой алиас уже существует";
             } else {
-                $old_page = $this->GetPage($id, array('single' => true));
-                $old = $old_page['old'];
-                $param['date_create'] = $old_page['date_create'];
-                $param['date_edit'] = time();
-                if ($this->db->insert($this->table, $param, true)){
-                    $result = $this->db->last_id();
-                    // ассоциацию с прежними версиями ставим как в предыдущей
-                    $this->db->query("UPDATE $this->table SET old = $old WHERE id = $result");
-                    // предыдущую версию снимаем с публикации
-                    $this->db->query("UPDATE $this->table SET `release` = 0 WHERE id = $id");
-                } else{
+                if ($result !== $this->db->update($this->table, $param, "WHERE id = $id")){
                     $this->error = $this->db->error();
                 }
             }
@@ -83,8 +63,17 @@ class ModelPages extends Model {
         return $result;
     }
 
-    public function GetPage($id){
-        return $this->db->select("SELECT * FROM $this->table WHERE id = $id AND `release` = 1 LIMIT 1", array('single' => true));
+    public function GetPage($id, $params = array()){
+        $sql = "SELECT * FROM $this->table WHERE ";
+        if (is_numeric($id)){
+            $sql .= "id = $id";
+        } else {
+            $sql .= "alias = $id";
+        }
+        if (isset($params['publ'])){
+            $sql .= "AND publ = 1";
+        }
+        return $this->db->select($sql, array('single' => true));
     }
 
     public function GetPageClient($alias){
