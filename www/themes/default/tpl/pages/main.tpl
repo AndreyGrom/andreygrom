@@ -125,7 +125,7 @@
             var h = el.height();
             var body_top = $("body").css('padding-top');
             $(window).scroll(function() {
-                if ($(this).scrollTop() > elt){
+                if ($(this).scrollTop() > 200){
                     el.addClass('navbar-custom-2');
                     $("#top > div").addClass('container');
                     $("#top > div > div").addClass('col-sm-12');
