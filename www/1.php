@@ -1,5 +1,7 @@
 <?php
 
+
+
 $ip = $_SERVER['REMOTE_ADDR'];
 $ip2 = trim(file_get_contents("http://ipinfo.io/ip/"));
 $details = json_decode(file_get_contents("http://ipinfo.io/$ip/json"));
