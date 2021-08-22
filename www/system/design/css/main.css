@@ -193,3 +193,14 @@ a:focus{outline:none;}
 .btn-dark:hover, .btn-dark:focus, .btn-dark.focus{
     color: #f0f0f0 !important;
 }
+button img{
+    width: 18px;
+    margin-right: 5px;
+}
+.remove-confirm{
+    color: #000;
+    font-weight: bold;
+}
+.remove-confirm:hover{
+    color: red;
+}

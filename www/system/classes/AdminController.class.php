@@ -56,7 +56,6 @@ class AdminController {
         $this->widget_content_bottom = '';
         $this->widget_footer_top = '';
         $this->page_title = '';
-
         $this->site_url = $this->GetSiteUrl();
     }
 

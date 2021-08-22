@@ -59,3 +59,9 @@
         <input value="{$page.position}" name="position" type="text" class="form-control" />
     </div>
 </div>
+<div class="form-group">
+    <label for="alias" class="col-sm-3 control-label">Просмотры:</label>
+    <div class="col-sm-9">
+        <input value="{$page.views}" name="views" type="text" class="form-control" />
+    </div>
+</div>

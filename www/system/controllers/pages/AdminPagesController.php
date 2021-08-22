@@ -44,7 +44,8 @@ class AdminPagesController extends AdminController {
 
     public function SavePage(){
         $this->LoadModel('pages');
-        if ($id = $this->ModelPages->SavePage($this->post, $this->id)){
+        $id = $this->ModelPages->SavePage($this->post, $this->id);
+        if ($id > 0) {
             $_SESSION['alert'] = 'Страница сохранена';
             $this->Head('?c=pages&id=' . $id);
         }  else {

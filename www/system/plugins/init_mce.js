@@ -19,6 +19,6 @@ $(document).ready(function(){
 
         external_filemanager_path:"/system/plugins/justboil/",
         filemanager_title:"Responsive Filemanager" ,
-        external_plugins: { "filemanager" : "/system/plugins/justboil/plugin.min.js"}
+        //external_plugins: { "filemanager" : "/system/plugins/justboil/plugin.min.js"}
     });
 });
