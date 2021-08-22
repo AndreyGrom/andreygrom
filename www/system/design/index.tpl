@@ -7,8 +7,8 @@
     <meta name="description" content="Панель управления содержимым AG CMS">
     <meta name="author" content="Андрей Гром">
     <title>Центр управления AG CMS - {$title}</title>
-    <script type="text/javascript" src="{$html_plugins_dir}jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="{$html_plugins_dir}jquery.cookie.js"></script>
+    <script type="text/javascript" src="{$html_plugins_dir}jquery/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="{$html_plugins_dir}jquery/jquery.cookie.js"></script>
     <script type="text/javascript" src="{$html_plugins_dir}func.js"></script>
     <link rel="stylesheet" href="{$html_plugins_dir}fancybox/jquery.fancybox.min.css">
     <script type="text/javascript" src="{$html_plugins_dir}fancybox/jquery.fancybox.min.js"></script>

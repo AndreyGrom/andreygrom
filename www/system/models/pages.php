@@ -26,23 +26,22 @@ class ModelPages extends Model {
             'user_id' => $this->session['admin']['id'],
             //'ip' => INET_ATON(), // TODO ПОДУМАТЬ КАК ХРАНИТЬ
         );
-        // Проверяем алиас
-        if ($this->func->AliasExists($this->table, 'alias', $alias)){
-            $this->error = "Такой алиас уже существует";
-        } else {
+
             if ($id == 0){
-                $param['date_create'] = time();
-                $param['date_edit'] = time();
-                if ($result !== $this->db->insert($this->table, $param, true)){
-                    $this->error = $this->db->error();
+                // Проверяем алиас
+                if ($this->func->AliasExists($this->table, 'alias', $alias)){
+                    $this->error = "Такой алиас уже существует";
+                } else {
+                    $param['date_create'] = time();
+                    $param['date_edit'] = time();
+                    $result = $this->db->insert($this->table, $param, true);
                 }
             } else {
-                if ($result !== $this->db->update($this->table, $param, "WHERE id = $id")){
-                    $this->error = $this->db->error();
-                }
+                $result = $this->db->update($this->table, $param, "id = $id");
             }
-        }
-
+            if ($this->db->error() != ''){
+                $this->error = $this->db->error();
+            }
         return $result;
     }
 
@@ -68,16 +67,16 @@ class ModelPages extends Model {
         if (is_numeric($id)){
             $sql .= "id = $id";
         } else {
-            $sql .= "alias = $id";
+            $sql .= "alias = '$id'";
         }
         if (isset($params['publ'])){
             $sql .= "AND publ = 1";
         }
-        return $this->db->select($sql, array('single' => true));
-    }
 
-    public function GetPageClient($alias){
-        return $this->db->select("SELECT * FROM $this->table WHERE alias = '$alias' AND `release` = 1 LIMIT 1", array('single' => true));
+        $row = $this->db->select($sql, array('single' => true));
+        $row['date_create'] = $this->func->DateFormat($row["date_create"]);
+        $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
+        return $row;
     }
 
 }
