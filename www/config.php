@@ -1,9 +1,15 @@
 <?php
 
-define('db_host', 'localhost');
+/*define('db_host', 'localhost');
 define('db_name', 'andreygrom3');
 define('db_user', 'root');
 define('db_password', '');
+define('db_pref', 'agcms_');*/
+
+define('db_host', 'localhost');
+define('db_name', 'f96179tu_grom');
+define('db_user', 'f96179tu_grom');
+define('db_password', 'ArhiMag2018');
 define('db_pref', 'agcms_');
 
 /*define('db_host', 'localhost');
