@@ -51,6 +51,17 @@ class Controller
         $this->get = $arr;
     }
 
+    public function LoadModel($model){
+        $file = MODELS_DIR . $model .'.php';
+        $model = mb_convert_case($model, MB_CASE_TITLE, "UTF-8");
+        if (file_exists($file) && !is_dir($file)){
+            include_once ($file);
+            $class_name = 'Model'. $model;
+            $method_name = 'Model' . $model;
+            $this->$method_name = new $class_name();
+        }
+    }
+
     public function assign($arr){
         $this->smarty->assign($arr);
     }

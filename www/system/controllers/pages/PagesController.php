@@ -11,6 +11,8 @@ class PagesController extends Controller {
         $this->page_title = $config['title'];
     }
     public function Index(){
+        $this->LoadModel('pages');
+        var_dump($this->query);
         /*$this->LoadModel('pages');
         if ($this->query){
             $row = $this->ModelPages->GetPageClient(end($this->query));

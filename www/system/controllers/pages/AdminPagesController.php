@@ -32,7 +32,6 @@ class AdminPagesController extends AdminController {
     }
 
     public function ShowMenu(){
-
         $this->assign(array(
             'pages' => $this->structure,
         ));
