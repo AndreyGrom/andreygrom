@@ -9,7 +9,6 @@ class ModelPages extends Model {
     }
     function SavePage($params, $id = 0){
         $alias = ($params['alias'] !=='') ? $params['alias'] : $this->func->TranslitURL($params['title']);
-        $result = false;
         $param = array(
             'parent_id' => (int)$params['parent_id'],
             'alias' => $alias,
@@ -52,7 +51,7 @@ class ModelPages extends Model {
 
     function GetPages($params = array()){
         $result = false;
-        $sort = isset($params['sort']) ? $params['sort'] : '`ID` DESC';
+        $sort = isset($params['sort']) ? $params['sort'] : '`id` DESC';
         $where = isset($params['where']) ? $params['where'] : "";
         $sql = "SELECT * FROM $this->table $where ORDER BY $sort";
         $query = $this->db->query($sql);

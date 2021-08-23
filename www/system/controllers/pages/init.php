@@ -3,7 +3,7 @@ return array(
     'alias'  => 'pages',
     'table'  => 'pages',
     'name'  => 'Страницы сайта',
-    'title'  => 'Управление страницами сайта',
+    'title'  => 'Страницы сайта',
     'version'  => 4.0,
     'author'  => 'Андрей Гром',
     'email'  => 'grominfo@gmail.com',

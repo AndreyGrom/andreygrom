@@ -136,7 +136,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <span class="glyphicon {$modules[i]['icon']}"></span>
+                                            <i class="glyphicon glyphicon-triangle-right" aria-hidden="true"></i>
                                             <a href="?c={$modules[i]['alias']}" class="">{$modules[i]['name']}</a>
                                         </h4>
                                     </div>

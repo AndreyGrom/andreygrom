@@ -1,13 +1,13 @@
 <div class="form-group">
     <label for="title" class="col-sm-3 control-label">Название:</label>
     <div class="col-sm-9">
-        <input required value="{$page.title}" name="title" type="text" class="form-control" placeholder="Введите название страницы">
+        <input required value="{$page.title}" id="title" name="title" type="text" class="form-control" placeholder="Введите название страницы">
     </div>
 </div>
 <div class="form-group">
     <label for="alias" class="col-sm-3 control-label">Алиас:</label>
     <div class="col-sm-9">
-        <input value="{$page.alias}" name="alias" type="text" class="form-control" placeholder="Только символы a-z, A-Z, 0-9, -_ " />
+        <input value="{$page.alias}" id="alias" name="alias" type="text" class="form-control" placeholder="Только символы a-z, A-Z, 0-9, -_ " />
         <p class="help-block">Только символы a-z, A-Z, 0-9, -_ <br/>
             Можно оставить пустым. Заполнится автоматически</p>
     </div>
@@ -18,8 +18,8 @@
         <select {if $page.id==1}disabled{/if} name="parent_id" class="form-control">
             <option value="0">Верхний уровень</option>
             {section name=i loop=$pages}
-                {if $pages[i].ID !== $page_id}
-                    <option {if $pages[i].ID==$page.pagent_id}selected="selected"{/if} value="{$pages[i].id}">{$pages[i].title}</option>
+                {if $pages[i].id !== $page.id}
+                    <option {if $pages[i].id == $page.parent_id}selected="selected"{/if} value="{$pages[i].id}">{$pages[i].title}</option>
                 {/if}
             {/section}
         </select>

@@ -12,9 +12,9 @@
 
                     <table class="table table-bordered table-hover">
                         <tr>
-                            <td>URL: <a target="_blank" href="{$site_url}{$page.alias}">{$site_url}{$page.alias}</a></td>
-                            <td>Дата создания: {$page.date_create|date_format:"%D %T"}</td>
-                            <td>Дата изменения: {$page.date_edit|date_format:"%D %T"}</td>
+                            <td>URL: <br><a target="_blank" href="{$site_url}{$page.alias}">{$site_url}{$page.alias}</a></td>
+                            <td>Дата создания: <br>{$page.date_create|date_format:"%D %T"}</td>
+                            <td>Дата изменения: <br>{$page.date_edit|date_format:"%D %T"}</td>
                         </tr>
                     </table>
 
@@ -48,16 +48,46 @@
                     <a href="?c=pages" class="btn btn-default">Отмена</a>
                 </div>
                 <div class="pull-right">
-                    <button type="submit" name="save-page" class="btn btn-dark"><span class="glyphicon glyphicon-floppy-disk"></span> Сохранить</button>
+                    <button type="button" id="save-page" class="btn btn-dark"><span class="glyphicon glyphicon-floppy-disk"></span> Сохранить</button>
                 </div>
             </div>
         </div>
     </div>
+    <input type="hidden" name="save-page" value="1">
 </form>
 
 <script>
+    $("#save-page").click(function (e) {
+        var alias_field = $("#alias");
+        var title = $("#title").val();
+        if (alias_field.val() === ''){
+            alias_field.val(SetTranslitRuToLat(title));
+        }
+        var data = "action=CheckAlias&alias=" + alias_field.val();
+        {if $page}data += "&id={$page.id}";{/if}
+        $.ajax({
+            type: "POST",
+            data: data,
+            success: function(msg){
+                if (msg == 0){
+                    $("#page-form").submit();
+                } else {
+                    alert(msg);
+                }
+            }
+        });
+    });
+    $("#page-form2").submit(function(){
+        var form = $(this);
+        var alias_field = $("#alias");
+        var title = $("#title").val();
+        if (alias_field.val() === ''){
+            alias_field.val(SetTranslitRuToLat(title));
+        }
 
-    var alias_page_new = false;
+
+    });
+/*    var alias_page_new = false;
     if ($("#alias").val()==''){
         alias_page_new = true;
     }
@@ -82,5 +112,5 @@
         if (!confirm("Вы уверенны что хотите удалить страницу?")){
             e.preventDefault();
         }
-    });
+    });*/
 </script>

@@ -89,15 +89,17 @@ class Database {
 
     public function select($sql, $params = array()){
         $array = array();
-        $rs = $this->query($sql);
-        while($row = $this->fetch_array($rs)){
-            $array[] = $row;
+        if ($rs = $this->query($sql)){
+            while($row = $this->fetch_array($rs)){
+                $array[] = $row;
+            }
+            if (isset($params['single']) && $params['single'] && count($array) == 1){
+                $rs = $array[0];
+            } else {
+                $rs = $array;
+            }
         }
-        if (isset($params['single']) && $params['single'] && count($array) == 1){
-            return $array[0];
-        } else {
-            return $array;
-        }
+        return $rs;
     }
 
     public function insert($table, $params, $duplicate = false){

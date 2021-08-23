@@ -1,7 +1,7 @@
-/*String.prototype.trimMiddle=function(){
+String.prototype.trimMiddle=function(){
     var r=/\s\s+/g;
     return this.trim().replace(r,' ');
-}*/
+}
 
 function SetTranslitRuToLat(text){
     var transl=new Array();
@@ -83,6 +83,8 @@ function SetTranslitRuToLat(text){
 
     return newString.toLowerCase();
 }
+
+
 
 
 $(document).ready(function () {

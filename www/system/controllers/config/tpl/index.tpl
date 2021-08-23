@@ -10,7 +10,7 @@
     </div>
     <div class="panel-body">
         <div class="alert alert-danger">
-            <h3>Вносите изменения, только если понимаете что делаете!</h3>
+            <h3><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Вносите изменения, только если понимаете что делаете!</h3>
         </div>
         <div class="text-right">
             <a class="btn btn-dark" href="#" data-toggle="modal" data-target="#config-agcms"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Добавить параметр</a>
@@ -92,7 +92,6 @@
         $(this).prepend('<img src="/system/design/img/load.gif">');
         $.ajax({
             type: "POST",
-            //url: document.location.href,
             data: "action=set&param=" + modal.find("#param").val() + "&value=" + modal.find("#value").val() + "&desc=" + modal.find("#desc").val(),
             success: function(msg){
                 if (msg == 1){

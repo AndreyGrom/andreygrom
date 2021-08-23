@@ -83,13 +83,22 @@ class AdminPagesController extends AdminController {
 
 
     public function Index(){
+        if (isset($this->post['action']) && $this->post['action'] == "CheckAlias"){
+            $params = array('table' => $this->table, 'field' => 'alias');
+            if (isset($this->post['id'])){
+                $params['id'] = $this->post['id'];
+            }
+            echo $this->func->CheckAlias($this->post['alias'], $params);
+            exit;
+        }
+
         $this->SetPlugins();
         if (isset($this->post['save-page'])){
             $this->SavePage();
         }
 
         $this->LoadModel('pages');
-        $this->pages = $this->ModelPages->GetPages();
+        $this->pages = $this->ModelPages->GetPages(array('sort' => 'id ASC'));
         $this->structure = $this->func->getStructure($this->pages);
         $this->ShowMenu();
 

@@ -9,6 +9,7 @@ class Func {
     }
     public function __construct() {
         $this->config = Config::getInstance();
+        $this->db = Database::getInstance();
     }
     /* Установка сессии */
     public function ss($name, $value){
@@ -22,57 +23,6 @@ class Func {
     /* Установка гет-запроса */
     public function sg($name, $value){
         $_GET[$name] = $value;
-    }
-
-    public function AliasExists($table, $field, $string){
-        $sql = "SELECT * FROM $table WHERE $field = '$string' && rel = 0";
-        $db = Database::getInstance();
-        return $db->select($sql);
-    }
-
-    public function GenStr($length = 20){
-        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
-        $numChars = strlen($chars);
-        $string = '';
-        for ($i = 0; $i < $length; $i++) {
-            $string .= substr($chars, rand(1, $numChars) - 1, 1);
-        }
-        return $string;
-    }
-
-    public function getExt($filename) {
-        $path_info = pathinfo($filename);
-        return $path_info['extension'];
-    }
-    function pcgbasename($param, $suffix=null) {
-        if ( $suffix ) {
-            $tmpstr = ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
-            if ( (strpos($param, $suffix)+strlen($suffix) )  ==  strlen($param) ) {
-                return str_ireplace( $suffix, '', $tmpstr);
-            } else {
-                return ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
-            }
-        } else {
-            return ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
-        }
-    }
-    public function getBasename($filename) {
-        $path_info = pathinfo($filename);
-        return $this->pcgbasename($filename,'.'.$path_info['extension']);
-    }
-
-    public function getTemplates($path){
-        $templates = array();
-        if (is_dir($path)){
-            $temp = scandir($path);
-            if ($temp){
-                foreach ($temp as $v){
-                    if ($v =='.' || $v == '..') continue;
-                    $templates[] = basename($v, '.tpl');
-                }
-            }
-        }
-        return $templates;
     }
     public function TranslitURL($str)
     {
@@ -114,33 +64,113 @@ class Func {
             return strtolower($str);
         }
     }
-    public function CreatePath($path){
-        mkdir($path, 0777, true);
+
+    public function AliasExists($table, $field, $string){
+        $sql = "SELECT * FROM $table WHERE $field = '$string'";
+        $db = Database::getInstance();
+        return $db->select($sql);
+    }
+
+    public function getTemplates($path){
+        $templates = array();
+        if (is_dir($path)){
+            $temp = scandir($path);
+            if ($temp){
+                foreach ($temp as $v){
+                    if ($v =='.' || $v == '..') continue;
+                    $templates[] = basename($v, '.tpl');
+                }
+            }
+        }
+        return $templates;
     }
 
     public function getParentCount($list, $id){
         $i=0;
         foreach ($list as $c){
-            if ($c["PARENT"]==$id){
+            if ($c["parent_id"]==$id){
                 $i++;
             }
         }
         return $i;
     }
-    public function getStructure($list, $id=0){
+    public function getStructure($list, $id = 0){
         $structure = array();
         if ($list){
-            foreach ($list as $k=>&$c){
-                if ($c['parent_id']==$id){
+            foreach ($list as $k => &$c){
+                if ($c['parent_id'] == $id){
                     $structure[] = $c;
                     if ($this->getParentCount($list, $c['id'])>0){
-                        $structure[count($structure)-1]['sub'] = $this->getStructure($list,$c['id']);
+                        $structure[count($structure)-1]['sub'] = $this->getStructure($list, $c['id']);
                     }
                 }
             }
         }
         return $structure;
     }
+
+    function CheckAlias($alias, $params = array()) {
+        $rs = 0;
+        $pattern_1 = "/^[a-z0-9_-]+$/i";
+        if(!preg_match($pattern_1, $alias)){
+            $rs = "Алиас содержит недопустимые символы";
+        } else {
+            if (count($params) > 0){
+                $table = $params['table'];
+                $field = $params['field'];
+                $sql = "SELECT * FROM $table WHERE $field = '$alias'";
+                if (isset($params['id'])){
+                    $sql .= " AND id <> " . $params['id'];
+                }
+                if ($r = $this->db->select($sql)){
+                    $rs = "Такой алиас уже существует";
+                }
+            }
+        }
+       return $rs;
+    }
+
+    /*===================================*/
+
+
+    public function GenStr($length = 20){
+        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+        $numChars = strlen($chars);
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= substr($chars, rand(1, $numChars) - 1, 1);
+        }
+        return $string;
+    }
+
+    public function getExt($filename) {
+        $path_info = pathinfo($filename);
+        return $path_info['extension'];
+    }
+    function pcgbasename($param, $suffix=null) {
+        if ( $suffix ) {
+            $tmpstr = ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
+            if ( (strpos($param, $suffix)+strlen($suffix) )  ==  strlen($param) ) {
+                return str_ireplace( $suffix, '', $tmpstr);
+            } else {
+                return ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
+            }
+        } else {
+            return ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
+        }
+    }
+    public function getBasename($filename) {
+        $path_info = pathinfo($filename);
+        return $this->pcgbasename($filename,'.'.$path_info['extension']);
+    }
+
+
+
+    public function CreatePath($path){
+        mkdir($path, 0777, true);
+    }
+
+
 
     public function syntax_filter($text) {
         $search = '/<pre lang=\"([^>]*)\">(.*?)<\/pre>/siu';
