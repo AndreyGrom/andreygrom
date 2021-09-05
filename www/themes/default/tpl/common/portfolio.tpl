@@ -37,10 +37,19 @@
     <div class="carousel-item">
         <img class="img-fluid" src="{$theme_dir}img/portfolio/isomall.jpg" alt="">
         <p class="carousel-item-name">Isomall</p>
+        <div class="carousel-item-desc">
+            <img class="img-fluid" src="{$theme_dir}img/portfolio/isomall.jpg" alt="">
+            <p><a href="http://isomall.ru/" target="_blank">Isomall</a> - интернет-магазин кровли и фасада на системе управления Престашоп. </p>
+            <p>Кроме рутинной работы по добавлению позиций и добавления некоторого функционала - ничего особенного.</p>
+        </div>
     </div>
     <div class="carousel-item">
         <img class="img-fluid" src="{$theme_dir}img/portfolio/isomax-ug.jpg" alt="">
         <p class="carousel-item-name">Изомакс</p>
+        <div class="carousel-item-desc">
+            <img class="img-fluid" src="{$theme_dir}img/portfolio/isomax-ug.jpg" alt="">
+            <p><a href="http://isomax-ug.ru/" target="_blank">Изомакс</a> - сайт-визитка и сайт-каталог торговой компании, занимающейся продажей кровельных и отделочных материалов. </p>
+        </div>
     </div>
     <div class="carousel-item">
         <img class="img-fluid" src="{$theme_dir}img/portfolio/skinfix.jpg" alt="">
