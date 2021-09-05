@@ -127,19 +127,24 @@ ul.check li:before{
     background-color: #ff9500;
     color: #000;
 }
-.main-page .s2{
+.main-page .s2, .main-page .s3, .main-page .s4, .main-page .s5{
     padding-top: 80px;
     padding-bottom: 91px;
 }
-
-.main-page .s2 h2 {
-    font-size: 72px;
-    font-weight: 300;
-    letter-spacing: 3.9px;
+.main-page .s2 h2, .main-page .s3 h2, .main-page .s4 h2, .main-page .s5 h2{
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.54;
+    letter-spacing: 2.6px;
     text-align: center;
-    margin: 0px 0 80px 0;
+    color: #fff;
+    margin-bottom: 100px;
     text-transform: uppercase;
 }
+.main-page .s2 h2{
+    color: #000;
+}
+
 .main-page .s2 .serivices-list p{
     font-weight: bold;
     text-align: center;
@@ -157,41 +162,23 @@ ul.check li:before{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    padding: 140px 0;
     font-size: 16px;
     line-height: 1.75;
     letter-spacing: 0.9px;
     color: #ffffff;
 }
-.main-page .s3 h2{
-    font-size: 48px;
-    font-weight: 900;
-    line-height: 1.54;
-    letter-spacing: 2.6px;
-    text-align: center;
-    color: #ffffff;
-    margin-top: 0;
-}
-.main-page .s3 .checks{
-    margin-top: 100px;
-}
+
 .main-page .s3 .checks .row{
     margin-bottom: 30px;
 }
 
 .main-page .s4{
-    padding: 140px 0;
     text-align: center;
 }
 .main-page .s4 h2{
-    font-size: 48px;
-    font-weight: 900;
-    line-height: 1.54;
-    letter-spacing: 2.6px;
-    text-align: center;
-    color: #193651;
-    margin-bottom: 100px;
+    color: #000;
 }
+
 .main-page .s4 p{
     font-size: 24px;
     line-height: 1.5;
@@ -208,18 +195,8 @@ ul.check li:before{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    padding-top: 80px;
-    padding-bottom: 91px;
 }
-.main-page .s5 h2{
-    font-size: 48px;
-    font-weight: 900;
-    line-height: 1.54;
-    letter-spacing: 2.6px;
-    text-align: center;
-    color: #fff;
-    margin-bottom: 100px;
-}
+
 footer{
     background-color: #002d44;
     padding: 40px 0;
