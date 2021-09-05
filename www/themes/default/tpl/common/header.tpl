@@ -17,8 +17,9 @@
     {*TODO Тут подключить остальные метатеги*}
 </head>
 <body class="main-page">
+<div class="wrapper">
 <header>
-    <nav class="navbar navbar-custom navbar-expand-md fixed-top" id="navbar-custom">
+    <nav class="navbar navbar-custom navbar-expand-md fixed-top {if !$home}navbar-custom-fixed-color{/if}" id="navbar-custom">
         <div class="container">
             <a class="navbar-brand" href="/"><img src="{$theme_dir}img/logo.png" alt="{$config->SiteName}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +43,7 @@
                 </ul>
 
 
-                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Задать вопрос</button>
+                <button data-toggle="modal" data-target="#order-modal" class="btn btn-outline-warning my-2 my-sm-0" type="submit">Сделать заказ</button>
 
             </div>
         </div>

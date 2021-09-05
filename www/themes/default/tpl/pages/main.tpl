@@ -1,4 +1,4 @@
-{include file="../common/header.tpl" slider = true}
+{include file="../common/header.tpl" home = true}
 
 <section class="s1">
     <h1>Обуздай свой WEB</h1>
@@ -13,14 +13,14 @@
                     <div class="sites-item-desc">
                         Если у вас есть линейка продуктов или направление деятельности,
                         то без особых затрат можете рассказать об этом и привлечь новых клиентов!
-                        <p><a href="#">Подробнее</a></p>
+                        {*<p><a href="#">Подробнее</a></p>*}
 
                     </div>
                     <div class="sites-item-price">
                         От 5 000 руб.
                     </div>
                     <p class="sites-item-order">
-                        <button class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
+                        <button data-toggle="modal" data-target="#order-modal" class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
                     </p>
                 </div>
 
@@ -34,13 +34,13 @@
                     <div class="sites-item-desc">
                         У вас есть фирма или бизнес на дому, и вы хотите детально рассказать о своей деятельности?
                         Тогда это вариант точно для вас!
-                        <p><a href="#">Подробнее</a></p>
+                   {*     <p><a href="#">Подробнее</a></p>*}
                     </div>
                     <div class="sites-item-price">
                         От 15 000 руб.
                     </div>
                     <p class="sites-item-order">
-                        <button class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
+                        <button data-toggle="modal" data-target="#order-modal" class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
                     </p>
                 </div>
 
@@ -53,13 +53,13 @@
                     </div>
                     <div class="sites-item-desc">
                         Множество людей делают покупки не выходя из дома, и даже вы. Можно продавать свои товары или перепродавать чужие.
-                        <p><a href="#">Подробнее</a></p>
+                        {*<p><a href="#">Подробнее</a></p>*}
                     </div>
                     <div class="sites-item-price">
                         От 30 000 руб.
                     </div>
                     <p class="sites-item-order">
-                        <button class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
+                        <button data-toggle="modal" data-target="#order-modal" class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
                     </p>
                 </div>
             </div>
@@ -67,7 +67,7 @@
     </div>
     <p>&nbsp;</p>
 
-    <p class="text-center"><a href="#" class="btn-opacity">Посмотреть бюджетные тарифы</a></p>
+{*    <p class="text-center"><a href="#" class="btn-opacity">Посмотреть бюджетные тарифы</a></p>*}
 </section>
 
 <section class="s2">

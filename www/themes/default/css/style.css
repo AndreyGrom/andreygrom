@@ -1,5 +1,19 @@
+html, body {
+    height: 100%;
+}
 body{
     background: none;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+aside {
+    flex: 1 0 auto;
+}
+footer {
+    flex: 0 0 auto;
 }
 ul.check li{
     list-style-type:none;
@@ -11,8 +25,16 @@ ul.check li:before{
     margin-right:7px;
 }
 .modal-content{
+    background: transparent;
+}
+.modal-header{
+    background-color: #002d44;
+    color: #fff;
+}
+.modal-body{
     max-height: 800px;
     overflow: auto;
+    background-color: #fff;
 }
 .navbar-custom{
     padding: 0;
@@ -45,6 +67,9 @@ ul.check li:before{
     z-index: 999;
     margin-top: 0;
     display: block !important;
+    background-color: #002d44;
+}
+.navbar-custom-fixed-color{
     background-color: #002d44;
 }
 .btn-opacity, .btn-opacity:hover, .btn-opacity:active, .btn-opacity:focus {

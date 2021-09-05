@@ -43,8 +43,8 @@ class PagesController extends Controller {
             'page_content'     => $row['content'],
         ));
         $this->content = $this->SetTemplate($row['template'] . '.tpl');
-        $this->SetPath('pages/');
-        $this->content =$this->SetTemplate('main.tpl');
+   /*     $this->SetPath('pages/');
+        $this->content =$this->SetTemplate('main.tpl');*/
         return $this->content ;
     }
 

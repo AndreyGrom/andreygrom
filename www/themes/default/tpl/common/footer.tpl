@@ -15,7 +15,7 @@
         </div>
     </div>
 </footer>
-
+</div>
 
 <div id="coockie-box">
     <div class="container">
@@ -33,7 +33,7 @@
 </div>
 
 <div id="conf" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Политика конфиденциальности</h4>
@@ -86,12 +86,48 @@
                 <p>Имеется два типа файлов-куки: сессионные и&nbsp;постоянные. Сессионные файлы-куки сохраняются на&nbsp;вашем компьютере, но&nbsp;исчезают, как только вы&nbsp;покидаете сайт. Постоянные куки-файлы сохраняются на&nbsp;вашем компьютере до&nbsp;даты, когда файл-куки считается использованным.</p>
                 <h2>Хотите получить дополнительную информацию?</h2>
                 <p>Хотите узнать больше о&nbsp;том, что такое файлы-куки и&nbsp;что делать, чтобы избежать&nbsp;их? Посетите сайт информационного агентства почты и&nbsp;телекоммуникаций по&nbsp;адресу <a href="http://www.allaboutcookies.org" target="_blank" class="underline">www.allaboutcookies.org</a>.</p>
-
             </div>
         </div>
     </div>
 </div>
-
+<div id="order-modal" class="modal fade">
+    <div class="modal-dialog modal-xs">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Сделать заказ</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="order-form">
+                    <div class="form-group">
+                        <label>Что хотите заказать:</label>
+                        <select name="f1" class="form-control">
+                            <option value="Одностраничный сайт">Одностраничный сайт</option>
+                            <option value="Сайт визитка">Сайт визитка</option>
+                            <option value="Интернет-магазин">Интернет-магазин</option>
+                            <option value="Перенос сайта">Перенос сайта</option>
+                            <option value="Регистрация домена">Регистрация домена</option>
+                            <option value="Консультация">Консультация</option>
+                            <option value="Другое">Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input required name="f2" type="text" class="form-control" placeholder="Ваше имя">
+                    </div>
+                    <div class="form-group">
+                        <input required name="f3" type="email" class="form-control" placeholder="Ваш e-mail">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="f4" class="form-control" placeholder="Сообщение (не обязательо)" rows="10"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-outline-warning">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="{$html_plugins_dir}jquery/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="{$html_plugins_dir}jquery/jquery.cookie.js"></script>
 <script src="{$html_plugins_dir}bootstrap4/js/bootstrap.min.js"></script>
