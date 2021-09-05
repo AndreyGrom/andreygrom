@@ -26,7 +26,7 @@
             </div>
             <div class="col-sm-2">
                 <button id="accept-coockies" class="btn btn-outline-warning" type="submit">Все понятно!</button>
-                <p><a href="http://yandex.ru">Да ну вас нафиг</a></p>
+                <p><a href="http://yandex.ru">Мне это не надо</a></p>
             </div>
         </div>
     </div>
@@ -122,7 +122,7 @@
                     <div class="form-group">
                         <textarea name="f4" class="form-control" placeholder="Сообщение (не обязательо)" rows="10"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-outline-warning">Отправить</button>
+                    <button type="submit" class="btn btn-outline-warning btn-outline-warning-o pull-right">Отправить</button>
                 </form>
             </div>
         </div>
