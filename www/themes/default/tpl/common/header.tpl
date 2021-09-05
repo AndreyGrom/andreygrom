@@ -16,7 +16,7 @@
     <meta name="keywords" content="{$meta_keywords}">
     {*TODO Тут подключить остальные метатеги*}
 </head>
-<body class="main-page">
+<body class="{$class}">
 <div class="wrapper">
 <header>
     <nav class="navbar navbar-custom navbar-expand-md fixed-top {if !$home}navbar-custom-fixed-color{/if}" id="navbar-custom">

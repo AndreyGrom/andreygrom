@@ -3,6 +3,7 @@ html, body {
 }
 body{
     background: none;
+    padding-top: 170px;
 }
 .wrapper {
     display: flex;
@@ -11,6 +12,7 @@ body{
 }
 aside {
     flex: 1 0 auto;
+    padding-bottom: 40px;
 }
 footer {
     flex: 0 0 auto;
@@ -35,6 +37,10 @@ ul.check li:before{
     max-height: 800px;
     overflow: auto;
     background-color: #fff;
+}
+.btn-outline-warning-o{
+    background-color: #ff9500;
+    color: #000;
 }
 .navbar-custom{
     padding: 0;
@@ -84,7 +90,9 @@ ul.check li:before{
     text-decoration: none;
     font-size: 18px;
 }
-
+.main-page{
+    padding: 0;
+}
 .main-page .s1{
     background-image: url(../img/s1_bg.jpg);
     -webkit-background-size: cover;
@@ -270,4 +278,7 @@ footer{
 }
 #portfolio-carousel .carousel-item-desc{
     display: none;
+}
+.contacts-page img{
+    border-radius: 15px;
 }

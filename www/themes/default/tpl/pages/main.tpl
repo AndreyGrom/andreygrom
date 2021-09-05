@@ -1,4 +1,4 @@
-{include file="../common/header.tpl" home = true}
+{include file="../common/header.tpl" home = true class = "main-page"}
 
 <section class="s1">
     <h1>Обуздай свой WEB</h1>
