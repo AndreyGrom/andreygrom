@@ -54,14 +54,26 @@
     <div class="carousel-item">
         <img class="img-fluid" src="{$theme_dir}img/portfolio/skinfix.jpg" alt="">
         <p class="carousel-item-name">ХилФикс и ФингерФикс</p>
+        <div class="carousel-item-desc">
+            <img class="img-fluid" src="{$theme_dir}img/portfolio/skinfix.jpg" alt="">
+            <p><a href="http://skinfix.ru/" target="_blank">Skinfix</a> - сайт, продающий косметические препараты.</p>
+        </div>
     </div>
     <div class="carousel-item">
         <img class="img-fluid" src="{$theme_dir}img/portfolio/babyfood.jpg" alt="">
         <p class="carousel-item-name">Baby Food</p>
+        <div class="carousel-item-desc">
+            <img class="img-fluid" src="{$theme_dir}img/portfolio/babyfood.jpg" alt="">
+            <p><a href="http://babyfood.cosmopharm.ru/" target="_blank">Skinfix</a> - сайт, продающий лечебное питание для детей.</p>
+        </div>
     </div>
     <div class="carousel-item">
         <img class="img-fluid" src="{$theme_dir}img/portfolio/himtex.jpg" alt="">
         <p class="carousel-item-name">HIMTEX</p>
+        <div class="carousel-item-desc">
+            <img class="img-fluid" src="{$theme_dir}img/portfolio/himtex.jpg" alt="">
+            <p><a href="http://himtex.su/" target="_blank">HIMTEX</a> - сайт клининговой компании.</p>
+        </div>
     </div>
     <div class="carousel-item">
         <img class="img-fluid" src="{$theme_dir}img/portfolio/liftgroup.jpg" alt="">

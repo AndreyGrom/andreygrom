@@ -59,7 +59,7 @@
         </div>
         <div class="col-sm-6">
             <h2>Ольга Генералова</h2>
-            <p><strong>Копирайтер, рерайтер, фурналист</strong></p>
+            <p><strong>Копирайтер, рерайтер, журналист</strong></p>
             <p>E-mail: <a href="mailto:grominfo@gmail.com">grominfo@gmail.com</a></p>
             <form method="post">
                 <div class="form-group">
