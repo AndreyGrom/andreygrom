@@ -1,0 +1,52 @@
+<div class="panel-group hidden-sm hidden-xs" role="tablist">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
+            <h4 class="panel-title">
+                <i class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></i> {$module_config.name}
+                <a data-toggle="modal" data-target="#add-mailform" href="#" class="btn btn-dark btn-xs pull-right">Создать форму</a>
+            </h4>
+        </div>
+
+        <div>
+            <ul class="nav">
+                {section name=i loop=$forms}
+                    <li>
+                        <a href="?c={$module_config.alias}&id={$forms[i].id}" data-toggle="tooltip" title="{$forms[i].desc|strip_tags|truncate:300}"><span class="glyphicon glyphicon-text-size btn-xs"></span>{$forms[i].name}</a>
+                    </li>
+                {/section}
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+<div id="add-mailform" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Добавление новой формы</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="name" required type="text" class="form-control" placeholder="Название формы">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="desc" class="form-control" placeholder="Описание формы"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="answer" class="form-control" placeholder="Сообщение после отправки"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                        <button name="save-mailform" type="submit" class="btn btn-dark">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
