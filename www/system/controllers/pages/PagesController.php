@@ -14,8 +14,10 @@ class PagesController extends Controller {
         $this->LoadModel('pages');
         if ($this->query){
             $row = $this->ModelPages->GetPage(end($this->query));
+            $this->ModelPages->SetViews(end($this->query), 1);
         } else {
             $row = $this->ModelPages->GetPage(1);
+            $this->ModelPages->SetViews(1, 1);
         }
         if ($row){
             $this->page_title = $row['title'];
@@ -39,6 +41,7 @@ class PagesController extends Controller {
         }
         $this->SetPath($this->alias.'/');
         $this->assign(array(
+            'item'   => $row,
             'page_title'       => $row['title'],
             'page_content'     => $row['content'],
         ));

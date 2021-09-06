@@ -282,3 +282,6 @@ footer{
 .contacts-page img{
     border-radius: 15px;
 }
+.default-page .page-title{
+    font-size: 32px;
+}

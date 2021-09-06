@@ -120,7 +120,7 @@
                         <input required name="f3" type="email" class="form-control" placeholder="Ваш e-mail">
                     </div>
                     <div class="form-group">
-                        <textarea name="f4" class="form-control" placeholder="Сообщение (не обязательо)" rows="10"></textarea>
+                        <textarea name="f4" class="form-control" placeholder="Сообщение (не обязательно)" rows="10"></textarea>
                     </div>
                     <button type="submit" class="btn btn-outline-warning btn-outline-warning-o pull-right">Отправить</button>
                 </form>
