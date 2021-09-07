@@ -10,7 +10,27 @@
                 <p>Версия: {$module_config.version}</p>
                 <p>Автор: <a href="mailto:{$module_config.author}">{$module_config.author}</a></p>
             </div>
-
+            {if $messages}
+                <h3>Сообщения</h3>
+                <table class="table table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Форма</th>
+                        <th>Принятое</th>
+                        <th>Дата</th>
+                        <th>IP адрес</th>
+                    </tr>
+                    {section name=i loop=$messages}
+                        <tr>
+                            <td>{$messages[i].id}</td>
+                            <td>{$messages[i].name}</td>
+                            <td>{$messages[i].body}</td>
+                            <td>{$messages[i].date|date_format:"%D %T"}</td>
+                            <td>{$messages[i].ip}</td>
+                        </tr>
+                    {/section}
+                </table>
+            {/if}
         </div>
     </div>
 </form>

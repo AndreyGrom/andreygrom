@@ -6,6 +6,8 @@ class AdminMailformsController extends AdminController {
     private $alias;
     private $table;
     private $table_fields;
+    private $table_messages;
+    private $messages;
     private $action;
     private $templates;
 
@@ -15,6 +17,7 @@ class AdminMailformsController extends AdminController {
         $this->alias = $config['alias'];
         $this->table = db_pref . $config['table'];
         $this->table_fields = db_pref . $config['table2'];
+        $this->table_messages = db_pref . $config['table3'];
         $this->name = $config['name'];
         $this->version = $config['version'];
         $this->page_title = $config['title'];
@@ -122,7 +125,13 @@ class AdminMailformsController extends AdminController {
     }
 
     public function GetMessages($form_id = 0){
-
+        $sql = "SELECT m.*, f.name FROM " . $this->table_messages . " m
+                LEFT JOIN " . $this->table . " f ON f.id = m.form_id
+        ";
+        if ($form_id > 0){
+            $sql .= " WHERE form_id = $form_id";
+        }
+        return $this->db->select($sql);
     }
 
     public function Index(){
@@ -143,10 +152,20 @@ class AdminMailformsController extends AdminController {
             $this->RemoveForm();
         }
 
+        if ($this->id > 0) {
+            $this->messages = $this->GetMessages($this->id);
+        }
+        elseif (isset($this->get['messages_id'])){
+            $this->messages = $this->GetMessages($this->get['messages_id']);
+        }
+        else {
+            $this->messages = $this->GetMessages();
+        }
         $this->forms = $this->GetForms();
         $this->assign(array(
             'forms' => $this->forms,
             'templates' => $this->GetTemplates(),
+            'messages'  => $this->messages
         ));
         $this->ShowMenu();
 

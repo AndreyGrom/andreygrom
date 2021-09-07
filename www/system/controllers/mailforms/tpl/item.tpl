@@ -26,6 +26,7 @@
                 <div class="col-sm-6">
                     <h4 id="item-name">{$item.name}</h4>
                     <p id="item-desc">{$item.desc}</p>
+                    <p><a href="?c=mailforms&messages_id={$item['id']}">Сообщения ({count($messages)})</a></p>
                 </div>
                 <div class="col-sm-6">
                     <p id="item-answer">{$item.answer}</p>
