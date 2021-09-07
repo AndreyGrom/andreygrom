@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Авг 10 2021 г., 08:37
+-- Время создания: Сен 08 2021 г., 00:17
 -- Версия сервера: 5.7.33
--- Версия PHP: 7.1.33
+-- Версия PHP: 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,31 +28,107 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `agcms_config` (
-  `ID` int(11) NOT NULL,
-  `PARAM` varchar(255) NOT NULL,
-  `VALUE` text NOT NULL
+  `id` int(11) NOT NULL,
+  `param` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  `desc` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `agcms_config`
 --
 
-INSERT INTO `agcms_config` (`ID`, `PARAM`, `VALUE`) VALUES
-(3, 'SiteTitle', 'Андрей Гром. Сайт разработчика'),
-(4, 'Theme', 'default'),
-(5, 'ModuleDefault', 'pages'),
-(6, 'DefaultMetaDesc', ''),
-(7, 'DefaultMetaKeywords', ''),
-(59, 'SiteEnabled', '1'),
-(64, 'SiteDisabledMessage', 'Извините, на сайте ведутся технические работы. '),
-(67, 'MailSMTPEnabled', '0'),
-(68, 'MailSMTPHost', 'ssl://smtp.yandex.ru'),
-(69, 'MailSMTPPort', '465'),
-(70, 'MailSMTPUserName', 'info@andreygrom.ru'),
-(71, 'MailSMTPUserPassword', 'Leviafan2016Greh'),
-(72, 'MailSMTPFromName', 'Андрей Гром'),
-(80, 'SiteDescription', ''),
-(81, 'SiteDirector', 'Андрей Гром');
+INSERT INTO `agcms_config` (`id`, `param`, `value`, `desc`) VALUES
+(3, 'SiteTitle', 'Андрей Гром. Сайт разработчика', 'String. Title страницы по умолчанию. Добавляется в конец заголовка'),
+(4, 'Theme', 'default', 'String. Название активной темы'),
+(5, 'ModuleDefault', 'pages', 'String. Модуль на главной странице. По умолчанию pages (страницы сайта)'),
+(6, 'DefaultMetaDesc', '', 'String. Значение тега meta-description по-умолчанию'),
+(7, 'DefaultMetaKeywords', '', 'String. Значение тега meta-keywords по-умолчанию'),
+(59, 'SiteEnabled', '1', 'Int или boolean. Отключает или включает сайт'),
+(64, 'SiteDisabledMessage', 'Извините, на сайте ведутся технические работы. ', 'String. Сообщение, которое выводится при отключенном сайте.'),
+(67, 'MailSMTPEnabled', '0', ''),
+(68, 'MailSMTPHost', 'ssl://smtp.yandex.ru', ''),
+(69, 'MailSMTPPort', '465', ''),
+(70, 'MailSMTPUserName', 'infogrom1983@yandex.ru', ''),
+(71, 'MailSMTPUserPassword', 'ipexwnzwxfkokaon', ''),
+(72, 'MailSMTPFromName', 'Андрей Гром', ''),
+(80, 'SiteDescription', '', 'Описание сайта'),
+(83, 'SiteDirector', 'Андрей Гром', 'Владелец сайта'),
+(84, 'MailFromName', 'Андрей Гром', ''),
+(85, 'MailFromEmail', 'grominfo@gmail.com', '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `agcms_mailforms`
+--
+
+CREATE TABLE `agcms_mailforms` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `desc` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `template` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `emails` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_create` int(11) NOT NULL,
+  `date_edit` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ip` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `agcms_mailforms`
+--
+
+INSERT INTO `agcms_mailforms` (`id`, `name`, `desc`, `answer`, `template`, `emails`, `date_create`, `date_edit`, `user_id`, `ip`) VALUES
+(2, 'Сделать заказ', 'Заказ сайта или услуги', 'Спасибо за заказ. Мы с вами свяжемся в самое ближайшее время', 'vertical.tpl', 'grominfo@gmail.com,grominfo@yandex.ru', 1630945751, 1631026115, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `agcms_mailforms_fields`
+--
+
+CREATE TABLE `agcms_mailforms_fields` (
+  `id` int(3) NOT NULL,
+  `form_id` int(3) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `values` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `placeholder` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `required` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `agcms_mailforms_fields`
+--
+
+INSERT INTO `agcms_mailforms_fields` (`id`, `form_id`, `name`, `type`, `values`, `placeholder`, `required`) VALUES
+(3, 2, 'Что хотите заказать', 'select', 'Одностраничный сайт\r\nСайт-визитка\r\nИнтернет-магазин\r\nПеренос сайта\r\nРегистрация домена\r\nКонсультация\r\nДругое', '', 1),
+(4, 2, 'Ваше имя', 'text', '', '', 1),
+(5, 2, 'Ваш e-mail', 'email', '', '', 1),
+(6, 2, 'Сообщение', 'textarea', '', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `agcms_mailforms_messages`
+--
+
+CREATE TABLE `agcms_mailforms_messages` (
+  `id` int(11) NOT NULL,
+  `form_id` int(11) NOT NULL,
+  `body` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` int(11) NOT NULL,
+  `ip` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `agcms_mailforms_messages`
+--
+
+INSERT INTO `agcms_mailforms_messages` (`id`, `form_id`, `body`, `date`, `ip`) VALUES
+(1, 2, 'Что хотите заказать : Одностраничный сайт\r\n\r\nВаше имя : Andrey Grom\r\nВаш e-mail : grominfo@gmail.com\r\nСообщение : Hello', 1631043032, '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -74,25 +150,21 @@ CREATE TABLE `agcms_pages` (
   `comments` int(1) NOT NULL,
   `template` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `position` int(3) NOT NULL DEFAULT '0',
-  `old` int(3) NOT NULL,
-  `release` int(1) NOT NULL,
   `date_create` int(11) NOT NULL,
   `date_edit` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `ip` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `ip` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `views` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `agcms_pages`
 --
 
-INSERT INTO `agcms_pages` (`id`, `parent_id`, `alias`, `title`, `short_content`, `content`, `meta_title`, `meta_desc`, `meta_keywords`, `publ`, `comments`, `template`, `position`, `old`, `release`, `date_create`, `date_edit`, `user_id`, `ip`) VALUES
-(1, 0, 'main', 'Главная', '', '', '', '', '', 1, 1, '', 0, 1, 0, 1628412216, 1628412216, 1, 0),
-(2, 0, 'main', 'Главная2', '', '', '', '', '', 1, 1, '', 0, 1, 0, 1628412216, 1628412756, 1, 0),
-(3, 0, 'main', 'Главная 3', '', '', '', '', '', 1, 1, '', 0, 1, 0, 1628412216, 1628412818, 1, 0),
-(4, 0, 'main', 'Главная 4', '', '', '', '', '', 1, 1, '', 0, 1, 0, 1628412216, 1628412885, 1, 0),
-(5, 0, 'main', 'Главная 5', '', '', '', '', '', 1, 1, '', 0, 1, 0, 1628412216, 1628412946, 1, 0),
-(6, 0, 'main', 'Главная', '', '', '', '', '', 1, 1, '', 0, 1, 1, 1628412216, 1628414722, 1, 0);
+INSERT INTO `agcms_pages` (`id`, `parent_id`, `alias`, `title`, `short_content`, `content`, `meta_title`, `meta_desc`, `meta_keywords`, `publ`, `comments`, `template`, `position`, `date_create`, `date_edit`, `user_id`, `ip`, `views`) VALUES
+(1, 0, 'main', 'Главная', '<p>1</p>', '<p>2</p>', '', '', '', 1, 0, 'main', 0, 1628412216, 1628412216, 1, 0, 118),
+(7, 0, 'contacts', 'Контакты', '', '', '', '', '', 1, 0, 'contacts', 0, 1629670967, 1629670967, 1, 0, 3),
+(10, 0, 'ag-cms', 'AG CMS', '', '', '', '', '', 1, 1, 'default', 0, 1631048260, 1631048260, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -153,7 +225,25 @@ INSERT INTO `agcms_users_group` (`group_id`, `group_name`, `group_icon`) VALUES
 -- Индексы таблицы `agcms_config`
 --
 ALTER TABLE `agcms_config`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `agcms_mailforms`
+--
+ALTER TABLE `agcms_mailforms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `agcms_mailforms_fields`
+--
+ALTER TABLE `agcms_mailforms_fields`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `agcms_mailforms_messages`
+--
+ALTER TABLE `agcms_mailforms_messages`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `agcms_pages`
@@ -181,13 +271,31 @@ ALTER TABLE `agcms_users_group`
 -- AUTO_INCREMENT для таблицы `agcms_config`
 --
 ALTER TABLE `agcms_config`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+
+--
+-- AUTO_INCREMENT для таблицы `agcms_mailforms`
+--
+ALTER TABLE `agcms_mailforms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `agcms_mailforms_fields`
+--
+ALTER TABLE `agcms_mailforms_fields`
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `agcms_mailforms_messages`
+--
+ALTER TABLE `agcms_mailforms_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `agcms_pages`
 --
 ALTER TABLE `agcms_pages`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `agcms_users`
