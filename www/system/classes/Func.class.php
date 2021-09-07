@@ -134,7 +134,7 @@ class Func {
         $to = explode(',', $to);
         include_once (__DIR__) . "/PHPMailer.php";
         $mail = new PHPMailer();
-        $mail->setFrom('test@domain.ru', 'Иван Иванов');
+        $mail->setFrom($this->config->MailFromEmail, $this->config->MailFromName);
         foreach ($to as $t){
             $mail->addAddress($t);
         }
@@ -143,7 +143,28 @@ class Func {
         $rs = $mail->send();
         return $rs;
     }
-
+    public function SendSMTP($to, $subject, $body){
+        $to = explode(',', $to);
+        include_once (__DIR__) . "/PHPMailer.php";
+        include_once (__DIR__) . "/SMTP.php";
+        $mail = new PHPMailer();
+        //$mail->SMTPDebug = 3;
+        $mail->isSMTP();
+        $mail->Host   = $this->config->MailSMTPHost;
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $this->config->MailSMTPUserName;
+        $mail->Password   = $this->config->MailSMTPUserPassword;
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port   = $this->config->MailSMTPPort;
+        $mail->setFrom($this->config->MailSMTPUserName, $this->config->MailSMTPFromName);
+        foreach ($to as $t){
+            $mail->addAddress($t);
+        }
+        $mail->Subject = $subject;
+        $mail->msgHTML($body);
+        $rs = $mail->send();
+        return $rs;
+    }
     /*===================================*/
 
 

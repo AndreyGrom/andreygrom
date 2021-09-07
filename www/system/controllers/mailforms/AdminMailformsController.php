@@ -121,12 +121,19 @@ class AdminMailformsController extends AdminController {
         $this->Head($_SERVER['HTTP_REFERER']);
     }
 
+    public function GetMessages($form_id = 0){
+
+    }
+
     public function Index(){
         if (isset($this->post['save-mailform'])){
             $this->SaveMailform();
         }
         if (isset($this->post['save-mailform-field'])){
             $this->SaveField();
+        }
+        if (isset($this->post['save-mailform-settings'])){
+            $this->SaveMailSettings();
         }
 
         if ($this->action == 'remove-field'){
@@ -135,9 +142,7 @@ class AdminMailformsController extends AdminController {
         if ($this->action == 'remove-form'){
             $this->RemoveForm();
         }
-        if ($this->action == 'save-mailform-settings'){
-            $this->SaveMailSettings();
-        }
+
         $this->forms = $this->GetForms();
         $this->assign(array(
             'forms' => $this->forms,

@@ -12,6 +12,7 @@ class MailformsController extends Controller
         $this->alias = $config['alias'];
         $this->table = db_pref . $config['table'];
         $this->table_fields = db_pref . $config['table2'];
+        $this->table_messages = db_pref . $config['table3'];
     }
 
     public function GetForm($id){
@@ -22,16 +23,37 @@ class MailformsController extends Controller
         return $form;
     }
 
+    public function SaveMailToDB($form_id, $body){
+        $params = array(
+            'form_id' => $form_id,
+            'body' => $body,
+            'date' => time(),
+            'ip'   => $_SERVER['REMOTE_ADDR']
+        );
+        $this->db->insert($this->table_messages, $params);
+    }
+
     public function Index(){
         if (isset($this->post['form_id'])){
-            $rs = '';
             if ($form = $this->GetForm($this->post['form_id'])){
                 $body = '';
                 foreach ($form['fields'] as $f){
                     $body .= $f['name'] . " : " . $this->post["field_" . $f['id']] . "\r\n";
                 }
-                $this->func->SendMail($form['emails'], 'Тестовое', $body);
-                $rs = $form['answer'];
+                $this->SaveMailToDB($form['id'], $body);
+                if ($this->config->MailSMTPEnabled == 0){
+                    if ($this->func->SendMail($form['emails'], 'Сообщение с сайта "' . $this->config->SiteTitle .'"', $body)){
+                        $rs = $form['answer'];
+                    } else {
+                        $rs = "Ошибка отправки письма";
+                    }
+                } else {
+                    if ($this->func->SendSMTP($form['emails'], 'Сообщение с сайта "' . $this->config->SiteTitle .'"', $body)){
+                        $rs = $form['answer'];
+                    } else {
+                        $rs = "Ошибка отправки письма";
+                    }
+                }
             } else {
                 $rs = 'Форма не найдена';
             }

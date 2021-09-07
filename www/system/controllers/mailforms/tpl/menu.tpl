@@ -77,24 +77,36 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Метод отправки</label>
-                        <select name="MailSMTPEnabled" class="form-control">
+                        <select name="MailSMTPEnabled" id="MailSMTPEnabled" class="form-control">
                             <option value="0">Функция Mail</option>
                             <option value="1" {if $config->MailSMTPEnabled == 1}selected{/if}>Внешний SMTP</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mail">
+                        <label>Имя отправителя</label>
+                        <input value="{$config->MailFromName}" name="MailFromName" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group mail">
+                        <label>E-mail отправителя</label>
+                        <input value="{$config->MailFromEmail}" name="MailFromEmail" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group smtp">
                         <label>Имя отправителя</label>
                         <input value="{$config->MailSMTPFromName}" name="MailSMTPFromName" required type="text" class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group smtp">
                         <label>SMTP Host</label>
                         <input value="{$config->MailSMTPHost}" name="MailSMTPHost" type="text" class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group smtp">
+                        <label>SMTP Port</label>
+                        <input value="{$config->MailSMTPPort}" name="MailSMTPPort" type="number" class="form-control">
+                    </div>
+                    <div class="form-group smtp">
                         <label>SMTP User</label>
                         <input value="{$config->MailSMTPUserName}" name="MailSMTPUserName" type="text" class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group smtp">
                         <label>SMTP Password</label>
                         <input value="{$config->MailSMTPUserPassword}" name="MailSMTPUserPassword" type="text" class="form-control">
                     </div>
@@ -109,3 +121,15 @@
         </div>
     </div>
 </div>
+<script>
+    $("#MailSMTPEnabled").change(function () {
+        if ($(this).val() == 0){
+            $(".smtp").hide();
+            $(".mail").show();
+        } else {
+            $(".smtp").show();
+            $(".mail").hide();
+        }
+    });
+    $("#MailSMTPEnabled").change()
+</script>

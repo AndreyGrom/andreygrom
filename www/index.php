@@ -2,7 +2,7 @@
 session_start();
 date_default_timezone_set( 'Europe/Moscow' );
 error_reporting(-1);
-ini_set("display_errors", 1);
+ini_set("display_errors", 0);
 
 require_once('config.php');
 require_once('system/smarty/SmartyBC.class.php');
