@@ -34,26 +34,36 @@ class MailformsController extends Controller
     }
 
     public function Index(){
+        $errors = array();
         if (isset($this->post['form_id'])){
             if ($form = $this->GetForm($this->post['form_id'])){
                 $body = '';
                 foreach ($form['fields'] as $f){
-                    $body .= $f['name'] . " : " . $this->post["field_" . $f['id']] . "\r\n";
-                }
-                $this->SaveMailToDB($form['id'], $body);
-                if ($this->config->MailSMTPEnabled == 0){
-                    if ($this->func->SendMail($form['emails'], 'Сообщение с сайта "' . $this->config->SiteTitle .'"', $body)){
-                        $rs = $form['answer'];
+                    if ($f['required'] == 1 && $this->post["field_" . $f['id']] !== ''){
+                        $body .= $f['name'] . " : " . $this->post["field_" . $f['id']] . "\r\n";
                     } else {
-                        $rs = "Ошибка отправки письма";
+                        $errors[] = "Поле '" . $f['name'] . "' должно быть заполнено";
+                    }
+                }
+                if (count($errors) == 0){
+                    if ($this->config->MailSMTPEnabled == 0){
+                        if ($this->func->SendMail($form['emails'], 'Сообщение с сайта "' . $this->config->SiteTitle .'"', $body)){
+                            $rs = $form['answer'];
+                        } else {
+                            $rs = "Ошибка отправки письма";
+                        }
+                    } else {
+                        if ($this->func->SendSMTP($form['emails'], 'Сообщение с сайта "' . $this->config->SiteTitle .'"', $body)){
+                            $rs = $form['answer'];
+                        } else {
+                            $rs = "Ошибка отправки письма";
+                        }
                     }
                 } else {
-                    if ($this->func->SendSMTP($form['emails'], 'Сообщение с сайта "' . $this->config->SiteTitle .'"', $body)){
-                        $rs = $form['answer'];
-                    } else {
-                        $rs = "Ошибка отправки письма";
-                    }
+                    // TODO выводить $errors о незаполненных полях
                 }
+                $this->SaveMailToDB($form['id'], $body);
+
             } else {
                 $rs = 'Форма не найдена';
             }
