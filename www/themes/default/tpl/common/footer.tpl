@@ -100,30 +100,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" id="order-form">
-                    <div class="form-group">
-                        <label>Что хотите заказать:</label>
-                        <select name="f1" class="form-control">
-                            <option value="Одностраничный сайт">Одностраничный сайт</option>
-                            <option value="Сайт визитка">Сайт визитка</option>
-                            <option value="Интернет-магазин">Интернет-магазин</option>
-                            <option value="Перенос сайта">Перенос сайта</option>
-                            <option value="Регистрация домена">Регистрация домена</option>
-                            <option value="Консультация">Консультация</option>
-                            <option value="Другое">Другое</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input required name="f2" type="text" class="form-control" placeholder="Ваше имя">
-                    </div>
-                    <div class="form-group">
-                        <input required name="f3" type="email" class="form-control" placeholder="Ваш e-mail">
-                    </div>
-                    <div class="form-group">
-                        <textarea name="f4" class="form-control" placeholder="Сообщение (не обязательно)" rows="10"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-outline-warning btn-outline-warning-o pull-right">Отправить</button>
-                </form>
+                [agcms name="MailForm" params="2"]
             </div>
         </div>
     </div>

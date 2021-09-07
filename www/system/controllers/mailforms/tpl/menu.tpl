@@ -41,6 +41,9 @@
                         <textarea name="answer" class="form-control" placeholder="Сообщение после отправки"></textarea>
                     </div>
                     <div class="form-group">
+                        <input name="emails" required type="text" class="form-control" placeholder="E-mail получателей (через запятую)">
+                    </div>
+                    <div class="form-group">
                         <label>Шаблон</label>
                         <select name="template" id="template" class="form-control">
                             {section name=i loop=$templates}

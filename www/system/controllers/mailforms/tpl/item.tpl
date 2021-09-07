@@ -29,6 +29,7 @@
                 </div>
                 <div class="col-sm-6">
                     <p id="item-answer">{$item.answer}</p>
+                    <p id="item-emails">{$item.emails}</p>
                     <p><a id="edit-mail-form" href="#">Редактировать</a></p>
                 </div>
             </div>
@@ -178,6 +179,7 @@
         modal_form.find("input[name='name']").val('{$item.name}');
         modal_form.find("textarea[name='desc']").text('{$item.desc}');
         modal_form.find("textarea[name='answer']").text('{$item.answer}');
+        modal_form.find("input[name='emails']").val('{$item.emails}');
         $("#template option[value='{$item.template}']").prop('selected', true);
 
         init_type();

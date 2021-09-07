@@ -34,6 +34,7 @@ class AdminMailformsController extends AdminController {
             'name' => $this->post['name'],
             'desc' => $this->post['desc'],
             'answer' => $this->post['answer'],
+            'emails' => $this->post['emails'],
             'template' => $this->post['template'],
             'date_edit' => time(),
             'user_id' => $this->session['admin']['id'],

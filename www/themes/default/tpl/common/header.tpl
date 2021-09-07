@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <link rel="icon" href="{$theme_dir}img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{$html_plugins_dir}bootstrap4/css/bootstrap.min.css">
     <link rel="stylesheet" href="{$html_plugins_dir}font-awesome-4.7.0/css/font-awesome.min.css">

@@ -130,6 +130,19 @@ class Func {
        return $rs;
     }
 
+    public function SendMail($to, $body){
+        $too = explode(',', $to);
+        $mail = new PHPMailer();
+        $mail->setFrom('test@domain.ru', 'Иван Иванов');
+        foreach ($to as $t){
+            $mail->addAddress($t);
+        }
+        $mail->Subject = 'Тест';
+        $mail->msgHTML($body);
+        $rs = $mail->send();
+        return $rs;
+    }
+
     /*===================================*/
 
 

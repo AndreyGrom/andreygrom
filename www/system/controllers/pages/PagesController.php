@@ -29,7 +29,7 @@ class PagesController extends Controller {
                 $this->meta_title = $this->page_title . ' - ' . $this->config->SiteTitle;
             }
             if ($this->meta_description == ''){
-                $this->meta_description = mb_substr(strip_tags($row['conent']), 0, 200, 'UTF-8');;
+                $this->meta_description = mb_substr(strip_tags($row['content']), 0, 200, 'UTF-8');;
             }
             if ($row['id'] > 1){
                 $this->breadcrumbs = array(
