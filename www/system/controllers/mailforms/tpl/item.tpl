@@ -29,15 +29,20 @@
                 </div>
                 <div class="col-sm-6">
                     <p id="item-answer">{$item.answer}</p>
-                    <p><a data-toggle="modal" data-target="#add-mailform" href="#">Редактировать</a></p>
+                    <p><a id="edit-mail-form" href="#">Редактировать</a></p>
                 </div>
             </div>
-            <a href="#" data-toggle="modal" data-target="#add-mailform-field" class="btn btn-dark">Добавить поле</a>
+
+            <hr>
+            <h3>
+                Поля формы
+                <a href="#" data-toggle="modal" data-target="#add-mailform-field" class="btn btn-dark btn-xs pull-right">Добавить поле</a>
+            </h3>
             {if $item.fields}
-                <hr><h3>Поля формы</h3>
                 <table class="table table-hover">
                     <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Название</th>
                         <th>Тип</th>
                         <th>Значения</th>
@@ -49,6 +54,7 @@
                     <tbody>
                     {section name=i loop=$item.fields}
                         <tr>
+                            <td>{$item.fields[i].id}</td>
                             <td>{$item.fields[i].name}</td>
                             <td>{$item.fields[i].type}</td>
                             <td>{$item.fields[i].values}</td>
@@ -155,10 +161,25 @@
     $("#type").change(function () {
         init_type();
     });
+
     modal_form.on('show.bs.modal', function(e) {
-        modal_form.find("input[name='name']").val($("#item-name").text());
-        modal_form.find("textarea[name='desc']").text($("#item-desc").text());
-        modal_form.find("textarea[name='answer']").text($("#item-answer").text());
+        modal_form.find("input").val("");
+        modal_form.find("textarea").text("");
+        modal_form.find("#type  option[value='text']").prop('selected', true);
+        $("#template option[value='vertical.tpl").prop('selected', true);
+        modal_form.find("input[name='form_id']").val('0');
+        init_type();
+    });
+
+    $("#edit-mail-form").click(function (e) {
+        modal_form.modal("show");
+        e.preventDefault();
+        modal_form.find("input[name='form_id']").val('{$item.id}');
+        modal_form.find("input[name='name']").val('{$item.name}');
+        modal_form.find("textarea[name='desc']").text('{$item.desc}');
+        modal_form.find("textarea[name='answer']").text('{$item.answer}');
+        $("#template option[value='{$item.template}']").prop('selected', true);
+
         init_type();
     });
 </script>

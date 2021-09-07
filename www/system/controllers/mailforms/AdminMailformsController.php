@@ -6,6 +6,7 @@ class AdminMailformsController extends AdminController {
     private $alias;
     private $table;
     private $action;
+    private $templates;
 
     public function __construct() {
         parent::__construct();
@@ -24,9 +25,7 @@ class AdminMailformsController extends AdminController {
     }
 
     public function ShowMenu(){
-        $this->assign(array(
-            'forms' => $this->forms,
-        ));
+
         $this->widget_left_top .= $this->fetch('menu.tpl');
     }
 
@@ -35,17 +34,18 @@ class AdminMailformsController extends AdminController {
             'name' => $this->post['name'],
             'desc' => $this->post['desc'],
             'answer' => $this->post['answer'],
+            'template' => $this->post['template'],
             'date_edit' => time(),
             'user_id' => $this->session['admin']['id'],
         );
-        if ($this->id > 0){
-            $this->db->update($this->table, $params, "id = " . $this->id);
+        if ($this->post['form_id'] > 0){
+            $this->db->update($this->table, $params, "id = " . $this->post['form_id']);
         } else {
             $params['date_create'] = time();
             $this->db->insert($this->table, $params);
-            $this->id = $this->db->last_id();
+            $this->post['form_id'] = $this->db->last_id();
         }
-        $this->Head("?c=" . $this->alias . "&id=" . $this->id);
+        $this->Head("?c=" . $this->alias . "&id=" . $this->post['form_id']);
     }
 
     public function GetForms(){
@@ -104,6 +104,17 @@ class AdminMailformsController extends AdminController {
         $this->Head("?c=" . $this->alias);
     }
 
+    public function GetTemplates(){
+        $rs = array();
+        if ($list = scandir(__DIR__ . "/templates")){
+            foreach ($list as $i) {
+                if ($i == '.' || $i == '..') continue;
+                $rs[] = $i;
+            }
+        }
+        return $rs;
+    }
+
     public function Index(){
         if (isset($this->post['save-mailform'])){
             $this->SaveMailform();
@@ -119,7 +130,12 @@ class AdminMailformsController extends AdminController {
             $this->RemoveForm();
         }
 
+
         $this->forms = $this->GetForms();
+        $this->assign(array(
+            'forms' => $this->forms,
+            'templates' => $this->GetTemplates(),
+        ));
         $this->ShowMenu();
 
         if ($this->id > 0){

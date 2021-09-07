@@ -30,6 +30,7 @@
                     <h4 class="modal-title">Добавление новой формы</h4>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="form_id" value="0">
                     <div class="form-group">
                         <input name="name" required type="text" class="form-control" placeholder="Название формы">
                     </div>
@@ -38,6 +39,14 @@
                     </div>
                     <div class="form-group">
                         <textarea name="answer" class="form-control" placeholder="Сообщение после отправки"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Шаблон</label>
+                        <select name="template" id="template" class="form-control">
+                            {section name=i loop=$templates}
+                                <option value="{$templates[i]}">{$templates[i]}</option>
+                            {/section}
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
