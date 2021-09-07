@@ -14,19 +14,19 @@
                 <h3>Сообщения</h3>
                 <table class="table table-hover">
                     <tr>
-                        <th>ID</th>
                         <th>Форма</th>
                         <th>Принятое</th>
                         <th>Дата</th>
                         <th>IP адрес</th>
+                        <th></th>
                     </tr>
                     {section name=i loop=$messages}
                         <tr>
-                            <td>{$messages[i].id}</td>
                             <td>{$messages[i].name}</td>
                             <td>{$messages[i].body}</td>
                             <td>{$messages[i].date|date_format:"%D %T"}</td>
                             <td>{$messages[i].ip}</td>
+                            <td><a class="remove-confirm" href="?c=mailforms&id={$messages[i].id}&action=remove-message"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></a></td>
                         </tr>
                     {/section}
                 </table>

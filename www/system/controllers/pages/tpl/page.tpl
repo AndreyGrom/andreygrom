@@ -4,12 +4,15 @@
             <h3 class="panel-title text-uppercase">
                 <span class="glyphicon glyphicon-duplicate"></span>
                 {if !$page}Создание новой страницы{else}Редактирование страницы{/if}
-
+                {if $page.id > 1}
+                    <a href="?c=pages&id={$page.id}&action=remove-page" class="btn btn-danger btn-xs pull-right remove-confirm">
+                        <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> Удалить страницу
+                    </a>
+                {/if}
             </h3>
         </div>
         <div class="panel-body">
             {if $page}
-
                     <table class="table table-bordered table-hover">
                         <tr>
                             <td>URL: <br><a target="_blank" href="{$site_url}{$page.alias}">{$site_url}{$page.alias}</a></td>
@@ -17,8 +20,6 @@
                             <td>Дата изменения: <br>{$page.date_edit|date_format:"%D %T"}</td>
                         </tr>
                     </table>
-
-
                 <hr/>
             {/if}
             <div class="form-horizontal" role="form">
@@ -84,33 +85,6 @@
         if (alias_field.val() === ''){
             alias_field.val(SetTranslitRuToLat(title));
         }
-
-
     });
-/*    var alias_page_new = false;
-    if ($("#alias").val()==''){
-        alias_page_new = true;
-    }
-    $("#title").change(function(){
-        if (alias_page_new){
-            var str = $(this).val();
-            var str2 = SetTranslitRuToLat(str);
-            $("#alias").val(str2);
-        }
-    });
-    $("#page-form").submit(function(){
-        var alias_page = $(this).find("input[name='alias']").val();
-        if (alias_page != ''){
-        var pattern = /^[a-z0-9_-]+$/i;
-            if (!pattern.test(alias_page)){
-                alert('Алиас содержит недопустимые символы');
-                return false;
-            }
-        }
-    });
-    $(".confirm").click(function(e){
-        if (!confirm("Вы уверенны что хотите удалить страницу?")){
-            e.preventDefault();
-        }
-    });*/
+    $("#template  option[value='default']").prop('selected', true);
 </script>

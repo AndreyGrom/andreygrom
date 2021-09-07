@@ -8,6 +8,7 @@ class AdminPagesController extends AdminController {
     private $cid = 0;
     private $alias;
     private $table;
+    private $action;
 
     public function __construct() {
         parent::__construct();
@@ -23,7 +24,7 @@ class AdminPagesController extends AdminController {
 
         $this->id            = isset($this->get['id']) ? $this->get['id'] : 0;
         $this->cid           = isset($this->get['cid']) ? $this->get['cid'] : 0;
-        $this->act           = isset($this->get['act']) ? $this->get['act'] : '';
+        $this->action           = isset($this->get['action']) ? $this->get['action'] : '';
     }
 
     public function SetPlugins(){
@@ -80,9 +81,15 @@ class AdminPagesController extends AdminController {
         $this->content = $this->SetTemplate('page.tpl');
     }
 
-
+    public function RemovePage(){
+        if ($this->id > 1){
+            $this->ModelPages->RemovePage($this->id);
+        }
+        $this->Head("?c=" . $this->alias);
+    }
 
     public function Index(){
+        $this->LoadModel('pages');
         if (isset($this->post['action']) && $this->post['action'] == "CheckAlias"){
             $params = array('table' => $this->table, 'field' => 'alias');
             if (isset($this->post['id'])){
@@ -95,6 +102,10 @@ class AdminPagesController extends AdminController {
         $this->SetPlugins();
         if (isset($this->post['save-page'])){
             $this->SavePage();
+        }
+
+        if ($this->action == 'remove-page'){
+            $this->RemovePage();
         }
 
         $this->LoadModel('pages');

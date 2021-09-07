@@ -28,7 +28,7 @@
 <div class="form-group">
     <label class="col-sm-3 control-label">Шаблон:</label>
     <div class="col-sm-9">
-        <select name="template" class="form-control">
+        <select name="template" id="template" class="form-control">
             {section name=i loop=$templates}
                 <option {if $templates[i]==$page.template}selected="selected" {/if} value="{$templates[i]}">{$templates[i]}</option>
             {/section}

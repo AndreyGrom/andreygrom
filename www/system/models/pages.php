@@ -97,5 +97,10 @@ class ModelPages extends Model {
         return $result;
     }
 
+    public function RemovePage($id){
+        $sql = "DELETE FROM $this->table WHERE id = $id";
+        return $this->db->query($sql);
+    }
+
 }
 ?>

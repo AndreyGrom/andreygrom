@@ -81,7 +81,7 @@
         <div class="carousel-item-desc">
             <img class="img-fluid" src="{$theme_dir}img/portfolio/liftgroup.jpg" alt="">
             <p><a href="http://liftgroup.ru/" target="_blank">Лифт Групп</a> - сайт компании, занимающиейся разработкой лифтов для коттеджей и других частных домов.</p>
-            <p>Работает на CMS нашей разработки - <a href="/agcms" target="_blank">AG CMS</a></p>
+            <p>Работает на CMS нашей разработки - <a href="/ag-cms" target="_blank">AG CMS</a></p>
         </div>
     </div>
     <div class="carousel-item">
@@ -90,7 +90,7 @@
         <div class="carousel-item-desc">
             <img class="img-fluid" src="{$theme_dir}img/portfolio/alvents.jpg" alt="">
             <p><a href="https://alvents.ru/" target="_blank">Алвент</a> - Каталог различных металлических изделий их собственного производства.</p>
-            <p>Работает на CMS нашей разработки - <a href="/agcms" target="_blank">AG CMS</a></p>
+            <p>Работает на CMS нашей разработки - <a href="/ag-cms" target="_blank">AG CMS</a></p>
         </div>
     </div>
 </div>

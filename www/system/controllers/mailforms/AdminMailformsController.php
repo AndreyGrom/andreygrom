@@ -134,6 +134,12 @@ class AdminMailformsController extends AdminController {
         return $this->db->select($sql);
     }
 
+    public function RemoveMessage(){
+        $sql = "DELETE FROM " . $this->table_messages . " WHERE id = " . $this->id;
+        $this->db->query($sql);
+        $this->Head($_SERVER['HTTP_REFERER']);
+    }
+
     public function Index(){
         if (isset($this->post['save-mailform'])){
             $this->SaveMailform();
@@ -151,7 +157,9 @@ class AdminMailformsController extends AdminController {
         if ($this->action == 'remove-form'){
             $this->RemoveForm();
         }
-
+        if ($this->action == 'remove-message'){
+            $this->RemoveMessage();
+        }
         if ($this->id > 0) {
             $this->messages = $this->GetMessages($this->id);
         }
