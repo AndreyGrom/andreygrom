@@ -34,12 +34,4 @@ function MailForm($id){
     Manager::getInstance()->SetJS(HTML_CONTROLLERS_DIR.'mailforms/action.js');
     return $rs;
 }
-
-if (isset($_POST['form_id'])){
-
-    Func::getInstance()->SendMail('grominfo@gmail.com','fdfdf');
-    return 1;
-}
-
-
 ?>

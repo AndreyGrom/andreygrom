@@ -3,7 +3,10 @@
         <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
             <h4 class="panel-title">
                 <i class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></i> {$module_config.name}
-                <a data-toggle="modal" data-target="#add-mailform" href="#" class="btn btn-dark btn-xs pull-right">Создать форму</a>
+                <div class="pull-right">
+                    <a data-toggle="modal" data-target="#add-mailform" href="#" class="btn btn-dark btn-xs">Создать форму</a>
+                    <a data-toggle="modal" data-target="#config-mail-modal" href="#" class=""><i class="glyphicon glyphicon-cog" aria-hidden="true"></i></a>
+                </div>
             </h4>
         </div>
 
@@ -56,6 +59,50 @@
                     <div class="pull-right">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                         <button name="save-mailform" type="submit" class="btn btn-dark">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="config-mail-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Настройки почты</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Метод отправки</label>
+                        <select name="MailSMTPEnabled" class="form-control">
+                            <option value="0">Функция Mail</option>
+                            <option value="1" {if $config->MailSMTPEnabled == 1}selected{/if}>Внешний SMTP</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Имя отправителя</label>
+                        <input value="{$config->MailSMTPFromName}" name="MailSMTPFromName" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>SMTP Host</label>
+                        <input value="{$config->MailSMTPHost}" name="MailSMTPHost" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>SMTP User</label>
+                        <input value="{$config->MailSMTPUserName}" name="MailSMTPUserName" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>SMTP Password</label>
+                        <input value="{$config->MailSMTPUserPassword}" name="MailSMTPUserPassword" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                        <button name="save-mailform-settings" type="submit" class="btn btn-dark">Сохранить</button>
                     </div>
                 </div>
             </form>

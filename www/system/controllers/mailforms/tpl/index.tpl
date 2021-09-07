@@ -10,6 +10,7 @@
                 <p>Версия: {$module_config.version}</p>
                 <p>Автор: <a href="mailto:{$module_config.author}">{$module_config.author}</a></p>
             </div>
+
         </div>
     </div>
 </form>

@@ -5,6 +5,7 @@ class AdminMailformsController extends AdminController {
     private $id;
     private $alias;
     private $table;
+    private $table_fields;
     private $action;
     private $templates;
 
@@ -25,7 +26,7 @@ class AdminMailformsController extends AdminController {
     }
 
     public function ShowMenu(){
-
+        $this->assign(array('config' => $this->config));
         $this->widget_left_top .= $this->fetch('menu.tpl');
     }
 
@@ -57,17 +58,13 @@ class AdminMailformsController extends AdminController {
     public function GetForm($id){
         $sql = "SELECT * FROM " . $this->table . " WHERE id = $id LIMIT 1";
         $form = $this->db->select($sql, array("single" => true));
+        $sql = "SELECT * FROM " . $this->table_fields . " WHERE form_id = $id";
+        $form['fields'] = $this->db->select($sql);
         return $form;
-    }
-
-    public function GetFields($form_id){
-        $sql = "SELECT * FROM " . $this->table_fields . " WHERE form_id = $form_id";
-        return $this->db->select($sql);
     }
 
     public function ShowForm(){
         $item = $this->GetForm($this->id);
-        $item['fields'] = $this->GetFields($item['id']);
         $this->assign(array(
             'item' => $item
         ));
@@ -116,6 +113,14 @@ class AdminMailformsController extends AdminController {
         return $rs;
     }
 
+    public function SaveMailSettings(){
+        foreach ($this->post as $k => $s){
+            if ($k == "save-mailform-settings") continue;
+            $this->config->set($k, $s, '');
+        }
+        $this->Head($_SERVER['HTTP_REFERER']);
+    }
+
     public function Index(){
         if (isset($this->post['save-mailform'])){
             $this->SaveMailform();
@@ -130,8 +135,9 @@ class AdminMailformsController extends AdminController {
         if ($this->action == 'remove-form'){
             $this->RemoveForm();
         }
-
-
+        if ($this->action == 'save-mailform-settings'){
+            $this->SaveMailSettings();
+        }
         $this->forms = $this->GetForms();
         $this->assign(array(
             'forms' => $this->forms,

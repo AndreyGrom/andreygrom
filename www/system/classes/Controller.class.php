@@ -7,6 +7,7 @@ class Controller
     public $controller;
     public $db;
     public $config;
+    public $func;
     public $theme;
     public $theme_dir;
     public $templates_dir;
@@ -30,6 +31,7 @@ class Controller
         $this->controller = $controller;
         $this->db = Database::getInstance();
         $this->config = Config::getInstance();
+        $this->func = Func::getInstance();
         $this->theme = $this->config->Theme;
         $this->theme_dir = TEMPLATES_DIR . $this->config->Theme .'/';
         $this->templates_dir = TEMPLATES_DIR . $this->config->Theme . '/tpl/';

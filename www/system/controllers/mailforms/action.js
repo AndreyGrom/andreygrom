@@ -5,7 +5,7 @@ $(document).ready(function(){
         var form = $(this);
         $.ajax({
             type: 'POST',
-            url: '/system/controllers/mailforms/fn.php',
+            url: '/mailforms',
             data: m_data,
             success: function(result){
                 form.html(result);
