@@ -40,7 +40,7 @@
         <div class="col-sm-6">
             <h2>Сергей Трезубцев</h2>
             <p><strong>Верстальщик, Javascript-программист</strong></p>
-            <p>E-mail: <a href="mailto:grominfo@gmail.com">grominfo@gmail.com</a></p>
+            <p>E-mail: <a href="mailto:grominfo@gmail.com">parparrpr@yandex.ru</a></p>
             <form method="post">
                 <div class="form-group">
                     <textarea name="f1" class="form-control" rows="10" placeholder="Ваше сообщение"></textarea>
