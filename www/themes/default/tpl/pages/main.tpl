@@ -17,7 +17,7 @@
 
                     </div>
                     <div class="sites-item-price">
-                        От 5 000 руб.
+                        От 7 500 руб.
                     </div>
                     <p class="sites-item-order">
                         <button data-toggle="modal" data-target="#order-modal" class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
@@ -37,7 +37,7 @@
                    {*     <p><a href="#">Подробнее</a></p>*}
                     </div>
                     <div class="sites-item-price">
-                        От 15 000 руб.
+                        От 10 000 руб.
                     </div>
                     <p class="sites-item-order">
                         <button data-toggle="modal" data-target="#order-modal" class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>

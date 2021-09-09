@@ -3,6 +3,7 @@
 <aside>
     <div class="container">
         <div class="page-title">{$item.title}</div>
+        <div class="page-content">{$item.content}</div>
     </div>
 </aside>
 

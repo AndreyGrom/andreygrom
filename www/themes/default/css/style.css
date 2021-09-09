@@ -285,3 +285,9 @@ footer{
 .default-page .page-title{
     font-size: 32px;
 }
+.serveces-page h2{
+    margin: 60px 0;
+}
+.serveces-page img{
+    margin-bottom: 20px;
+}
