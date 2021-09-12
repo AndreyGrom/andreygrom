@@ -106,6 +106,13 @@
             loop: true,
             nav: true,
         });
+
+        $("#portfolio-carousel .carousel-item").click(function(){
+            var text = $(this).find(".carousel-item-desc").html();
+            var modal = $("#portfolio-modal");
+            modal.find(".modal-body").html(text);
+            modal.modal("show");
+        });
     });
 </script>
 </body>
