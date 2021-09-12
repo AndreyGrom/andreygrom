@@ -1,42 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{$html_plugins_dir}bootstrap4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{$html_plugins_dir}font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{$theme_dir}css/style.css">
-    <title>{$meta_title}</title>
-    <meta name="description" content="{$meta_description}">
-    <meta name="keywords" content="{$meta_keywords}">
-    {*TODO Тут подключить остальные метатеги*}
-</head>
-<body class="main-page">
-<header>
-    <nav class="navbar navbar-custom navbar-expand-lg fixed-top" id="navbar-custom">
-        <div class="container">
-            <a class="navbar-brand" href="/"><img src="{$theme_dir}img/logo.png" alt="{$config->SiteName}"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contacts">Контакты</a>
-                    </li>
-                </ul>
-
-
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Задать вопрос</button>
-
-            </div>
-        </div>
-    </nav>
-</header>
+{include file="../common/header.tpl" slider = true}
 
 <section class="s1">
     <h1>Обуздай свой WEB</h1>
@@ -111,35 +73,126 @@
 <section class="s2">
     <div class="container">
         <h2>Другие наши услуги</h2>
+        <div class="row serivices-list">
+            <div class="col-sm-4">
+                <p>Техническое обслуживание</p>
+                <div class="service-img">
+                    <img class="img-fluid" src="{$theme_dir}img/teh.png" alt="">
+                </div>
+                <ul class="check">
+                    <li>Регистрация домена</li>
+                    <li>Регистрации хостинга</li>
+                    <li>Перенос сайта на новый хостинг</li>
+                    <li>Настройка сервера и хостинга</li>
+                    <li>Исправление ошибок в коде сайта</li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <p>Администрирование</p>
+                <div class="img-fluid">
+                    <img src="{$theme_dir}img/admin.png" alt="">
+                </div>
+                <ul class="check">
+                    <li>Наполнение сайта</li>
+                    <li>Обновление сайта</li>
+                    <li>Редизайн</li>
+                    <li>Реинжениринг</li>
+                    <li>Добавление разделов, страниц</li>
+                </ul>
+
+            </div>
+            <div class="col-sm-4">
+                <p>Сео-продвижение</p>
+                <div class="img-fluid">
+                    <img src="{$theme_dir}img/seo.png" alt="">
+                </div>
+                <ul class="check">
+                    <li>Оптимизация кода</li>
+                    <li>Добавление мета-тегов</li>
+                    <li>Написание текстов</li>
+                    <li>Составление семантики</li>
+                    <li>SMM и Яндекс.Директ</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </section>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<script type="text/javascript" src="{$html_plugins_dir}jquery/jquery-3.6.0.min.js"></script>
-<script src="{$html_plugins_dir}bootstrap4/js/bootstrap.min.js"></script>
+<section class="s3">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>МЫ ГАРАНТИРУЕМ</h2>
+            </div>
+        </div>
+        <div class="row checks">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10 chm">ПРОфессиональный подход и качественную работу специалистов</div>
 
-<script>
-    $(function () {
-        if ($(window).width() > 400){
-            var el = $("#navbar-custom");
-            var elt = el.offset().top  + $(".s2").offset().top ;
-            var h = el.height();
-            var body_top = $("body").css('padding-top');
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 200){
-                    el.addClass('navbar-custom-2');
-                    $("#top > div").addClass('container');
-                    $("#top > div > div").addClass('col-sm-12');
-                    $('body').css('padding-top', h);
-                } else {
-                    el.removeClass('navbar-custom-2');
-                    $("#top > div").removeClass('container');
-                    $("#top > div > div").removeClass('col-sm-12');
-                    $('body').css('padding-top', body_top);
-                }
-            })
-        }
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10">Регулярную обратную связь в ходе работы над вашим проектом</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10 chm">Финансовую ответственность в случае нарушения своих обязательств</div>
 
-    })
-</script>
-</body>
-</html>
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10">Индивидуальное решение. Наш продукт проходит полный цикл разработки</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10 chm">Общение с клиентом на понятном ему языке. Объясним все как можно проще!</div>
+                    <br/><br/><br/>
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10 chm chm2">Возможность выбора. Находим такое решение, которое устроит всех. Даже когда клиент сам не понимает, чего хочет</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10 chm">Прозрачность ценообразования - Вы всегда знаете за что платите</div>
+
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10">Соблюдение сроков</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1 col-xs-2 chm"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10 chm">Передачу сопроводительной документации по продукту после завершения проекта. Мы не пытаемся силой привязать клиентов</div>
+
+                    <div class="col-md-1 col-xs-2"><img src="{$theme_dir}img/check.png" alt=""/></div>
+                    <div class="col-md-5 col-xs-10">Ответственность. Мы знаем свою работу и у нас всегда четкий план действий</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="s4">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>ВЫ ПОЛУЧАЕТЕ</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-fluid" src="{$theme_dir}img/v1.jpg" alt=""/>
+                <p>Качественный сайт или веб-проект</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-fluid" src="{$theme_dir}img/v2.jpg" alt=""/>
+                <p>Месяц технического сопровождения</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-fluid" src="{$theme_dir}img/v3.jpg" alt=""/>
+                <p>Радость и удовлетворение от жизни</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="s5">
+    <div class="container">
+        <h2>НЕКОТОРЫЕ НАШИ РАБОТЫ</h2>
+        {include file="../common/portfolio.tpl"}
+    </div>
+</section>
+
+{include file="../common/footer.tpl"}

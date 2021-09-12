@@ -1,9 +1,19 @@
 body{
     background: none;
 }
+ul.check li{
+    list-style-type:none;
+}
+ul.check li:before{
+    content:'\f00c';
+    font-family:'FontAwesome';
+    margin-left:-20px;
+    margin-right:7px;
+}
+
 .navbar-custom{
+    padding: 0;
     background: transparent;
-    padding-top: 18px;
     -webkit-transition: all 900ms ease;
     -moz-transition: all 900ms ease;
     -ms-transition: all 900ms ease;
@@ -17,6 +27,12 @@ body{
 
     text-transform: uppercase;
 }
+.navbar-custom .navbar-nav{
+    width: 100%;
+}
+.navbar-custom .navbar-nav .nav-item{
+
+}
 .navbar-custom-2 {
     opacity: 1;
     width: 100%;
@@ -26,8 +42,7 @@ body{
     z-index: 999;
     margin-top: 0;
     display: block !important;
-    background-color: #5c6b8a;
-    padding-bottom: 15px;
+    background-color: #002d44;
 }
 .btn-opacity, .btn-opacity:hover, .btn-opacity:active, .btn-opacity:focus {
     display: inline-block;
@@ -61,47 +76,47 @@ body{
     letter-spacing: 3.9px;
     text-align: center;
     color: #ffffff;
-    margin: 40px 0;
+    margin: 60px 0;
     text-transform: uppercase;
 }
 
-.sites-items{
+.main-page .sites-items{
     text-align: center;
 }
-.sites-items .sites-item{
+.main-page .sites-items .sites-item{
     background-color: #fff;
     border-radius: 10px;
     border: 3px solid #fff;
     cursor: pointer;
 }
-.sites-items .sites-item .sites-item-caption{
+.main-page .sites-items .sites-item .sites-item-caption{
     font-size:18px;
     font-weight: bold;
     padding: 20px 0;
 }
-.sites-items .sites-item .sites-item-icon{
+.main-page .sites-items .sites-item .sites-item-icon{
     background: url(../img/medal.png) center no-repeat;
 }
-.sites-items .sites-item:hover .sites-item-icon{
+.main-page .sites-items .sites-item:hover .sites-item-icon{
     background-image: url(../img/medal-check.png);
 }
-.sites-items .sites-item:hover{
+.main-page .sites-items .sites-item:hover{
     border: 3px solid #e0e3e3;
     background-color: #eff3f6;
 }
-.sites-items .sites-item .sites-item-icon img{
+.main-page .sites-items .sites-item .sites-item-icon img{
     visibility: hidden;
 }
-.sites-items .sites-item .sites-item-desc{
+.main-page .sites-items .sites-item .sites-item-desc{
     padding: 20px 20px;
     padding-bottom: 0px;
 }
-.sites-items .sites-item .sites-item-price{
+.main-page .sites-items .sites-item .sites-item-price{
     font-weight: bold;
     font-size:24px;
     padding-bottom: 10px;
 }
-.sites-items .sites-item .sites-item-order{
+.main-page .sites-items .sites-item .sites-item-order{
     padding: 10px 20px;
     padding-bottom: 25px;
 }
@@ -116,6 +131,103 @@ body{
     font-weight: 300;
     letter-spacing: 3.9px;
     text-align: center;
-    margin: 40px 0;
+    margin: 0px 0 80px 0;
     text-transform: uppercase;
+}
+.main-page .s2 .serivices-list p{
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+}
+.main-page .s2 .serivices-list img{
+    width: 100%;
+}
+
+.main-page .s3{
+    background-image: url(../img/s3.jpg);
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 140px 0;
+    font-size: 16px;
+    line-height: 1.75;
+    letter-spacing: 0.9px;
+    color: #ffffff;
+}
+.main-page .s3 h2{
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.54;
+    letter-spacing: 2.6px;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+}
+.main-page .s3 .checks{
+    margin-top: 100px;
+}
+.main-page .s3 .checks .row{
+    margin-bottom: 30px;
+}
+
+.main-page .s4{
+    padding: 140px 0;
+    text-align: center;
+}
+.main-page .s4 h2{
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.54;
+    letter-spacing: 2.6px;
+    text-align: center;
+    color: #193651;
+    margin-bottom: 100px;
+}
+.main-page .s4 p{
+    font-size: 24px;
+    line-height: 1.5;
+    letter-spacing: 1.3px;
+    text-align: center;
+    color: #193651;
+    margin-top: 50px;
+}
+footer{
+    background-color: #002d44;
+    padding: 40px 0;
+}
+
+#coockie-box{
+    width: 100%;
+    padding: 20px 0;
+    background-color: #002d44;
+    top: auto;
+    bottom:0;
+    left: 0;
+    position: fixed;
+    display: none;
+}
+#coockie-box p{
+    color: #fff;
+
+}
+#portfolio-carousel{
+    position: relative;
+}
+#portfolio-carousel .carousel-item {
+    display: inline-block;
+}
+#portfolio-carousel .owl-prev, #portfolio-carousel  .owl-next{
+    font-size: 95px !important;
+    position: absolute;
+    z-index: 9;
+    top: 15%;
+    left: 0;
+    color: #fff;
+}
+#portfolio-carousel  .owl-next{
+    left: auto;
+    right: 0;
 }
