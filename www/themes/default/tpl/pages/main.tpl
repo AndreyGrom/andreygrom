@@ -20,7 +20,7 @@
                         От 5 000 руб.
                     </div>
                     <p class="sites-item-order">
-                        <button class="sites-item-order-btn btn btn-outline-primary btn-block">Заказать</button>
+                        <button class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
                     </p>
                 </div>
 
@@ -40,7 +40,7 @@
                         От 15 000 руб.
                     </div>
                     <p class="sites-item-order">
-                        <button class="sites-item-order-btn btn btn-outline-primary btn-block">Заказать</button>
+                        <button class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
                     </p>
                 </div>
 
@@ -59,7 +59,7 @@
                         От 30 000 руб.
                     </div>
                     <p class="sites-item-order">
-                        <button class="sites-item-order-btn btn btn-outline-primary btn-block">Заказать</button>
+                        <button class="sites-item-order-btn btn btn-outline-warning btn-block">Заказать</button>
                     </p>
                 </div>
             </div>

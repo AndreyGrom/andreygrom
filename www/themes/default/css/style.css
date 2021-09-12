@@ -194,6 +194,26 @@ ul.check li:before{
     color: #193651;
     margin-top: 50px;
 }
+.main-page .s5{
+    background-image: url(../img/s5_bg.jpg);
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding-top: 80px;
+    padding-bottom: 91px;
+}
+.main-page .s5 h2{
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.54;
+    letter-spacing: 2.6px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 100px;
+}
 footer{
     background-color: #002d44;
     padding: 40px 0;
@@ -218,6 +238,7 @@ footer{
 }
 #portfolio-carousel .carousel-item {
     display: inline-block;
+    cursor: pointer;
 }
 #portfolio-carousel .owl-prev, #portfolio-carousel  .owl-next{
     font-size: 95px !important;
@@ -225,9 +246,17 @@ footer{
     z-index: 9;
     top: 15%;
     left: 0;
-    color: #fff;
+    color: #ff9500;
 }
 #portfolio-carousel  .owl-next{
     left: auto;
     right: 0;
+}
+#portfolio-carousel .carousel-item-name{
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
 }
