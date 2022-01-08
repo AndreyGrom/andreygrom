@@ -31,7 +31,7 @@ class AdminConfigController extends AdminController {
             $this->Head($_SERVER['HTTP_REFERER']);
         }
         $this->ShowMenu();
-        $items = $this->db->select("SELECT * FROM $this->table");
+        $items = $this->db->select("SELECT * FROM $this->table ORDER BY param ASC");
         $this->assign(array(
             'items' => $items,
         ));

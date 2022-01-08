@@ -24,7 +24,7 @@ class AdminPagesController extends AdminController {
 
         $this->id            = isset($this->get['id']) ? $this->get['id'] : 0;
         $this->cid           = isset($this->get['cid']) ? $this->get['cid'] : 0;
-        $this->action           = isset($this->get['action']) ? $this->get['action'] : '';
+        $this->action        = isset($this->get['action']) ? $this->get['action'] : '';
     }
 
     public function SetPlugins(){
@@ -44,11 +44,11 @@ class AdminPagesController extends AdminController {
     }
 
     public function SavePage(){
-        $this->LoadModel('pages');
+        $this->LoadModel($this->alias);
         $id = $this->ModelPages->SavePage($this->post, $this->id);
         if ($id > 0) {
             $_SESSION['alert'] = 'Страница сохранена';
-            $this->Head('?c=pages&id=' . $id);
+            $this->Head('?c=' . $this->alias . '&id=' . $id);
         }  else {
             $this->alert = "Ошибка: " . $this->ModelPages->error;
         }

@@ -10,9 +10,6 @@ spl_autoload_register(function($class) {
     $fn = 'system/classes/' . $class . '.class.php';
     if (file_exists($fn)) require $fn;
 });
-
-// ToDo переработать модуль, доработь, вывести информацию об авторстве, версии, и.т.д.
-//include_once("system/classes/ModuleInit.class.php");
 $mng= new AdminManager();
 $mng->getContent();
 ?>

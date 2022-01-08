@@ -34,15 +34,16 @@ class MailformsController extends Controller
     }
 
     public function Index(){
+        // TODO  делать проверку, типа подсчетов отправок в минуту по ip или другим параметрам
         $errors = array();
         if (isset($this->post['form_id'])){
             if ($form = $this->GetForm($this->post['form_id'])){
                 $body = '';
                 foreach ($form['fields'] as $f){
-                    if ($f['required'] == 1 && $this->post["field_" . $f['id']] !== ''){
-                        $body .= $f['name'] . " : " . $this->post["field_" . $f['id']] . "\r\n";
-                    } else {
+                    if ($f['required'] == 1 && $this->post["field_" . $f['id']] == ''){
                         $errors[] = "Поле '" . $f['name'] . "' должно быть заполнено";
+                    } else {
+                        $body .= $f['name'] . " : " . $this->post["field_" . $f['id']] . "\r\n";
                     }
                 }
                 if (count($errors) == 0){
@@ -59,8 +60,9 @@ class MailformsController extends Controller
                             $rs = "Ошибка отправки письма";
                         }
                     }
+
                 } else {
-                    // TODO выводить $errors о незаполненных полях
+                    $rs = implode("\r\n<br>", $errors);
                 }
                 $this->SaveMailToDB($form['id'], $body);
 
@@ -72,6 +74,5 @@ class MailformsController extends Controller
         }
         return $this->content;
     }
-
 }
 ?>

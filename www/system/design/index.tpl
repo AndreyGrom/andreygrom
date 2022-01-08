@@ -14,6 +14,7 @@
     <script type="text/javascript" src="{$html_plugins_dir}fancybox/jquery.fancybox.min.js"></script>
     <script src="/system/design/js/bootstrap.min.js"></script>
     <link href="/system/design/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{$html_plugins_dir}font-awesome-4.7.0/css/font-awesome.min.css">
     <link href="/system/design/css/main.css" rel="stylesheet">
     <style>
         body {
@@ -107,7 +108,7 @@
             <ul class="nav navbar-nav">
                 <li>
                     <a target="_blank" href="{$site_url}" data-toggle="tooltip" data-placement="bottom" title="">
-                        <span class="glyphicon glyphicon-globe"></span> Перейти на сайт
+                        <span class="glyphicon glyphicon-globe"></span> {$site_url}
                     </a>
                 </li>
             </ul>
