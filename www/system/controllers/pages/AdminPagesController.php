@@ -89,7 +89,7 @@ class AdminPagesController extends AdminController {
     }
 
     public function Index(){
-        $this->LoadModel('pages');
+        $this->LoadModel($this->alias);
         if (isset($this->post['action']) && $this->post['action'] == "CheckAlias"){
             $params = array('table' => $this->table, 'field' => 'alias');
             if (isset($this->post['id'])){
@@ -108,7 +108,6 @@ class AdminPagesController extends AdminController {
             $this->RemovePage();
         }
 
-        $this->LoadModel('pages');
         $this->pages = $this->ModelPages->GetPages(array('sort' => 'id ASC'));
         $this->structure = $this->func->getStructure($this->pages);
         $this->ShowMenu();

@@ -6,35 +6,33 @@
 
     <div class="panel-body">
         <form method="post" class="form-horizontal" role="form">
-            <div class="form-group">
-                <label for="title" class="col-sm-3 control-label">Название:</label>
-                <div class="col-sm-9">
-                    <input required value="{$category.title}" id="title" name="title" type="text" class="form-control">
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-common" data-toggle="tab">Общие</a></li>
+                    <li><a href="#tab-content" data-toggle="tab">Контент</a></li>
+                    <li><a href="#tab-seo" data-toggle="tab">SEO</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-common" class="tab-pane fade in active">
+                        <h3>Общие данные</h3>
+                        <p>{include file="category-common.tpl"}</p>
+                    </div>
+                    <div id="tab-content" class="tab-pane fade">
+                        <h3>Контент</h3>
+                        <p>{include file="category-content.tpl"}</p>
+                    </div>
+                    <div id="tab-seo" class="tab-pane fade">
+                        <h3>SEO</h3>
+                        <p>{include file="category-seo.tpl"}</p>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="alias" class="col-sm-3 control-label">Алиас:</label>
-                <div class="col-sm-9">
-                    <input value="{$category.alias}" id="alias" name="alias" type="text" class="form-control" placeholder="Только символы a-z, A-Z, 0-9, -_ " />
-                    <p class="help-block">Только символы a-z, A-Z, 0-9, -_ <br/>
-                        Можно оставить пустым. Заполнится автоматически</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="content" class="col-sm-12">Краткое описание:</label>
-                <div class="col-sm-12">
-                    <textarea class="textarea-edit form-control" name="short_desc">{$page.short_content}</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="content" class="col-sm-12">Полное описание:</label>
-                <div class="col-sm-12">
-                    <textarea class="textarea-edit" name="full-desc" style="width:100%;height:200px;">{$page.short_content}</textarea>
-                </div>
-            </div>
+
+
+
             <hr>
             <div class="pull-left">
-                <a href="?c=pages" class="btn btn-default">Отмена</a>
+                <a href="?c={$module_config.alias}" class="btn btn-default">Отмена</a>
             </div>
             <div class="pull-right">
                 <button type="submit" name="save-category" class="btn btn-dark"><span class="glyphicon glyphicon-floppy-disk"></span> Сохранить</button>

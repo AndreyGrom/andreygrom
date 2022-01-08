@@ -15,8 +15,8 @@ class ModelCatalog extends Model {
             'parent_id' => (int)$params['parent_id'],
             'alias' => $alias,
             'title' => $params['title'],
-            'short_desc' => $params['short_desc'],
-            'full_desc' => $params['full_desc'],
+            'desc1' => $params['desc1'],
+            'desc2' => $params['desc2'],
             'position'  => is_int($params['position']) ? $params['position'] : 0,
             'meta_title' => $params['meta_title'],
             'meta_desc' => $params['meta_desc'],
@@ -28,26 +28,55 @@ class ModelCatalog extends Model {
             'ip' => $_SERVER['REMOTE_ADDR'], // TODO ПОДУМАТЬ КАК ХРАНИТЬ
         );
 
-            if ($id == 0){
-                // Проверяем алиас
-                if ($this->func->AliasExists($this->table, 'alias', $alias)){
-                    $this->error = "Такой алиас уже существует";
-                } else {
-                    $param['date_create'] = time();
-                    $param['date_edit'] = time();
-                    $result = $this->db->insert($this->table, $param, true);
-                    $id = $this->db->last_id();
-                }
+        if ($id == 0){
+            // Проверяем алиас
+            if ($this->func->AliasExists($this->table, 'alias', $alias)){
+                $this->error = "Такой алиас уже существует";
             } else {
-                if (!$this->db->update($this->table, $param, "id = $id")){
-                    $id = 0;
-                }
+                $param['date_create'] = time();
+                $param['date_edit'] = time();
+                $result = $this->db->insert($this->table, $param, true);
+                $id = $this->db->last_id();
             }
-            if ($this->db->error() != ''){
-                $this->error = $this->db->error();
+        } else {
+            if (!$this->db->update($this->table, $param, "id = $id")){
                 $id = 0;
             }
+        }
+        if ($this->db->error() != ''){
+            $this->error = $this->db->error();
+            $id = 0;
+        }
         return $id;
+    }
+    public function GetCategoryOnly($id, $params = array()){
+        $sql = "SELECT * FROM $this->table WHERE ";
+        if (is_numeric($id)){
+            $sql .= "id = $id";
+        } else {
+            $sql .= "alias = '$id'";
+        }
+        if (isset($params['public'])){
+            $sql .= "AND public = 1";
+        }
+        $row = $this->db->select($sql, array('single' => true));
+        $row['date_create'] = $this->func->DateFormat($row["date_create"]);
+        $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
+        return $row;
+    }
+    function GetCategories($params = array()){
+        $result = false;
+        $sort = isset($params['sort']) ? $params['sort'] : 'id DESC';
+        $where = isset($params['where']) ? $params['where'] : "";
+        $sql = "SELECT * FROM $this->table $where ORDER BY $sort";
+        if ($list = $this->db->query($sql)){
+            foreach ($list as $l) {
+                $l['date_create'] = $this->func->DateFormat($l["date_create"]);
+                $l['date_edit'] = $this->func->DateFormat($l["date_edit"]);
+                $result[] = $l;
+            }
+        }
+        return $result;
     }
 
     function GetPages($params = array()){
@@ -67,23 +96,6 @@ class ModelCatalog extends Model {
         return $result;
     }
 
-    public function GetPage($id, $params = array()){
-        $sql = "SELECT * FROM $this->table WHERE ";
-        if (is_numeric($id)){
-            $sql .= "id = $id";
-        } else {
-            $sql .= "alias = '$id'";
-        }
-        if (isset($params['publ'])){
-            $sql .= "AND publ = 1";
-        }
-
-        $row = $this->db->select($sql, array('single' => true));
-        $row['date_create'] = $this->func->DateFormat($row["date_create"]);
-        $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
-        return $row;
-    }
-
     public function SetViews($id, $plus){
         $sql = "UPDATE $this->table SET views = views + $plus WHERE ";
         if (is_numeric($id)){
@@ -101,6 +113,23 @@ class ModelCatalog extends Model {
     public function RemovePage($id){
         $sql = "DELETE FROM $this->table WHERE id = $id";
         return $this->db->query($sql);
+    }
+
+    public function GetCategory($id, $params = array()){
+        $sql = "SELECT * FROM $this->table WHERE ";
+        if (is_numeric($id)){
+            $sql .= "id = $id";
+        } else {
+            $sql .= "alias = '$id'";
+        }
+        if (isset($params['public'])){
+            $sql .= "AND public = 1";
+        }
+
+        $row = $this->db->select($sql, array('single' => true));
+        $row['date_create'] = $this->func->DateFormat($row["date_create"]);
+        $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
+        return $row;
     }
 
 }
