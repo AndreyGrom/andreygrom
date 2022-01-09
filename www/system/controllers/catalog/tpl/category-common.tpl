@@ -31,8 +31,24 @@
             }
         });
     });
-
 </script>
+<div class="form-group">
+    <label for="template" class="col-sm-3 control-label">Изображение:</label>
+    <div class="col-sm-4">
+        <input name="image" id="image" type="file" class="" />
+        <input type="hidden" name="old_image" value="{$item.image}"/>
+        <p class="help-block">.jpg, .jpeg, .png, .gif</p>
+    </div>
+    <div class="col-sm-3">
+        {if $item.image}
+            <a class="fancybox" href="/upload/images/{$module_config.alias}/{$item.image}">
+                <img style="width:200px;" src="/upload/images/{$module_config.alias}/{$item.image}" alt=""/>
+            </a>
+            <br/>
+            <label><input name="delete_image" type="checkbox"/> Удалить</label>
+        {/if}
+    </div>
+</div>
 <div class="form-group">
     <label class="col-sm-3 control-label">Уровень:</label>
     <div class="col-sm-9">

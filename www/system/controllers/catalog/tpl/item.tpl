@@ -1,23 +1,17 @@
-<form id="item-form" action="" method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
     <div class="panel panel-dark">
         <div class="panel-heading">
             <h3 class="panel-title text-uppercase">
                 <span class="glyphicon glyphicon-duplicate"></span>
-                {if $new}Создание нового материала{else}Редактирование материала{/if}
-                {if !$new}
-                    <span class="pull-right text-lowercase">
-                            <a href="?c=catalog&act=new" class="btn btn-info btn-xs" data-toggle="tooltip" title="" data-original-title="Создать новвый материал"><span class="glyphicon glyphicon-copy"></span></a>
-                            <a href="?c=catalog&act=del-item&id={$item_id}&cid={$item_parents[0]}" class="btn btn-danger btn-xs confirm" data-toggle="tooltip" title="" data-original-title="Удалить материал"><span class="glyphicon glyphicon-remove"></span></a>
-                    </span>
+                {if !$item}
+                    Создание нового материала
+                {else}
+                    Редактирование материала
                 {/if}
-                <div class="pull-right">
-                    <button type="submit" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-floppy-disk"></span> Сохранить</button>
-
-                </div>
             </h3>
         </div>
         <div class="panel-body">
-            {if !$new}
+            {if $item}
                 <div class="alert alert-info">
                     <div class="row">
                         <span class="col-sm-3 text-right">URL материала:</span>
@@ -67,28 +61,12 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </form>
 <script type="text/javascript" src="{$html_plugins_dir}init_mce.js"></script>
 <script>
-    {literal}
-    $(document).ready(function(){
-/*        $.cleditor.set_rfm('/filemanager');
-        var  controls=
-        "bold italic underline strikethrough subscript superscript | font size " +
-                "style | color highlight removeformat | bullets numbering | outdent " +
-                "indent | alignleft center alignright justify | " +
-                "rule image link unlink | source";
-        $("#short_content").cleditor({'controls':controls});
-        $("#content").cleditor({'controls':controls});*/
 
-    });
-
-    {/literal}
     var alias_page_new = false;
     if ($("#alias").val()==''){
         alias_page_new = true;

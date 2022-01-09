@@ -3,11 +3,13 @@
 class ModelCatalog extends Model {
     public $table;
     public $table2;
+    public $alias;
     public function __construct() {
         parent::__construct();
         $config = include CONTROLLERS_DIR . '/catalog/init.php';
         $this->table = db_pref . $config['table'];
         $this->table2 = db_pref . $config['table2'];
+        $this->alias = $config['alias'];
     }
     function SaveCategory($params, $id = 0){
         $alias = ($params['alias'] !=='') ? $params['alias'] : $this->func->TranslitURL($params['title']);
@@ -27,7 +29,21 @@ class ModelCatalog extends Model {
             'user_id' => $this->session['admin']['id'],
             'ip' => $_SERVER['REMOTE_ADDR'], // TODO ПОДУМАТЬ КАК ХРАНИТЬ
         );
-
+        $upload_path = UPLOAD_IMAGES_DIR . $this->alias . '/';
+        $old_img = $upload_path . $this->post['old_image'];
+        $image = Func::getInstance()->UploadFile($_FILES["image"]['name'],$_FILES["image"]['tmp_name'], $upload_path);
+        if ($this->post['delete_image']) {
+            $param['image'] = '';
+            if (file_exists($old_img) && file_exists($old_img)){
+                unlink($old_img);
+            }
+        }
+        if ($image !== false){
+            $param['image'] = $image;
+            if (!is_dir($old_img) && file_exists($old_img)){  // если есть новое изображение, то удаляем прежнее
+                unlink($old_img);
+            }
+        }
         if ($id == 0){
             // Проверяем алиас
             if ($this->func->AliasExists($this->table, 'alias', $alias)){
@@ -79,6 +95,11 @@ class ModelCatalog extends Model {
         return $result;
     }
     public function RemoveCategory($id){
+        $category = $this->GetCategoryOnly($id);
+        $img = UPLOAD_IMAGES_DIR . $this->alias . '/' .$category['image'];
+        if (!is_dir($img) && file_exists($img)){
+            unlink($img);
+        }
         $sql = "DELETE FROM $this->table WHERE id = $id";
         return $this->db->query($sql);
     }

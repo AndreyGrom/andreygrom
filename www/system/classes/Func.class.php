@@ -165,6 +165,45 @@ class Func {
         $rs = $mail->send();
         return $rs;
     }
+
+    public function UploadFile($name, $tmp_name, $upload_dir){
+        $result = false;
+        if (isset($name)){
+            if (!is_dir($upload_dir)){
+                $this->CreatePath($upload_dir);
+            }
+            if (is_uploaded_file($tmp_name)) {
+                $image = $this->GetUniqueName($upload_dir,$name);
+
+                if (move_uploaded_file($tmp_name, $upload_dir.$image)){
+                    $result = $image;
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function CreatePath($path){
+        mkdir($path, 0777, true);
+    }
+    function GetUniqueName($path, $file_name){
+        $file_ext = $this->getExt($file_name);
+        $file_basename =$this->getBasename($file_name);
+        $file_basename = $this->TranslitURL($file_basename);
+        $file = $file_basename.'.'.$file_ext;
+        if (file_exists($path.$file)){
+            $file = $file_basename.'_'.$this->generateName(5).'.'.$file_ext;
+        }
+        return $file;
+    }
+    public function getExt($filename) {
+        $path_info = pathinfo($filename);
+        return $path_info['extension'];
+    }
+    public function getBasename($filename) {
+        $path_info = pathinfo($filename);
+        return $this->pcgbasename($filename,'.'.$path_info['extension']);
+    }
     /*===================================*/
 
 
@@ -178,10 +217,7 @@ class Func {
         return $string;
     }
 
-    public function getExt($filename) {
-        $path_info = pathinfo($filename);
-        return $path_info['extension'];
-    }
+
     function pcgbasename($param, $suffix=null) {
         if ( $suffix ) {
             $tmpstr = ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
@@ -194,17 +230,6 @@ class Func {
             return ltrim(substr($param, strrpos($param, DIRECTORY_SEPARATOR) ), DIRECTORY_SEPARATOR);
         }
     }
-    public function getBasename($filename) {
-        $path_info = pathinfo($filename);
-        return $this->pcgbasename($filename,'.'.$path_info['extension']);
-    }
-
-
-
-    public function CreatePath($path){
-        mkdir($path, 0777, true);
-    }
-
 
 
     public function syntax_filter($text) {
@@ -319,16 +344,7 @@ class Func {
         return date("d.m.Y G:i:s", $date);
     }
 
-    function GetUniqueName($path, $file_name){
-        $file_ext = $this->getExt($file_name);
-        $file_basename =$this->getBasename($file_name);
-        $file_basename = $this->TranslitURL($file_basename);
-        $file = $file_basename.'.'.$file_ext;
-        if (file_exists($path.$file)){
-            $file = $file_basename.'_'.$this->generateName(5).'.'.$file_ext;
-        }
-        return $file;
-    }
+
 /*    public function UploadFile($file, $upload_dir){
         $result = false;
         if (isset($file)){
@@ -363,22 +379,6 @@ class Func {
         }
         return $result;
     }*/
-    public function UploadFile($name,$tmp_name, $upload_dir){
-        $result = false;
-        if (isset($name)){
-            if (!is_dir($upload_dir)){
-                $this->CreatePath($upload_dir);
-            }
-            if (is_uploaded_file($tmp_name)) {
-                $image = $this->GetUniqueName($upload_dir,$name);
-
-                if (move_uploaded_file($tmp_name, $upload_dir.$image)){
-                    $result = $image;
-                }
-            }
-        }
-        return $result;
-    }
 
     public function GetFileList($dir, $result_insert_path = false){
         $result = false;

@@ -25,7 +25,7 @@
             </table>
             <hr/>
         {/if}
-        <form method="post" class="form-horizontal" role="form">
+        <form method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
             <div class="tabs">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab-common" data-toggle="tab">Общие</a></li>
