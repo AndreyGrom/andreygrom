@@ -1,5 +1,5 @@
 <form id="item-form" action="" method="post" enctype="multipart/form-data">
-    <div class="panel panel-primary">
+    <div class="panel panel-dark">
         <div class="panel-heading">
             <h3 class="panel-title text-uppercase">
                 <span class="glyphicon glyphicon-duplicate"></span>
@@ -60,10 +60,7 @@
                         <h3></h3>
                         <p>{include file="item-files.tpl"}</p>
                     </div>
-                    <div id="tab-other" class="tab-pane fade">
-                        <h3></h3>
-                        <p>{include file="item-fields.tpl"}</p>
-                    </div>
+
                     <div id="tab-seo" class="tab-pane fade">
                         <h3></h3>
                         <p>{include file="item-seo.tpl"}</p>

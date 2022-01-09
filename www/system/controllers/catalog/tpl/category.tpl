@@ -1,10 +1,30 @@
 
 <div class="panel panel-dark">
     <div class="panel-heading">
-        <h3 class="panel-title text-uppercase">Категория каталога</h3>
+        <h3 class="panel-title text-uppercase">
+            <span class="glyphicon glyphicon-duplicate"></span>
+            {if !$item}
+                Создание новой категории
+            {else}
+                Редактирование категории
+                <a href="?c={$module_config.alias}&category_id={$item.id}&action=remove-category" class="btn btn-danger btn-xs pull-right remove-confirm">
+                    <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> Удалить категорию
+                </a>
+            {/if}
+        </h3>
     </div>
 
     <div class="panel-body">
+        {if $item}
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <td>URL: <br><a target="_blank" href="{$site_url}{$item.alias}">{$site_url}{$item.alias}</a></td>
+                    <td>Дата создания: <br>{$item.date_create|date_format:"%D %T"}</td>
+                    <td>Дата изменения: <br>{$item.date_edit|date_format:"%D %T"}</td>
+                </tr>
+            </table>
+            <hr/>
+        {/if}
         <form method="post" class="form-horizontal" role="form">
             <div class="tabs">
                 <ul class="nav nav-tabs">
@@ -27,9 +47,6 @@
                     </div>
                 </div>
             </div>
-
-
-
             <hr>
             <div class="pull-left">
                 <a href="?c={$module_config.alias}" class="btn btn-default">Отмена</a>

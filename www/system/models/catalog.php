@@ -78,6 +78,13 @@ class ModelCatalog extends Model {
         }
         return $result;
     }
+    public function RemoveCategory($id){
+        $sql = "DELETE FROM $this->table WHERE id = $id";
+        return $this->db->query($sql);
+    }
+
+
+//    /////////////////////////
 
     function GetPages($params = array()){
         $result = false;

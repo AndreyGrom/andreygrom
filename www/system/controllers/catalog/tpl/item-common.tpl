@@ -14,14 +14,14 @@
                 Можно оставить пустым. Заполнится автоматически</p>
         </div>
     </div>
-    <div class="form-group">
+{*    <div class="form-group">
         <label for="parent" class="col-sm-3 control-label">Категории:</label>
         <div class="col-sm-9">
             <div style="height: 100px;overflow:auto;border:1px solid #ccc;padding: 3px;">
                 {include file="menu_.tpl"}
             </div>
         </div>
-    </div>
+    </div>*}
     <div class="form-group">
         <label for="template" class="col-sm-3 control-label">Шаблон:</label>
         <div class="col-sm-9">
