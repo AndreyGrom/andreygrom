@@ -79,6 +79,7 @@ class AdminCatalogController extends AdminController{
     }
 
     public function Index(){
+        //var_dump($this->post);exit;
         $this->LoadModel($this->alias);
         if (isset($this->post['action']) && $this->post['action'] == 'save-category'){
             $this->SaveCategory();

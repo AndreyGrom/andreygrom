@@ -77,20 +77,26 @@
         });
     });
 
-    $("#category-form").submit(function(){
+    $("#category-form").submit(function(e){
         $("#save-category").prepend(img_loader);
-        var data = $(this).serialize() + '&action=save-category';
+        e.preventDefault();
+        var $that = $(this),
+            formData = new FormData($that.get(0));
+        formData.append('action', 'save-category');
         $.ajax({
             type: "POST",
-            data: data,
+            data: formData,
+            processData : false,
+            contentType : false,
             success: function(msg){
                 img_loader.remove();
                 var obj = JSON.parse(msg);
+                console.log(obj);
                 if (obj.error !== false){
                     alert_info("Ошибка: " + obj.error);
                 } else {
                     if (Number(url_var['category_id']) === 0){
-                        document.location.href = "?c=catalog&success-save-category&category_id=" + obj.id;
+                        document.location.href = "?c=catalog&success=save-category&category_id=" + obj.id;
                     } else {
                         alert_info("Категория успешно обновлена");
                     }
