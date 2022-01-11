@@ -59,23 +59,24 @@
     $("#check_alias").click(function (e) {
         e.preventDefault();
         var el = $(this);
+        el.prepend(img_loader);
         var data = 'action=check-alias&alias=' + $("#alias").val();
         if (url_var['id'] !== 0){
             data += '&id=' + url_var['id'];
         }
-        el.html('Запрос....');
         $.ajax({
             type: "POST",
             data: data,
             success: function(msg){
+                img_loader.remove();
+                if (msg == 0) msg = "Этот алиас можно использовать";
                 alert_info(msg);
-                el.html('Проверить');
             }
         });
     });
 
     $("#page-form").submit(function(){
-        var img = $("#save-page").prepend(img_loader);
+         $("#save-page").prepend(img_loader);
         var data = $(this).serialize() + '&action=save-page';
         $.ajax({
             type: "POST",

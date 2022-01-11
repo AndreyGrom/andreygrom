@@ -193,7 +193,7 @@ a:focus{outline:none;}
 .btn-dark:hover, .btn-dark:focus, .btn-dark.focus{
     color: #f0f0f0 !important;
 }
-button img{
+button img, .btn img{
     width: 18px;
     margin-right: 5px;
 }

@@ -9,29 +9,12 @@
     <div class="col-sm-9">
         <input value="{$item.alias}" id="alias" name="alias" type="text" class="form-control" placeholder="Только символы a-z, A-Z, 0-9, -_ " />
         <p class="help-block">
-            <a href="#" class="pull-right" id="check_alias">Проверить</a>
+            <a href="#" class="btn btn-dark btn-sm pull-right" id="check_alias">Проверить</a>
             Только символы a-z, A-Z, 0-9, -_ <br/>
             Можно оставить пустым. Заполнится автоматически
-
         </p>
     </div>
 </div>
-<script>
-    $("#check_alias").click(function (e) {
-        e.preventDefault();
-        var el = $(this);
-        var data = 'check-alias-category=true&alias=' + $("#alias").val();
-        {if $item.alias}data += '&id={$item.id}';{/if}
-        el.html('Запрос....');
-        $.ajax({
-            type: "POST",
-            data: data,
-            success: function(msg){
-                el.html(msg);
-            }
-        });
-    });
-</script>
 <div class="form-group">
     <label for="template" class="col-sm-3 control-label">Изображение:</label>
     <div class="col-sm-4">

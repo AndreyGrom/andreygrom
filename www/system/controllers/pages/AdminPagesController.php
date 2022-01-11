@@ -47,16 +47,11 @@ class AdminPagesController extends AdminController {
         $id = isset($this->post['id']) ? $this->post['id'] : 0;
         $alias = $this->post['alias'];
         $rs = $this->ModelPages->CheckAlias($alias, $id);
-        if ($rs === 0){
-            echo 'Годен';
-        } else {
-            echo $rs;
-        }
+        echo $rs;
         exit;
     }
 
     public function SavePage(){
-        $this->LoadModel($this->alias);
         $rs = $this->ModelPages->SavePage($this->post, $this->id);
         echo json_encode($rs);
         exit;

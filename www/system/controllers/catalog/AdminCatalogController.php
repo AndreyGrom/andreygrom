@@ -35,6 +35,13 @@ class AdminCatalogController extends AdminController{
         ));
         $this->widget_left_top .= $this->fetch('menu.tpl');
     }
+    public function CheckAliasCateory(){
+        $id = isset($this->post['id']) ? $this->post['id'] : 0;
+        $alias = $this->post['alias'];
+        $rs = $this->ModelCatalog->CheckAliasCategory($alias, $id);
+        echo $rs;
+        exit;
+    }
     public function ShowCategory(){
         if ($this->get['category_id'] > 0){
             $item = $this->ModelCatalog->GetCategoryOnly($this->category_id);
@@ -50,13 +57,9 @@ class AdminCatalogController extends AdminController{
         $this->content = $this->SetTemplate('category.tpl');
     }
     public function SaveCategory(){
-        $id = $this->ModelCatalog->SaveCategory($this->post, $this->category_id);
-        if ($id > 0) {
-            $_SESSION['alert'] = 'Категория сохранена';
-            $this->Head('?c=' . $this->alias . '&category_id=' . $id);
-        }  else {
-            $this->alert = "Ошибка: " . $this->ModelCatalog->error;
-        }
+        $rs = $this->ModelCatalog->SaveCategory($this->post, $this->category_id);
+        echo json_encode($rs);
+        exit;
     }
     public function RemoveCategory(){
         if ($this->ModelCatalog->RemoveCategory($this->category_id)){
@@ -75,33 +78,15 @@ class AdminCatalogController extends AdminController{
         $this->content = $this->SetTemplate('item.tpl');
     }
 
-    function AjaxCheckAliasCategory(){
-        $alias = $this->post['alias'];
-        if (trim($alias) == ''){
-            echo '<span style="color: red">Алиас пустой</span>';
-            exit;
-        }
-
-        $sql = "SELECT * FROM $this->table_c WHERE alias = '$alias'";
-        if (isset($this->post['id'])){
-            $sql .= " AND id <> " . $this->post['id'];
-        }
-        if ($this->db->select($sql)){
-            echo '<span style="color: red">Алиас существует</span>';
-        } else {
-            echo '<span style="color: green">Можно использовать</span>';
-        }
-        exit;
-    }
-
     public function Index(){
         $this->LoadModel($this->alias);
-        if (isset($this->post['save-category'])){
+        if (isset($this->post['action']) && $this->post['action'] == 'save-category'){
             $this->SaveCategory();
         }
-        if (isset($this->post['check-alias-category'])){
-            $this->AjaxCheckAliasCategory();
+        if (isset($this->post['action']) && $this->post['action'] == "check-alias-category"){
+            $this->CheckAliasCateory();
         }
+
         $this->categories = $this->ModelCatalog->GetPages(array('sort' => 'id ASC'));
         $this->structure = $this->func->getStructure($this->categories);
         $this->ShowMenu();
