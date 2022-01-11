@@ -315,4 +315,7 @@ class AdminController {
         return $result;
     }
 
+    public function alert($message){
+        $this->alert = $_SESSION['alert'] = $message;
+    }
 } 

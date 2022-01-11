@@ -27,7 +27,7 @@ class ModelCatalog extends Model {
             'comments' => (int)$params['comments'],
             'template' => $params['template'],
             'user_id' => $this->session['admin']['id'],
-            'ip' => $_SERVER['REMOTE_ADDR'], // TODO ПОДУМАТЬ КАК ХРАНИТЬ
+            'ip' => $_SERVER['REMOTE_ADDR'],
         );
         $upload_path = UPLOAD_IMAGES_DIR . $this->alias . '/';
         $old_img = $upload_path . $this->post['old_image'];

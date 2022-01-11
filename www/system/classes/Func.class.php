@@ -65,12 +65,6 @@ class Func {
         }
     }
 
-    public function AliasExists($table, $field, $string){
-        $sql = "SELECT * FROM $table WHERE $field = '$string'";
-        $db = Database::getInstance();
-        return $db->select($sql);
-    }
-
     public function getTemplates($path){
         $templates = array();
         if (is_dir($path)){
@@ -109,24 +103,32 @@ class Func {
         return $structure;
     }
 
+    // Проверка алиаса. Без $params проверяет только валидность
+    // С параметрами поверяет еще на существование
+    // Возвращает 0 если нормально, или ошибку, если что-то не так
     function CheckAlias($alias, $params = array()) {
         $rs = 0;
-        $pattern_1 = "/^[a-z0-9_-]+$/i";
-        if(!preg_match($pattern_1, $alias)){
-            $rs = "Алиас содержит недопустимые символы";
-        } else {
-            if (count($params) > 0){
-                $table = $params['table'];
-                $field = $params['field'];
-                $sql = "SELECT * FROM $table WHERE $field = '$alias'";
-                if (isset($params['id'])){
-                    $sql .= " AND id <> " . $params['id'];
-                }
-                if ($r = $this->db->select($sql)){
-                    $rs = "Такой алиас уже существует";
+        if ($alias !== ''){
+            $pattern_1 = "/^[a-z0-9_-]+$/i";
+            if(!preg_match($pattern_1, $alias)){
+                $rs = "Алиас содержит недопустимые символы";
+            } else {
+                if (count($params) > 0){
+                    $table = $params['table'];
+                    $field = $params['field'];
+                    $sql = "SELECT * FROM $table WHERE $field = '$alias'";
+                    if (isset($params['id'])){
+                        $sql .= " AND id <> " . $params['id'];
+                    }
+                    if ($r = $this->db->select($sql)){
+                        $rs = "Такой алиас уже существует";
+                    }
                 }
             }
+        } else {
+            $rs = "Алиас пустой";
         }
+
        return $rs;
     }
 

@@ -8,8 +8,11 @@
     <label for="alias" class="col-sm-3 control-label">Алиас:</label>
     <div class="col-sm-9">
         <input value="{$page.alias}" id="alias" name="alias" type="text" class="form-control" placeholder="Только символы a-z, A-Z, 0-9, -_ " />
-        <p class="help-block">Только символы a-z, A-Z, 0-9, -_ <br/>
-            Можно оставить пустым. Заполнится автоматически</p>
+        <p class="help-block">
+            <a href="#" class="pull-right" id="check_alias">Проверить</a>
+            Только символы a-z, A-Z, 0-9, -_ <br/>
+            Можно оставить пустым. Заполнится автоматически
+        </p>
     </div>
 </div>
 <div class="form-group">

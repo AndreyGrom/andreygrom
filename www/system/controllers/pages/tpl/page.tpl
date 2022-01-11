@@ -5,7 +5,7 @@
                 <span class="glyphicon glyphicon-duplicate"></span>
                 {if !$page}Создание новой страницы{else}Редактирование страницы{/if}
                 {if $page.id > 1}
-                    <a href="?c=pages&id={$page.id}&action=remove-page" class="btn btn-danger btn-xs pull-right remove-confirm">
+                    <a href="?c=pages&id={$page.id}&action=remove-page" class="btn btn-danger btn-xs pull-right confirm">
                         <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> Удалить страницу
                     </a>
                 {/if}
@@ -49,42 +49,53 @@
                     <a href="?c=pages" class="btn btn-default">Отмена</a>
                 </div>
                 <div class="pull-right">
-                    <button type="button" id="save-page" class="btn btn-dark"><span class="glyphicon glyphicon-floppy-disk"></span> Сохранить</button>
+                    <button type="submit" id="save-page" class="btn btn-dark">Сохранить</button>
                 </div>
             </div>
         </div>
     </div>
-    <input type="hidden" name="save-page" value="1">
 </form>
-
 <script>
-    $("#save-page").click(function (e) {
-        var alias_field = $("#alias");
-        var title = $("#title").val();
-        if (alias_field.val() === ''){
-            alias_field.val(SetTranslitRuToLat(title));
+    $("#check_alias").click(function (e) {
+        e.preventDefault();
+        var el = $(this);
+        var data = 'action=check-alias&alias=' + $("#alias").val();
+        if (url_var['id'] !== 0){
+            data += '&id=' + url_var['id'];
         }
-        var data = "action=CheckAlias&alias=" + alias_field.val();
-        {if $page}data += "&id={$page.id}";{/if}
+        el.html('Запрос....');
         $.ajax({
             type: "POST",
             data: data,
             success: function(msg){
-                if (msg == 0){
-                    $("#page-form").submit();
-                } else {
-                    alert(msg);
-                }
+                alert_info(msg);
+                el.html('Проверить');
             }
         });
     });
-    $("#page-form2").submit(function(){
-        var form = $(this);
-        var alias_field = $("#alias");
-        var title = $("#title").val();
-        if (alias_field.val() === ''){
-            alias_field.val(SetTranslitRuToLat(title));
-        }
+
+    $("#page-form").submit(function(){
+        var img = $("#save-page").prepend(img_loader);
+        var data = $(this).serialize() + '&action=save-page';
+        $.ajax({
+            type: "POST",
+            data: data,
+            success: function(msg){
+                img_loader.remove();
+                var obj = JSON.parse(msg);
+                if (obj.error !== false){
+                    alert_info("Ошибка: " + obj.error);
+                } else {
+                    if (Number(url_var['id']) === 0){
+                        document.location.href = "?c=pages&success-save-page&id=" + obj.id;
+                    } else {
+                        alert_info("Страница успешно обновлена");
+                    }
+                }
+            }
+        });
+        return false;
     });
     $("#template  option[value='default']").prop('selected', true);
+
 </script>

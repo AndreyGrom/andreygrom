@@ -43,31 +43,30 @@ class AdminPagesController extends AdminController {
         $this->widget_left_top .= $this->fetch('menu.tpl');
     }
 
+    public function CheckAlias(){
+        $id = isset($this->post['id']) ? $this->post['id'] : 0;
+        $alias = $this->post['alias'];
+        $rs = $this->ModelPages->CheckAlias($alias, $id);
+        if ($rs === 0){
+            echo 'Годен';
+        } else {
+            echo $rs;
+        }
+        exit;
+    }
+
     public function SavePage(){
         $this->LoadModel($this->alias);
-        $id = $this->ModelPages->SavePage($this->post, $this->id);
-        if ($id > 0) {
-            $_SESSION['alert'] = 'Страница сохранена';
-            $this->Head('?c=' . $this->alias . '&id=' . $id);
-        }  else {
-            $this->alert = "Ошибка: " . $this->ModelPages->error;
-        }
+        $rs = $this->ModelPages->SavePage($this->post, $this->id);
+        echo json_encode($rs);
+        exit;
     }
 
-    public function DeletePage($id){
-        $sql = "SELECT * FROM $this->table_name WHERE `PARENT`=$id";
-        $query = $this->db->query($sql);
-        if ($this->db->num_rows($query) == 0){
-            $sql = "DELETE FROM $this->table_name WHERE `ID`=$id";
-            $query = $this->db->query($sql);
-            $this->Head("?c=$this->module_alias&id=1");
-        } else {
-            $_SESSION['alert'] = 'Сначала удалите вложенные страницы!';
-            $this->Head("?c=$this->module_alias&id=$this->id");
-        }
-    }
 
     public function ShowPage(){
+        if (isset($this->get['success-save-page'])){
+            $this->alert = 'Страница сохранена';
+        }
         if ($this->get['id'] > 0){
             $page = $this->ModelPages->GetPage($this->id);
             $this->assign(array(
@@ -82,25 +81,22 @@ class AdminPagesController extends AdminController {
     }
 
     public function RemovePage(){
+        // TODO вложенные страницы перенаправлять  на верхний уровень
         if ($this->id > 1){
             $this->ModelPages->RemovePage($this->id);
+            $this->alert('Страница удалена');
         }
         $this->Head("?c=" . $this->alias);
     }
 
     public function Index(){
         $this->LoadModel($this->alias);
-        if (isset($this->post['action']) && $this->post['action'] == "CheckAlias"){
-            $params = array('table' => $this->table, 'field' => 'alias');
-            if (isset($this->post['id'])){
-                $params['id'] = $this->post['id'];
-            }
-            echo $this->func->CheckAlias($this->post['alias'], $params);
-            exit;
+        if (isset($this->post['action']) && $this->post['action'] == "check-alias"){
+            $this->CheckAlias();
         }
 
         $this->SetPlugins();
-        if (isset($this->post['save-page'])){
+        if (isset($this->post['action']) && $this->post['action'] == 'save-page'){
             $this->SavePage();
         }
 

@@ -7,7 +7,15 @@ class ModelPages extends Model {
         $config = include CONTROLLERS_DIR . '/pages/init.php';
         $this->table = db_pref . $config['table'];
     }
+    function CheckAlias($alias, $id){
+        $par = array('table' => $this->table, 'field' => 'alias');
+        if ($id > 0){
+            $par['id'] = $id;
+        }
+        return $this->func->CheckAlias($alias, $par);
+    }
     function SavePage($params, $id = 0){
+        $error = false;
         $alias = ($params['alias'] !=='') ? $params['alias'] : $this->func->TranslitURL($params['title']);
         $param = array(
             'parent_id' => (int)$params['parent_id'],
@@ -24,29 +32,29 @@ class ModelPages extends Model {
             'position' => (int)$params['position'],
             'user_id' => $this->session['admin']['id'],
             'views' => (int)$params['views'],
-            //'ip' => INET_ATON(), // TODO ПОДУМАТЬ КАК ХРАНИТЬ
+            'ip' => $_SERVER['REMOTE_ADDR'],
         );
+        // Проверяем алиас
+        $alias_info = $this->CheckAlias($alias, $id);
 
+        if ($alias_info === 0){
             if ($id == 0){
-                // Проверяем алиас
-                if ($this->func->AliasExists($this->table, 'alias', $alias)){
-                    $this->error = "Такой алиас уже существует";
-                } else {
-                    $param['date_create'] = time();
-                    $param['date_edit'] = time();
-                    $result = $this->db->insert($this->table, $param, true);
+                $param['date_create'] = time();
+                $param['date_edit'] = time();
+                if ($this->db->insert($this->table, $param, true)){
                     $id = $this->db->last_id();
                 }
             } else {
-                if (!$this->db->update($this->table, $param, "id = $id")){
-                    $id = 0;
-                }
+                $this->db->update($this->table, $param, "id = $id");
             }
-            if ($this->db->error() != ''){
-                $this->error = $this->db->error();
-                $id = 0;
-            }
-        return $id;
+        } else {
+            $error = $alias_info;
+        }
+        if ($this->db->error() !== ''){
+            $error = $this->db->error();
+        }
+        $rs = array('id' => $id, 'error' => $error);
+        return $rs;
     }
 
     function GetPages($params = array()){
