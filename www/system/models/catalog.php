@@ -3,16 +3,27 @@
 class ModelCatalog extends Model {
     public $table;
     public $table2;
+    public $table3;
+    public $table4;
     public $alias;
     public function __construct() {
         parent::__construct();
         $config = include CONTROLLERS_DIR . '/catalog/init.php';
         $this->table = db_pref . $config['table'];
         $this->table2 = db_pref . $config['table2'];
+        $this->table3 = db_pref . $config['table3'];
+        $this->table4 = db_pref . $config['table4'];
         $this->alias = $config['alias'];
     }
     function CheckAliasCategory($alias, $id){
         $par = array('table' => $this->table, 'field' => 'alias');
+        if ($id > 0){
+            $par['id'] = $id;
+        }
+        return $this->func->CheckAlias($alias, $par);
+    }
+    function CheckAliasItem($alias, $id){
+        $par = array('table' => $this->table2, 'field' => 'alias');
         if ($id > 0){
             $par['id'] = $id;
         }
@@ -92,7 +103,7 @@ class ModelCatalog extends Model {
         $sort = isset($params['sort']) ? $params['sort'] : 'id DESC';
         $where = isset($params['where']) ? $params['where'] : "";
         $sql = "SELECT * FROM $this->table $where ORDER BY $sort";
-        if ($list = $this->db->query($sql)){
+        if ($list = $this->db->select($sql)){
             foreach ($list as $l) {
                 $l['date_create'] = $this->func->DateFormat($l["date_create"]);
                 $l['date_edit'] = $this->func->DateFormat($l["date_edit"]);
@@ -108,28 +119,152 @@ class ModelCatalog extends Model {
             unlink($img);
         }
         $sql = "DELETE FROM $this->table WHERE id = $id";
-        return $this->db->query($sql);
+        $rs = $this->db->query($sql);
+        $sql = "DELETE FROM $this->table3 WHERE category_id = $id";
+        $rs = $this->db->query($sql);
+        return $rs;
     }
 
-
-//    /////////////////////////
-
-    function GetPages($params = array()){
-        $result = false;
-        $sort = isset($params['sort']) ? $params['sort'] : '`id` DESC';
-        $where = isset($params['where']) ? $params['where'] : "";
-        $sql = "SELECT * FROM $this->table $where ORDER BY $sort";
-        $query = $this->db->query($sql);
-        if ($this->db->num_rows($query) > 0){
-            for ($i=0; $i < $this->db->num_rows($query); $i++) {
-                $row = $this->db->fetch_array($query);
-                $row['date_create'] = $this->func->DateFormat($row["date_create"]);
-                $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
-                $result[] = $row;
-            }
+    public function GetCategoryMaterials($category_id = -1){
+        if ($category_id > 0){
+            $sql = "SELECT i.* FROM $this->table2 i 
+            LEFT JOIN $this->table3 p ON p.material_id = i.id
+            WHERE p.category_id = $category_id";
+        } elseif ($category_id == -1){
+            $sql = "SELECT * FROM $this->table2";
+        } elseif ($category_id == 0){
+            $sql = "SELECT i.* FROM $this->table2 i 
+            LEFT JOIN $this->table3 p ON p.material_id = i.id
+            WHERE p.material_id is NULL";
         }
+        $sql .= " ORDER BY id DESC";
+        $params = array(
+            'sql' => $sql,
+            'per_page' => isset($this->config->BlogItemListPerPage) ? $this->config->BlogItemListPerPage : 5,
+            'current_page' => isset($this->get['page']) ? $this->get['page'] : 0,
+            'link' => '?c=' . $this->alias . '&category_id=' . $category_id,
+            'get_name' => 'page',
+        );
+        $result = $this->func->getPagination($params);
         return $result;
     }
+
+    function SaveItem($params, $id = 0){
+        $error = false;
+        $alias = ($params['alias'] !=='') ? $params['alias'] : $this->func->TranslitURL($params['title']);
+        $param = array(
+            'alias' => $alias,
+            'title' => $params['title'],
+            'short_content' => $params['short_content'],
+            'content' => $params['content'],
+            'position'  => is_int($params['position']) ? $params['position'] : 0,
+            'meta_title' => $params['meta_title'],
+            'meta_desc' => $params['meta_description'],
+            'meta_keywords' => $params['meta_keywords'],
+            'public' => (int)$params['public'],
+            'comments' => (int)$params['comments'],
+            'template' => $params['template'],
+            'user_id' => $this->session['admin']['id'],
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'price' => $params['price'] ? $params['price'] : 0,
+            'price_new' => $params['price_new'] ? $params['price_new'] : 0,
+        );
+        $alias_info = $this->CheckAliasItem($alias, $id);
+        if ($alias_info === 0){
+            if ($id == 0){
+                $param['date_create'] = time();
+                $param['date_edit'] = time();
+                if ($this->db->insert($this->table2, $param, true)){
+                    $id = $this->db->last_id();
+                }
+            } else {
+                $this->db->update($this->table2, $param, "id = $id");
+            }
+            if (count($params['parents']) > 0){
+                $sql = "DELETE FROM $this->table3 WHERE material_id = $id";
+                $this->db->query($sql);
+                foreach ($params['parents'] as $p){
+                    $param = array('category_id' => $p, "material_id" => $id);
+                    $this->db->insert($this->table3, $param);
+                }
+            }
+        } else {
+            $error = $alias_info;
+        }
+        if ($this->db->error() !== ''){
+            $error = $this->db->error();
+        }
+        $rs = array('id' => $id, 'error' => $error);
+        return $rs;
+    }
+
+    public function GetItem($id){
+        $sql = "SELECT * FROM $this->table2 WHERE ";
+        if (is_numeric($id)){
+            $sql .= "id = $id";
+        } else {
+            $sql .= "alias = '$id'";
+        }
+        if ($row = $this->db->select($sql, array('single' => true))) {
+            $row['date_create'] = $this->func->DateFormat($row["date_create"]);
+            $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
+            $sql = "SELECT p.* FROM $this->table3 p
+            LEFT JOIN $this->table c ON c.ID = p.category_id 
+            WHERE p.material_id = $id";
+            if ($parents = $this->db->select($sql)) {
+                $row['parents'] = $parents;
+            }
+            $sql = "SELECT * FROM $this->table4 WHERE module = '$this->alias' AND material_id = $id";
+            $row['images'] = $this->db->select($sql);
+        }
+        return $row;
+    }
+    public function RemoveItem($id){
+        $sql = "DELETE FROM $this->table2 WHERE id = $id";
+        $rs = $this->db->query($sql);
+        $sql = "DELETE FROM $this->table3 WHERE material_id = $id";
+        $rs = $this->db->query($sql);
+        // TODO удалять фото
+        return $rs;
+    }
+    public function UploadImages($material_id){
+        $upload_path = UPLOAD_IMAGES_DIR . $this->alias . '/';
+        $done_files = array();
+        if ($material_id > 0){
+            foreach($_FILES as $file ){
+                $image = Func::getInstance()->UploadFile($file['name'], $file['tmp_name'], $upload_path);
+                $params = array(
+                    'module' => $this->alias,
+                    'material_id' => $material_id,
+                    'name' => $image,
+                );
+                $this->db->insert($this->table4, $params);
+                $done_files[] = array('id' => $this->db->last_id(), 'img' => $image) ;
+            }
+        }
+        $error = $this->db->error();
+        return array('files' => $done_files , 'error' => $error);
+    }
+    public function RemoveImageItem($id){
+        $sql = "DELETE FROM $this->table4 WHERE id = $id";
+        if ($this->db->query($sql)){
+            $rs = true;
+        } else {
+            $rs = $this->db->error();
+        }
+        return $rs;
+    }
+    public function SetSkinItem($material_id, $id){
+        $sql = "UPDATE $this->table2 SET skin = $id WHERE id = $material_id";
+        if ($this->db->query($sql)){
+            $rs = true;
+        } else {
+            $rs = $this->db->error();
+        }
+        return $rs;
+    }
+//    /////////////////////////
+
 
     public function SetViews($id, $plus){
         $sql = "UPDATE $this->table SET views = views + $plus WHERE ";

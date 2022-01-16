@@ -93,7 +93,7 @@ class Database {
             while($row = $this->fetch_array($rs)){
                 $array[] = $row;
             }
-            if (isset($params['single']) && $params['single'] && count($array) == 1){
+            if (isset($params['single']) && count($array) == 1){
                 $rs = $array[0];
             } else {
                 $rs = $array;

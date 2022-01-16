@@ -24,6 +24,15 @@ class Func {
     public function sg($name, $value){
         $_GET[$name] = $value;
     }
+    public function generateName($length = 20){
+        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+        $numChars = strlen($chars);
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= substr($chars, rand(1, $numChars) - 1, 1);
+        }
+        return $string;
+    }
     public function TranslitURL($str)
     {
         $tr = array(
@@ -205,6 +214,92 @@ class Func {
     public function getBasename($filename) {
         $path_info = pathinfo($filename);
         return $this->pcgbasename($filename,'.'.$path_info['extension']);
+    }
+
+    // TODO Возможно переделать
+    function getPagination($params){
+        function str_replace_once($search, $replace, $text)
+        {
+            $pos = strpos($text, $search);
+            return $pos!==false ? substr_replace($text, $replace, $pos, strlen($search)) : $text;
+        }
+        $per_page = isset($params['per_page']) ? $params['per_page'] : 20;
+        $limit = isset($params['limit']) ? $params['limit'] : 3;
+        $link_count = isset($params['link_count']) ? $params['link_count'] : 3;
+        $sql = $params['sql'];
+        $current_page = $params['current_page'];
+        $link = $params['link'];
+        $get_name = isset($params['get_name']) ? $params['get_name'] : 'page';
+
+        $cur_page = 1;
+        if (isset($current_page) && $current_page > 0) {
+            $cur_page = $current_page;
+        }
+        $start = ($cur_page - 1) * $per_page;
+        $sql = $sql." LIMIT $start , $per_page";
+        $sql = str_replace_once('SELECT','SELECT SQL_CALC_FOUND_ROWS ', $sql);
+        $query = $this->db->query($sql);
+        $error = $this->db->error();
+        $query2 = $this->db->query("SELECT FOUND_ROWS()");
+        $row = $this->db->fetch_array($query2);
+        $total_rows = $row["FOUND_ROWS()"];
+        $num_pages = ceil($total_rows / $per_page);
+        $pagin = '';
+        if ($num_pages > 1) {
+            $pagin = '<ul class="pagination">';
+            if ($num_pages > $link_count ){
+                if ($cur_page == 1){
+                    $pagin .= '<li class="disabled"><a href="#">«</a></li>';
+                } else {
+                    $pagin .= '<li><a href="'.$link.'&'.$get_name.'=1">«</a></li>';
+                }
+            }
+            if($cur_page > $link_count && $cur_page < ($num_pages-$link_count)){
+                for($i=$cur_page-$link_count; $i<=$cur_page+$link_count; $i++) {
+                    if ($i == $cur_page) {
+                        $pagin .= '<li class="active"><a href="'.$link.'&'.$get_name.'=' . $i . '">' . $i . "</a></li>";
+                    } else {
+                        $pagin .= '<li><a href="'.$link.'&'.$get_name.'=' . $i . '">' . $i . "</a></li>";
+                    }
+                }
+            }
+            elseif($cur_page<=$link_count){
+                $iSlice = 1+$link_count-$cur_page;
+                for($i=1; $i<=$cur_page+($link_count+$iSlice); $i++){
+                    if ($i == $cur_page) {
+                        $pagin .= '<li class="active"><a href="'.$link.'&'.$get_name.'=' . $i . '">' . $i . "</a></li>";
+                    } else {
+                        $pagin .= '<li><a href="'.$link.'&'.$get_name.'=' . $i . '">' . $i . "</a></li>";
+                    }
+                }
+            }
+            else{
+                $iSlice = $link_count-($num_pages - $cur_page);
+                for($i=$cur_page-($link_count+$iSlice); $i<=$num_pages; $i++){
+                    if ($i == $cur_page) {
+                        $pagin .= '<li class="active"><a href="'.$link.'&'.$get_name.'=' . $i . '">' . $i . "</a></li>";
+                    } else {
+                        $pagin .= '<li><a href="'.$link.'&'.$get_name.'=' . $i . '">' . $i . "</a></li>";
+                    }
+                }
+            }
+            if ($cur_page == $num_pages){
+                $pagin .= '<li class="disabled"><a href="#">»</a></li>';
+            } else {
+                $pagin .= '<li><a href="'.$link.'&'.$get_name.'='.$num_pages.'">»</a></li>';
+            }
+            $pagin .= '</ul>';
+        }
+        $result = array(
+            'num_pages' => $num_pages,
+            'query' => $query,
+            'pagination' => $pagin,
+            'total' => $total_rows,
+            'start' => $start+1,
+            'error' => $error,
+            'sql' => $sql,
+        );
+        return $result;
     }
     /*===================================*/
 

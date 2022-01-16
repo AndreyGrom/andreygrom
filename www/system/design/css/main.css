@@ -32,7 +32,15 @@ a:focus{outline:none;}
     margin:3px;
     border:1px solid #000;
     text-align: center;
+    width: 150px;
+}
+.image-list li .fancybox{
+    display: inline-block;
     height: 155px;
+    overflow: hidden;
+}
+.image-list li .fancybox img{
+    height: auto;
 }
 .cleditorMain iframe,.cleditorMain textarea{
     width: 100% !important;
@@ -203,4 +211,7 @@ button img, .btn img{
 }
 .remove-confirm:hover{
     color: red;
+}
+.container {
+    width: 1263px;
 }

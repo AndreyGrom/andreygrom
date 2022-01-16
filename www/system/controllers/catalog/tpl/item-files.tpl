@@ -71,52 +71,6 @@
                     <hr/>
                 </div>
             </div>
-            <script>
-                $(function(){
-                    var btnUpload=$('#upload_file');
-                    var status=$('#status_file');
-                    var au = new AjaxUpload(btnUpload, {
-                        action: '{$html_controllers_dir}catalog/upload.php?id={$item_id}',
-                        name: 'file',
-                        autoSubmit: false,
-                        onSubmit: function(file, ext){
-                            status.text('Загрузка...');
-                        },
-                        onComplete: function(file, response){
-                            status.text('');
-                            $("#upl_group").hide();
-                            //alert(response);
-                            if(response !==""){
-                                $(".file-list").append(response);
-                            } else{
-                                $('<li></li>').appendTo('#files').text(file).addClass('error');
-                            }
-                        },
-                        onChange: function(file, response){
-                            $("#upl_name").val(file);
-                            $("#upl_group").show();
-                        }
-                    });
-                    $("#upl").click(function(){
-                        var d_name = $("#upl_name").val();
-                        {literal}au._settings.data = {DisplayName:d_name};{/literal}
-                        au.submit();
-                    });
-                    jQuery('body').on('click', 'a.del-file', function(e) {
-                        e.preventDefault();
-                        var el = $(this);
-                        var file = el.attr("href");
-                        $.ajax({
-                            type: "POST",
-                            url: "{$html_controllers_dir}catalog/upload.php",
-                            data: "id={$item_id}&file="+file,
-                            success: function(msg){
-                                el.parent().remove();
-                            }
-                        });
-                    });
-                });
-            </script>
         {/if}
     </div>
 </div>

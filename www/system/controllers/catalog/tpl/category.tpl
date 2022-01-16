@@ -83,6 +83,8 @@
         var $that = $(this),
             formData = new FormData($that.get(0));
         formData.append('action', 'save-category');
+        formData.append('desc1', tinyMCE.get('desc1').getContent());
+        formData.append('desc2', tinyMCE.get('desc2').getContent());
         $.ajax({
             type: "POST",
             data: formData,
@@ -90,16 +92,11 @@
             contentType : false,
             success: function(msg){
                 img_loader.remove();
-                var obj = JSON.parse(msg);
-                console.log(obj);
-                if (obj.error !== false){
-                    alert_info("Ошибка: " + obj.error);
+                msg = JSON.parse(msg);
+                if (msg.error !== false){
+                    alert_info("Ошибка: " + msg.error);
                 } else {
-                    if (Number(url_var['category_id']) === 0){
-                        document.location.href = "?c=catalog&success=save-category&category_id=" + obj.id;
-                    } else {
-                        alert_info("Категория успешно обновлена");
-                    }
+                    document.location.href = "?c=catalog&success=save-category&category_id=" + msg.id;
                 }
             }
         });
