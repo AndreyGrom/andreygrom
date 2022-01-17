@@ -19,14 +19,21 @@ class CatalogController extends Controller{
             'module_config' => $config,
         ));
     }
-    public function Index(){
+
+    public function ShowMainPage(){
+        $this->SetPath('/catalog/');
+        $this->content = $this->SetTemplate('index.tpl');
+    }
+    public function Index(){;
         $this->LoadModel($this->alias);
         $this->categories = $this->ModelCatalog->GetCategories(array('sort' => 'id ASC'));
         $this->structure = $this->func->getStructure($this->categories);
+        $this->assign(array(
+            'categories' => $this->categories,
+        ));
 
-        $this->SetPath('/catalog/');
-        $this->content = $this->SetTemplate('index.tpl');
 
+        $this->ShowMainPage();
         return $this->content;
     }
 }

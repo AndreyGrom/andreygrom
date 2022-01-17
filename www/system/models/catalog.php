@@ -263,44 +263,13 @@ class ModelCatalog extends Model {
         }
         return $rs;
     }
-//    /////////////////////////
-
-
     public function SetViews($id, $plus){
-        $sql = "UPDATE $this->table SET views = views + $plus WHERE ";
-        if (is_numeric($id)){
-            $sql .= "id = $id";
-        } else {
-            $sql .= "alias = '$id'";
-        }
+        $sql = "UPDATE $this->table2 SET views = views + $plus WHERE id = $id";
         $result = $this->db->query($sql);
         if ($this->db->error() != ''){
-            $this->error = $this->db->error();
+            $error = $this->db->error();
         }
-        return $result;
+        return array('error' => $error);
     }
-
-    public function RemovePage($id){
-        $sql = "DELETE FROM $this->table WHERE id = $id";
-        return $this->db->query($sql);
-    }
-
-    public function GetCategory($id, $params = array()){
-        $sql = "SELECT * FROM $this->table WHERE ";
-        if (is_numeric($id)){
-            $sql .= "id = $id";
-        } else {
-            $sql .= "alias = '$id'";
-        }
-        if (isset($params['public'])){
-            $sql .= "AND public = 1";
-        }
-
-        $row = $this->db->select($sql, array('single' => true));
-        $row['date_create'] = $this->func->DateFormat($row["date_create"]);
-        $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
-        return $row;
-    }
-
 }
 ?>

@@ -58,6 +58,10 @@ ul.check li:before{
 
     text-transform: uppercase;
 }
+.navbar-custom ul li .dropdown-item{
+    color: #000;
+    font-size: 14px;
+}
 .navbar-custom .navbar-nav{
     width: 100%;
 }
@@ -290,4 +294,18 @@ footer{
 }
 .serveces-page img{
     margin-bottom: 20px;
+}
+.main-catalog .catalog-item{
+
+}
+.main-catalog .catalog-item .catalog-item-img{
+    height: 200px;
+    overflow: hidden;
+}
+.main-catalog .catalog-item .catalog-item-img img{
+    width: 100%;
+}
+.main-catalog .catalog-item .catalog-item-title{
+    height: 60px;
+    overflow: hidden;
 }

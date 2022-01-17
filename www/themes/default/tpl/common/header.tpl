@@ -38,8 +38,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/contacts">Контакты</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/catalog">Статьи</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Статьи
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {catalog_categories}
+                            {section name=i loop=$catalog_categories}
+                                <a class="dropdown-item" href="/catalog/{$catalog_categories[i].alias}">{$catalog_categories[i].title}</a>
+                            {/section}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Что-то еще здесь</a>
+                        </div>
                     </li>
                 </ul>
 

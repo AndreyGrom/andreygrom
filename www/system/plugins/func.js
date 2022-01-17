@@ -46,39 +46,6 @@ function getUrlVar(){
 var url_var = getUrlVar();
 var img_loader = $('<img src="/system/design/img/load.gif">');
 
-/*function AjaxImagesUpload(action, module, material_id, append_to){
-    $('<input type="file" multiple>').on('change', function () {
-        e.stopPropagation();
-        e.preventDefault();
-        if( typeof this.files == 'undefined' ) return;
-        var data = new FormData();
-        $.each( this.files, function( key, value ){
-            data.append( key, value );
-        });
-        data.append( 'action', action);
-        data.append( 'module', module);
-        data.append( 'material_id', material_id);
-        $.ajax({
-            type        : 'POST',
-            data        : data,
-            processData : false,
-            contentType : false,
-            success     : function( respond, status, jqXHR ){
-                respond = JSON.parse(respond);
-                if( typeof respond.error !== '' ){
-                    append_to.append(respond.html);
-                } else {
-                    alert_info('ОШИБКА: ' + respond.error );
-                }
-            },
-            error: function( jqXHR, status, errorThrown ){
-                alert_info( 'ОШИБКА AJAX запроса: ' + status, jqXHR );
-            }
-
-        });
-    }).click();
-}*/
-
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -87,5 +54,7 @@ $(document).ready(function () {
             e.preventDefault();
         }
     });
+
+    $(".fancybox").fancybox();
 
 });
