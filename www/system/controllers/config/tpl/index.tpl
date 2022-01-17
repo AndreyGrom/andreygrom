@@ -30,7 +30,7 @@
                     <td>{$items[i].param}</td>
                     <td>{$items[i].value}</td>
                     <td>{$items[i].desc}</td>
-                    <td><a class="remove-confirm" href="?c=config&action=del&param={$items[i].param}"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></a></td>
+                    <td><a class="confirm" href="?c=config&action=del&param={$items[i].param}"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></a></td>
                 </tr>
                 </tbody>
             {/section}

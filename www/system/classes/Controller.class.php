@@ -120,6 +120,7 @@ class Controller
             'html_controllers_dir'       => HTML_CONTROLLERS_DIR,
             'html_classes_dir'           => HTML_CLASSES_DIR,
         ));
+
     }
     public function SetTemplate($tpl){
         if ($this->config->SiteEnabled == 0 && !isset($_SESSION['admin'])){
@@ -205,5 +206,13 @@ class Controller
         header("Location: ".$url);
         exit;
     }
+
+    public function Fetch404(){
+        $this->AssingCommonVars();
+        $this->SetPath('/');
+        header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
+        return $this->fetch('error404.tpl');
+    }
+
 }
 ?>

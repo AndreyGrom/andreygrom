@@ -208,13 +208,13 @@ class ModelCatalog extends Model {
         if ($row = $this->db->select($sql, array('single' => true))) {
             $row['date_create'] = $this->func->DateFormat($row["date_create"]);
             $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
-            $sql = "SELECT p.* FROM $this->table3 p
+            $sql = "SELECT p.*, c.* FROM $this->table3 p
             LEFT JOIN $this->table c ON c.ID = p.category_id 
-            WHERE p.material_id = $id";
+            WHERE p.material_id = " . $row['id'];
             if ($parents = $this->db->select($sql)) {
                 $row['parents'] = $parents;
             }
-            $sql = "SELECT * FROM $this->table4 WHERE module = '$this->alias' AND material_id = $id";
+            $sql = "SELECT * FROM $this->table4 WHERE module = '$this->alias' AND material_id = " . $row['id'];
             $row['images'] = $this->db->select($sql);
         }
         return $row;
@@ -271,5 +271,29 @@ class ModelCatalog extends Model {
         }
         return array('error' => $error);
     }
+    public function CategoryExists($categories, $alias){
+        $rs = false;
+        foreach ($categories as $c){
+            if ($c['alias'] == $alias){
+                $rs = $c;
+                break;
+            }
+        }
+        return $rs;
+    }
+    public function GetItems($params = array()){
+        $rs = false;
+        $category_id = $params['category_id'];
+        $sort = $params['sort'] ? $params['sort']: "id DESC";
+        $sql = "SELECT i.*, img.name AS imgname FROM $this->table3 p 
+                LEFT JOIN $this->table2 i ON i.id = p.material_id
+                LEFT JOIN $this->table4 img ON img.id = i.skin
+                WHERE p.category_id = $category_id ORDER BY $sort";
+        if ($items = $this->db->select($sql)){
+            $rs = $items;
+        }
+        return $rs;
+    }
+
 }
 ?>

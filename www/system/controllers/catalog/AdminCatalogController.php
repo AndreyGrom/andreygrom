@@ -150,6 +150,19 @@ class AdminCatalogController extends AdminController{
         die($data);
     }
 
+    public function ShowSettings(){
+        $this->assign(array(
+            'templates_comment_form'      => $this->func->getTemplates($this->templates_dir.'comments/form/'),
+            'templates_comment_view'      => $this->func->getTemplates($this->templates_dir.'comments/view/'),
+        ));
+        $this->content = $this->SetTemplate('settings.tpl');
+    }
+    public function SaveSettings(){
+        foreach ($this->post as $k=>$p){
+            $this->config->set($k,$p);
+        }
+        die(1);
+    }
     public function Index(){
         $this->LoadModel($this->alias);
         if (isset($this->post['action']) && $this->post['action'] == 'save-category'){
@@ -173,11 +186,17 @@ class AdminCatalogController extends AdminController{
         if (isset($this->post['action']) && $this->post['action'] == "set-skin-item"){
             $this->SetSkinItem();
         }
+        if (isset($this->post['action']) && $this->post['action'] == "save-settings"){
+            $this->SaveSettings();
+        }
         $this->categories = $this->ModelCatalog->GetCategories(array('sort' => 'id ASC'));
         $this->structure = $this->func->getStructure($this->categories);
         $this->ShowMenu();
 
-        if ($this->action =='remove-category'){
+        if ($this->action =='settings'){
+            $this->ShowSettings();
+        }
+        elseif ($this->action =='remove-category'){
             $this->RemoveCategory();
         }
         elseif ($this->action =='remove-item'){

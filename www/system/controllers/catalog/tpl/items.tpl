@@ -1,6 +1,7 @@
 <div class="panel panel-dark">
     <div class="panel-heading">
         <h3 class="panel-title text-uppercase">
+            <span class="glyphicon glyphicon-list"></span>
             {if $category}{$category.title} - {/if}список материалов
         </h3>
     </div>

@@ -6,6 +6,7 @@
                 <div class="pull-right">
                     <a href="?c={$module_config.alias}&category_id=0&action=category-edit" class="btn btn-dark btn-xs"><i class="fa fa-plus"></i> Категория</a>
                     <a href="?c={$module_config.alias}&material_id=0" class="btn btn-dark btn-xs "><i class="fa fa-plus"></i> Материал</a>
+                    <a class="btn btn-dark btn-xs" href="?c={$module_config.alias}&action=settings"><span class="glyphicon glyphicon-cog"></span></a>
                 </div>
             </h4>
         </div>

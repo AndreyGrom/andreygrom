@@ -4,11 +4,11 @@
             <div class="col-sm-3">
                 <img class="img-fluid" src="{$theme_dir}img/logo.png" alt="">
             </div>
-            <div class="col-sm-3">
-
-                <a data-toggle="modal" data-target="#conf" href="#">Политика конфиденциальности </a>
-                <br>
-                <a data-toggle="modal" data-target="#cookie" href="#">Правила cookie</a>
+            <div class="col-sm-3 footer-links">
+                `<ul class="list-inline">
+                    <li><a href=""><a data-toggle="modal" data-target="#conf" href="#">Политика конфиденциальности </a></a></li>
+                    <li><a data-toggle="modal" data-target="#cookie" href="#">Правила cookie</a></li>
+                </ul>
             </div>
             <div class="col-sm-3"></div>
             <div class="col-sm-3"></div>
@@ -105,8 +105,24 @@
         </div>
     </div>
 </div>
+<div id="PromiseAlert" class="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span>Системное сообщение</span></h5>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="{$html_plugins_dir}jquery/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="{$html_plugins_dir}jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="{$html_plugins_dir}fancybox/jquery.fancybox.min.js"></script>
 <script src="{$html_plugins_dir}bootstrap4/js/bootstrap.min.js"></script>
 <script src="{$theme_dir}owl/owl.carousel.min.js"></script>
 <script src="{$theme_dir}js/main.js"></script>

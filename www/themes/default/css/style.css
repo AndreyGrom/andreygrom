@@ -5,6 +5,9 @@ body{
     background: none;
     padding-top: 170px;
 }
+a{
+    color: #002d44;
+}
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -25,6 +28,26 @@ ul.check li:before{
     font-family:'FontAwesome';
     margin-left:-20px;
     margin-right:7px;
+}
+.btn-outline{
+    color: #002d44;
+    background-color: transparent;
+    background-image: none;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid #002d44;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-outline:hover{
+    background-color: #002d44;
+    border-color: #002d44;
+    color: #fff;
 }
 .modal-content{
     background: transparent;
@@ -308,4 +331,46 @@ footer{
 .main-catalog .catalog-item .catalog-item-title{
     height: 60px;
     overflow: hidden;
+}
+.item-catalog .page-title{
+    color: #b06500;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.item-catalog .catalog-image{
+    height: 80px;
+    overflow: hidden;
+    width: 120px;
+    float: left;
+    margin: 5px;
+}
+.item-catalog .catalog-image img{
+    width: 100%;
+}
+.loader-btn-img{
+    width: 22px;
+    margin-right: 10px;
+}
+.comment-list{
+    padding: 0;
+}
+.comment-list,  .comment-list ul{
+    list-style-type: none;
+}
+.comment-list > li{
+    margin-bottom: 5px;
+    padding: 7px;
+    border: 1px solid #ffd862;
+}
+.comment-list .comment-user{
+    font-weight: bold;
+}
+.comment-list .comment-text{
+    margin: 5px 0 10px 17px;
+}
+.footer-links ul li a{
+    color: #fff;
+}
+.footer-links ul.list-inline{
+    margin-top: -10px;
 }

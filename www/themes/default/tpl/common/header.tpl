@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{$html_plugins_dir}bootstrap4/css/bootstrap.min.css">
     <link rel="stylesheet" href="{$html_plugins_dir}font-awesome-4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="{$html_plugins_dir}fancybox/jquery.fancybox.min.css">
     {*Эти стили только для главной. Сделать условие*}
     <link rel="stylesheet" href="{$theme_dir}owl/owl.carousel.min.css">
     <link rel="stylesheet" href="{$theme_dir}owl/owl.theme.default.min.css">

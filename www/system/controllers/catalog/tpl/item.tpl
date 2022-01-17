@@ -2,7 +2,7 @@
     <div class="panel panel-dark">
         <div class="panel-heading">
             <h3 class="panel-title text-uppercase">
-                <span class="glyphicon glyphicon-duplicate"></span>
+                <span class="glyphicon glyphicon-pencil"></span>
                 {if !$item}
                     Создание нового материала
                 {else}
@@ -115,7 +115,7 @@
                 if (msg.error !== false){
                     alert_info("Ошибка: " + msg.error);
                 } else {
-                    document.location.href = "?c=catalog&success=save-item&material_id=" + msg.id;
+                    document.location.href = "?c={$module_config.alias}&success=save-item&material_id=" + msg.id;
                 }
             }
         });
