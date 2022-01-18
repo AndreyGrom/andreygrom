@@ -440,7 +440,9 @@ class Func {
     public function DateFormat($date){
         return date("d.m.Y G:i:s", $date);
     }
-
+    public function DateFormat2($date){
+        return date("d.m.Y", $date);
+    }
 
 /*    public function UploadFile($file, $upload_dir){
         $result = false;

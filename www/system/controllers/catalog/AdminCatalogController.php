@@ -109,6 +109,15 @@ class AdminCatalogController extends AdminController{
         ));
         if ($this->material_id >-1){
             if ($item = $this->ModelCatalog->GetItem($this->material_id)){
+                if (count($item['tags']) > 0){
+                    $tags = array();
+                    foreach ($item['tags'] as $i){
+                        $tags[] = $i['name'];
+                    }
+                    $item['tags'] = implode(',', $tags);
+                } else {
+                    $item['tags'] = '';
+                }
                 $this->assign(array(
                     'item'         => $item,
                 ));

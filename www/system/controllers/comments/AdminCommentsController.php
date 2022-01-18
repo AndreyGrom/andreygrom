@@ -1,17 +1,18 @@
 <?php
 
 class AdminCommentsController extends AdminController {
+    public $table;
     public function __construct() {
         parent::__construct();
-        $this->categories    = array();
-        $this->structure     = array();
-        $this->id            = $this->get['id'];
-        $this->cid           = $this->get['cid'];
-        $this->act           = $this->get['act'];
-        $this->filter        = $this->get['filter'];
-        $this->per_page      = 20;
-        $this->start         = 0;
-        $this->num_pages     = 1;
+        $config = include (__DIR__) . '/init.php';
+        $this->alias = $config['alias'];
+        $this->table = db_pref . $config['table'];
+        $this->name = $config['name'];
+        $this->version = $config['version'];
+        $this->page_title = $config['title'];
+        $this->assign(array(
+            'module_config' => $config,
+        ));
     }
 
     public function SetPlugins(){
@@ -21,14 +22,12 @@ class AdminCommentsController extends AdminController {
     }
 
     public function ShowMenu(){
-        $sql = "SELECT DISTINCT `CONTROLLER` FROM `".db_pref."comments`";
-        $query = $this->db->query($sql);
-        if ($this->db->num_rows($query) > 0){
-            for ($i=0; $i < $this->db->num_rows($query); $i++) {
-                $row = $this->db->fetch_array($query);
+        $sql = "SELECT DISTINCT module FROM $this->table";
+        if ($items = $this->db->select($sql)){
+            foreach ($items as $i){
                 $controllers[] = array(
-                    'controller' => $row['CONTROLLER'],
-                    'name'       => $this->getModuleName($row['CONTROLLER']),
+                    'controller' => $i['module'],
+                    'name'       => $this->getModuleName($i['module']),
                 );
             }
         }
@@ -49,136 +48,101 @@ class AdminCommentsController extends AdminController {
         return $r;
     }
 
-/*    public function getPagination($filer = false){
-        $where = '';
-        if ($filer){
-            $where = "WHERE `CONTROLLER`='$filer'";
-        }
-        $sql = "SELECT *  FROM `".db_pref."comments` $where";
-        $query = $this->db->query($sql);
-        $total = $this->db->num_rows($query);
-        $this->num_pages = ceil($total / $this->per_page);
-        $this->total = $total;
-        $cur_page = 1;
-        if (isset($_GET['p']) && $_GET['p'] > 0) {
-            $cur_page = $_GET['p'];
-        }
-        $this->start = ($cur_page - 1) * $this->per_page;
-    }*/
-
-    public function getItems($filer = false,$start, $count){
-        $comments = array();
-
-        $url = '';
-        if ($filer){
-            $where = "WHERE `CONTROLLER`='$filer'";
-            $url = "&filter=$filer";
-        }
-        $sql = "SELECT *  FROM `".db_pref."comments` $where ORDER BY `DATE_PUBL` DESC";
-
-        $params = array(
-            'sql' => $sql,
-            'per_page' => 20,
-            'current_page' => $this->get['page'],
-            'link' => '?c=comments'.$url,
-            'get_name' => 'page',
-        );
-        $result = $this->getPagination($params);
-        $query = $result['query'];
-        if ($this->db->num_rows($query) > 0){
-            for ($i=0; $i < $this->db->num_rows($query); $i++) {
-                $row = $this->db->fetch_array($query);
-                $row["DATE_PUBL"] = $this->DateFormat($row["DATE_PUBL"]);
-                $row["MODULE_NAME"] =  $this->getModuleName($row["CONTROLLER"]);
-                $comments[] = $row;
-            }
-        }
-        return $comments;
-    }
     public function ShowItems(){
         $comments = array();
-        $filer = $this->filter;
+        $where = false;
         $url = '';
-        if ($filer){
-            $where = "WHERE `CONTROLLER`='$filer'";
-            $url = "&filter=$filer";
+        if (isset($this->get['module'])){
+            $where[] = "module='" . $this->get['module'] . "'";
+            $url .= "&module=" . $this->get['module'];
         }
-        $sql = "SELECT *  FROM `".db_pref."comments` $where ORDER BY `DATE_PUBL` DESC";
+        $sql = "SELECT *  FROM $this->table";
+        if ($where !== false){
+            $sql .= " WHERE " . implode(" AND ", $where);
 
+        }
+        $sql .= " ORDER BY date_publ DESC";
         $params = array(
             'sql' => $sql,
             'per_page' => 20,
             'current_page' => $this->get['page'],
-            'link' => '?c=comments'.$url,
+            'link' => '?c=comments' . $url,
             'get_name' => 'page',
         );
-        $result = $this->getPagination($params);
+        $result = $this->func->getPagination($params);
         $query = $result['query'];
         if ($this->db->num_rows($query) > 0){
             for ($i=0; $i < $this->db->num_rows($query); $i++) {
                 $row = $this->db->fetch_array($query);
-                $row["DATE_PUBL"] = $this->DateFormat($row["DATE_PUBL"]);
-                $row["MODULE_NAME"] =  $this->getModuleName($row["CONTROLLER"]);
+                $row["date_publ"] = $this->DateFormat($row["date_publ"]);
+                $row["module_name"] =  $this->getModuleName($row["module"]);
                 $comments[] = $row;
             }
-        }
-        $num_pages = $result['num_pages'];
-        $pagination = $result['pagination'];
-        $total = $result['total'];
-        $start = $result['start'];
+        };
         $this->assign(array(
             'comments'        =>$comments,
-            'filter'          =>$this->filter,
-            'num_pages'       => $this->num_pages,
             'items_count'     => count($comments),
-            'total'           => $total,
-            'start'           => $start,
-            'pagination'      => $pagination,
+            'total'           => $result['total'],
+            'start'           => $result['start'],
+            'pagination'      => $result['pagination'],
         ));
         $this->content = $this->SetTemplate('comments.tpl');
     }
+    public function ShowItem(){
+        $sql = "SELECT * FROM $this->table WHERE id = " . $this->get['id'] . " LIMIT 1";
+        if ($item = $this->db->select($sql, array('single' => true))){
+            $item["date_publ"] = $this->DateFormat($item["date_publ"]);
+            $this->assign(array(
+                'item' =>$item,
+            ));
+        }
+        $this->content = $this->SetTemplate('comment.tpl');
+    }
+    public function SaveItem(){
+        $params = array(
+            'date_publ' => strtotime($this->post['date']),
+            'user_name' => $this->post['name'],
+            'user_email' => $this->post['email'],
+            'user_comment' => $this->post['comment'],
+        );
+        $this->db->update($this->table, $params, 'id = ' . $this->get['id']);
+        $_SESSION['alert'] = 'Комментарий обновлен';
+        $this->Head("?c=comments");
+    }
+
+    public function SetStatus(){
+        $status = $this->get['status'];
+        $sql = "UPDATE $this->table SET status = $status WHERE id = " . $this->get['id'];
+        $this->db->query($sql);
+        $_SESSION['alert'] = 'Статус изменен';
+        $this->Head("?c=comments");
+    }
+
+    public function RemoveItem(){
+        $sql = "DELETE FROM $this->table WHERE id = " . $this->get['id'];
+        $this->db->query($sql);
+        $_SESSION['alert'] = 'Комментарий удален';
+        $this->Head("?c=comments");
+    }
 
     public function Index(){
-        $this->SetPlugins();
+        //$this->SetPlugins();
         $this->ShowMenu();
         $this->page_title = 'Комментарии';
-        if (isset($_POST['comment'])){
-            $date = strtotime($_POST['date']);
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $comment = $this->db->input($_POST['comment']);
-            $sql = "UPDATE `".db_pref."comments` SET
-    `DATE_PUBL` = '$date',
-    `USER_NAME` = '$name',
-    `USER_EMAIL` = '$email',
-    `USER_COMMENT` = '$comment'
-    WHERE `ID` = $this->id";
-            $query = $this->db->query($sql);
-            $this->Head("?c=comments&id=$this->id");
+        if (isset($this->post['save-comment'])){
+            $this->SaveItem();
         }
-        if (isset($_GET['status'])){
-            $status = $_GET['status'];
-            $sql = "UPDATE `".db_pref."comments` SET `STATUS` = '$status' WHERE `ID` = $this->id";
-            $query = $this->db->query($sql);
-            $this->Head("?c=comments");
+        if (isset($this->get['action']) && $this->get['action'] == 'remove'){
+            $this->RemoveItem();
+        }
+        if (isset($this->get['status'])){
+            $this->SetStatus();
         }
 
-        if ($this->act == 'del'){
-            $sql = "DELETE FROM `".db_pref."comments` WHERE `ID` = $this->id";
-            $query = $this->db->query($sql);
-            $this->Head("?c=comments");
+        if (isset($this->get['id'])){
+            $this->ShowItem();
         }
-
-        if (isset($this->id)){
-            $sql = "SELECT * FROM `".db_pref."comments` WHERE `ID` = $this->id";
-            $query = $this->db->query($sql);
-            $row = $this->db->fetch_array($query);
-            $row["DATE_PUBL"] = $this->DateFormat($row["DATE_PUBL"]);
-            $this->assign(array(
-                'comment' =>$row,
-            ));
-            $this->content = $this->SetTemplate('comment.tpl');
-        } else {
+        else {
             $this->ShowItems();
         }
 

@@ -14,7 +14,7 @@
             {if $item}
                 <table class="table table-bordered table-hover">
                     <tr>
-                        <td>URL: <br><a target="_blank" href="{$site_url}/{$module_config.alias}/{$item.alias}">{$site_url}/{$module_config.alias}/{$item.alias}</a>
+                        <td>URL: <br><a target="_blank" href="{$site_url}{$module_config.alias}/{$item.alias}">{$site_url}{$module_config.alias}/{$item.alias}</a>
                         </td>
                         <td>Дата создания: <br>{$item.date_create|date_format:"%D %T"}</td>
                         <td>Дата изменения: <br>{$item.date_edit|date_format:"%D %T"}</td>

@@ -5,6 +5,7 @@ class ModelCatalog extends Model {
     public $table2;
     public $table3;
     public $table4;
+    public $table5;
     public $alias;
     public function __construct() {
         parent::__construct();
@@ -13,6 +14,7 @@ class ModelCatalog extends Model {
         $this->table2 = db_pref . $config['table2'];
         $this->table3 = db_pref . $config['table3'];
         $this->table4 = db_pref . $config['table4'];
+        $this->table5 = db_pref . $config['table5'];
         $this->alias = $config['alias'];
     }
     function CheckAliasCategory($alias, $id){
@@ -140,7 +142,7 @@ class ModelCatalog extends Model {
         $sql .= " ORDER BY id DESC";
         $params = array(
             'sql' => $sql,
-            'per_page' => isset($this->config->BlogItemListPerPage) ? $this->config->BlogItemListPerPage : 5,
+            'per_page' => 20,
             'current_page' => isset($this->get['page']) ? $this->get['page'] : 0,
             'link' => '?c=' . $this->alias . '&category_id=' . $category_id,
             'get_name' => 'page',
@@ -168,11 +170,12 @@ class ModelCatalog extends Model {
             'ip' => $_SERVER['REMOTE_ADDR'],
             'price' => $params['price'] ? $params['price'] : 0,
             'price_new' => $params['price_new'] ? $params['price_new'] : 0,
+            'views' => $params['views'] ? $params['views'] : 0,
         );
         $alias_info = $this->CheckAliasItem($alias, $id);
         if ($alias_info === 0){
             if ($id == 0){
-                $param['date_create'] = time();
+                $param['date_publ'] = time();
                 $param['date_edit'] = time();
                 if ($this->db->insert($this->table2, $param, true)){
                     $id = $this->db->last_id();
@@ -188,6 +191,23 @@ class ModelCatalog extends Model {
                     $this->db->insert($this->table3, $param);
                 }
             }
+            if (trim($params['tags']) !== ''){
+                if ($tags = explode(',', $params['tags'])){
+                    $sql = "DELETE FROM $this->table5 WHERE material_id = $id";
+                    $this->db->query($sql);
+                    foreach ($tags as $t){
+                        $t = trim($t);
+                        if ($t !== ''){
+                            $param = array(
+                                'module' => $this->alias,
+                                'material_id' => $id,
+                                'name' => $t,
+                            );
+                            $this->db->insert($this->table5, $param);
+                        }
+                    }
+                }
+            }
         } else {
             $error = $alias_info;
         }
@@ -199,15 +219,17 @@ class ModelCatalog extends Model {
     }
 
     public function GetItem($id){
-        $sql = "SELECT * FROM $this->table2 WHERE ";
+        $sql = "SELECT i.*, img.name AS img_name FROM $this->table2 i 
+                LEFT JOIN $this->table4 img ON img.id = i.skin
+                WHERE ";
         if (is_numeric($id)){
-            $sql .= "id = $id";
+            $sql .= "i.id = $id";
         } else {
-            $sql .= "alias = '$id'";
+            $sql .= "i.alias = '$id'";
         }
         if ($row = $this->db->select($sql, array('single' => true))) {
-            $row['date_create'] = $this->func->DateFormat($row["date_create"]);
-            $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
+            $row['date_publ'] = $this->func->DateFormat2($row["date_publ"]);
+            $row['date_edit'] = $this->func->DateFormat2($row["date_edit"]);
             $sql = "SELECT p.*, c.* FROM $this->table3 p
             LEFT JOIN $this->table c ON c.ID = p.category_id 
             WHERE p.material_id = " . $row['id'];
@@ -216,6 +238,8 @@ class ModelCatalog extends Model {
             }
             $sql = "SELECT * FROM $this->table4 WHERE module = '$this->alias' AND material_id = " . $row['id'];
             $row['images'] = $this->db->select($sql);
+            $sql = "SELECT * FROM $this->table5 WHERE module = '$this->alias' AND material_id = " . $row['id'];
+            $row['tags'] = $this->db->select($sql);
         }
         return $row;
     }
@@ -285,14 +309,31 @@ class ModelCatalog extends Model {
         $rs = false;
         $category_id = $params['category_id'];
         $sort = $params['sort'] ? $params['sort']: "id DESC";
-        $sql = "SELECT i.*, img.name AS imgname FROM $this->table3 p 
+        $sql = "SELECT i.*, img.name AS img_name FROM $this->table3 p 
                 LEFT JOIN $this->table2 i ON i.id = p.material_id
                 LEFT JOIN $this->table4 img ON img.id = i.skin
-                WHERE p.category_id = $category_id ORDER BY $sort";
+                WHERE p.category_id = $category_id AND i.id IS NOT NULL ORDER BY $sort";
         if ($items = $this->db->select($sql)){
+            foreach ($items as &$i){
+                $i['date_publ'] = $this->func->DateFormat2($i['date_publ']);
+                $i['date_edit'] = $this->func->DateFormat2($i['date_edit']);
+            }
             $rs = $items;
         }
         return $rs;
+    }
+
+    public function GetOthersFromParents($parents, $current_id){
+        $where = array();
+        foreach ($parents as $p){
+            $where[] = 'p.category_id = ' . $p['id'];
+        }
+        $where = "WHERE (" . implode(' OR ', $where) . ") AND i.id IS NOT NULL AND i.id <> $current_id";
+        $sql = "SELECT i.* FROM $this->table3 p
+                    LEFT JOIN $this->table2 i ON i.id = p.material_id
+                $where LIMIT 10";
+        $items = $this->db->select($sql);
+        return $items;
     }
 
 }

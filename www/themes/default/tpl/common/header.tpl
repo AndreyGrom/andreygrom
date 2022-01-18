@@ -15,7 +15,8 @@
     <title>{$meta_title}</title>
     <meta name="description" content="{$meta_description}">
     <meta name="keywords" content="{$meta_keywords}">
-    {*TODO Тут подключить остальные метатеги*}
+
+    {include file="./meta-social.tpl"}
 </head>
 <body class="{$class}">
 <div class="wrapper">

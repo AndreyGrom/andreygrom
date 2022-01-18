@@ -28,27 +28,29 @@ class CatalogController extends Controller{
         $this->content = $this->SetTemplate('index.tpl');
     }
     public function ShowItems($category){
-        $items = $this->ModelCatalog->GetItems(array(
+        if ($items = $this->ModelCatalog->GetItems(array(
             'sort' => 'id DESC',
             'category_id' => $category['id'],
-        ));
-        $this->assign(array(
-            'category' => $category,
-            'items' => $items,
-        ));
+        ))){
+            $this->assign(array(
+                'category' => $category,
+                'items' => $items,
+            ));
 
-        $this->page_title = $category['title'];
-        $this->meta_title = $category['meta_title'];
-        $this->meta_description = $category['meta_description'];
-        $this->meta_keywords = $category['meta_keywords'];
-        if ($this->meta_title == ''){
-            $this->meta_title = $this->page_title . '. ' . $this->config->{$this->alias . 'ModuleTitle'} . '. '. $this->config->SiteTitle;
-        }
-        if (trim($this->meta_description == '')){
-            $this->meta_description = mb_substr(trim(strip_tags($category['desc1'])),0,200);
-        }
-        if (trim($this->meta_description == '')){
-            $this->meta_description = mb_substr(trim(strip_tags($category['desc2'])),0,200);
+            $this->page_title = $category['title'];
+            $this->meta_title = $category['meta_title'];
+            $this->meta_description = $category['meta_description'];
+            $this->meta_keywords = $category['meta_keywords'];
+            if ($this->meta_title == ''){
+                $this->meta_title = $this->page_title . '. ' . $this->config->{$this->alias . 'ModuleTitle'} . '. '. $this->config->SiteTitle;
+            }
+            if (trim($this->meta_description == '')){
+                $this->meta_description = mb_substr(trim(strip_tags($category['desc1'])),0,200);
+            }
+            if (trim($this->meta_description == '')){
+                $this->meta_description = mb_substr(trim(strip_tags($category['desc2'])),0,200);
+            }
+
         }
 
         $this->SetPath('/catalog/list/');
@@ -57,10 +59,6 @@ class CatalogController extends Controller{
 
     public function ShowItem(){
         if ($item = $this->ModelCatalog->GetItem($this->query[0])){
-            $this->assign(array(
-                'item' => $item,
-            ));
-;
             $this->page_title = $item['title'];
             $this->meta_title = $item['meta_title'];
             $this->meta_description = $item['meta_description'];
@@ -73,6 +71,9 @@ class CatalogController extends Controller{
             }
             if (trim($this->meta_description == '')){
                 $this->meta_description = mb_substr(trim(strip_tags($item['content'])),0,200);
+            }
+            if ($item['img_name']){
+                $this->meta_image = "/upload/images/" . $this->alias . "/" . $item['img_name'];
             }
 
             if ($this->config->{$this->alias . 'CommentsEnabled'} && $item['comments']){
@@ -100,6 +101,11 @@ class CatalogController extends Controller{
                     }
                 }
             }
+            $others = $this->ModelCatalog->GetOthersFromParents($item['parents'], $item['id']);
+            $this->assign(array(
+                'item' => $item,
+                'others' => $others,
+            ));
 
             $this->SetPath('/catalog/single/');
             $this->content = $this->SetTemplate($item['parents'][0]['template'] . '.tpl');

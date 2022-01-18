@@ -53,4 +53,10 @@
             </select>
         </div>
     </div>
+    <div class="form-group">
+        <label for="title" class="col-sm-3 control-label">Просмотры:</label>
+        <div class="col-sm-9">
+            <input value="{$item.views}" name="views" type="text" class="form-control" placeholder="Введите название материала">
+        </div>
+    </div>
 </div>

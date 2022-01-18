@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="col-sm-9">
-
+                {include file="../common/sidebar-right.tpl"}
             </div>
         </div>
     </div>

@@ -16,6 +16,15 @@ class CommentsController extends Controller {
         $this->strip_tags = '<a><b><i><u><p><h1><h2><h3><h4><h5><h6><ul><li><div>';
         $this->table = db_pref . 'comments';
     }
+    public function AntiSpam(){
+        // TODO доделать
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (isset($_SESSION['comments'][$ip] )){
+            $_SESSION['comments'][$ip]['count'] ++;
+        } else{
+            $_SESSION['comments'][$ip]['count'] = 0;
+        }
+    }
     public function AddComment(){
         $error = false;
         $status = false;
@@ -24,7 +33,7 @@ class CommentsController extends Controller {
         }
         if ($error === false){
             $params = array(
-                'controller' => $this->controller,
+                'module' => $this->controller,
                 'material_id' => $this->material_id,
                 'date_publ' => time(),
                 'user_name' => $this->post["name"],
@@ -53,7 +62,7 @@ class CommentsController extends Controller {
     public function GetComments(){
         $items = false;
         if ($this->material_id > 0){
-            $sql = "SELECT * FROM $this->table WHERE controller = '$this->controller' AND material_id = '$this->material_id' AND status = 1 ORDER BY date_publ DESC";
+            $sql = "SELECT * FROM $this->table WHERE module = '$this->controller' AND material_id = '$this->material_id' AND status = 1 ORDER BY date_publ DESC";
             if ($items = $this->db->select($sql)){
                 foreach ($items as &$i){
                     $i["date_publ"] = $this->DateFormat($i["date_publ"]);

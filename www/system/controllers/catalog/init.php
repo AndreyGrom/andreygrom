@@ -5,6 +5,7 @@ return array(
     'table2'  => 'catalog_i',
     'table3'  => 'catalog_p',
     'table4'  => 'images',
+    'table5'  => 'tags',
     'name'  => 'Каталог',
     'title'  => 'Каталог',
     'version'  => 4.0,
