@@ -21,37 +21,37 @@ class CatalogController extends Controller{
     }
 
     public function ShowMainPage(){
-        $this->page_title = $this->config->{$this->alias . 'ModuleTitle'};
+        /*$this->page_title = $this->config->{$this->alias . 'ModuleTitle'};
         $this->meta_title = $this->config->{$this->alias . 'ModuleTitle'} . '. ' . $this->config->SiteTitle;;
         $this->meta_keywords = $this->config->{$this->alias . 'meta_keywords'};
         $this->SetPath('/catalog/');
-        $this->content = $this->SetTemplate('index.tpl');
+        $this->content = $this->SetTemplate('index.tpl');*/
+        $this->content = $this->Fetch404();
     }
     public function ShowItems($category){
-        if ($items = $this->ModelCatalog->GetItems(array(
-            'sort' => 'id DESC',
-            'category_id' => $category['id'],
-        ))){
+        if ($items = $this->ModelCatalog->GetItems(array('sort' => 'id DESC', 'category_id' => $category['id']))){
             $this->assign(array(
-                'category' => $category,
                 'items' => $items,
             ));
-
-            $this->page_title = $category['title'];
-            $this->meta_title = $category['meta_title'];
-            $this->meta_description = $category['meta_description'];
-            $this->meta_keywords = $category['meta_keywords'];
-            if ($this->meta_title == ''){
-                $this->meta_title = $this->page_title . '. ' . $this->config->{$this->alias . 'ModuleTitle'} . '. '. $this->config->SiteTitle;
-            }
-            if (trim($this->meta_description == '')){
-                $this->meta_description = mb_substr(trim(strip_tags($category['desc1'])),0,200);
-            }
-            if (trim($this->meta_description == '')){
-                $this->meta_description = mb_substr(trim(strip_tags($category['desc2'])),0,200);
-            }
-
         }
+
+        $this->page_title = $category['title'];
+        $this->meta_title = $category['meta_title'];
+        $this->meta_description = $category['meta_description'];
+        $this->meta_keywords = $category['meta_keywords'];
+        if ($this->meta_title == ''){
+            $this->meta_title = $this->page_title . '. ' . $this->config->{$this->alias . 'ModuleTitle'} . '. '. $this->config->SiteTitle;
+        }
+        if (trim($this->meta_description == '')){
+            $this->meta_description = mb_substr(trim(strip_tags($category['desc1'])),0,200);
+        }
+        if (trim($this->meta_description == '')){
+            $this->meta_description = mb_substr(trim(strip_tags($category['desc2'])),0,200);
+        }
+
+        $this->assign(array(
+            'category' => $category,
+        ));
 
         $this->SetPath('/catalog/list/');
         $this->content = $this->SetTemplate($category['template'] . '.tpl');

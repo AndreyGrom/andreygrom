@@ -208,8 +208,10 @@ class Controller
     }
 
     public function Fetch404(){
+        $this->meta_title = "404 Not Found";
         $this->AssingCommonVars();
         $this->SetPath('/');
+
         header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
         return $this->fetch('error404.tpl');
     }

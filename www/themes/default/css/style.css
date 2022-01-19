@@ -318,15 +318,14 @@ footer{
 .serveces-page img{
     margin-bottom: 20px;
 }
-.main-catalog .catalog-item{
+.catalog-item{
     margin-bottom: 30px;
-
     border: 1px solid #a3abaf;
     box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.29);
+    cursor: pointer;
 }
 .catalog-item:hover{
     border: 1px solid #002d44;
-
 }
 .catalog-item .catalog-item-img{
     height: 170px;
@@ -339,6 +338,13 @@ footer{
     height: 60px;
     overflow: hidden;
     padding: 5px;
+}
+.catalog-item .catalog-item-desc{
+    height: 155px;
+    overflow: hidden;
+    padding: 5px;
+    color: #808080;
+    font-size: 12px;
 }
 .catalog-item .catalog-item-title a{
     color: #002d44;

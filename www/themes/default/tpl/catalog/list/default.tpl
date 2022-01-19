@@ -9,7 +9,7 @@
                     {if $items}
                         {section name=i loop=$items}
                             <div class="col-sm-4">
-                                <div class="catalog-item">
+                                <div class="catalog-item" onclick="document.location.href='/catalog/{$items[i].alias}'">
                                     <div class="catalog-item-img">
                                         {if $items[i].img_name}
                                         <a href="/catalog/{$items[i].alias}">
@@ -21,6 +21,9 @@
                                         <a href="/catalog/{$items[i].alias}">
                                             {$items[i].title}
                                         </a>
+                                    </div>
+                                    <div class="catalog-item-desc">
+                                        {$items[i].short_content}
                                     </div>
                                 </div>
                             </div>
