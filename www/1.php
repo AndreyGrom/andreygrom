@@ -1,19 +1,9 @@
 <?php
-$url = "ljdslfsjdf_af";
-
-
-function CheckAlias($URL) {
-    $pattern_1 = "/^[a-z0-9_-]+$/i";
-    if(preg_match($pattern_1, $URL)){
-        return true;
-    } else{
-        return false;
-    }
-}
-
-if (CheckAlias($url)) {
-    echo "Ссылка настоящая";
-} else {
-    echo "Совсем не ссылка";
-}
+error_reporting(-1);
+ini_set("display_errors", 0);
+include_once('system/classes/Analysis.class.php');
+$info = new Analysis();
+$info->url = 'http://andreygrom3/';
+$rs = $info->Run();
+var_dump($rs);
 ?>
