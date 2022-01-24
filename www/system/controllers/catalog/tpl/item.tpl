@@ -70,8 +70,12 @@
     </div>
 </form>
 <script type="text/javascript" src="{$html_controllers_dir}images/upload.js"></script>
+<script type="text/javascript" src="{$html_controllers_dir}files/upload.js"></script>
 <script>
     $('#upload-images').upload({
+        id: url_var['material_id'],
+    });
+    $('#upload-files').upload_files({
         id: url_var['material_id'],
     });
 </script>
@@ -131,6 +135,10 @@
         $('.image-list').on('click', '.skin-image-item', function(e) {
             e.preventDefault();
             SkinImage($(this).attr('data-id'), url_var['material_id'], url_var['c'], 'agcms_catalog_i', $(".image-list .skin-image-item"), $(this));
+        });
+        $('.file-list').on('click', '.remove-file-item', function(e) {
+            e.preventDefault();
+            RemoveFile($(this).attr('data-id'), $(this).closest('li'), '{$module_config.alias}');
         });
     });
 

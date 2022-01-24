@@ -6,6 +6,7 @@ class ModelCatalog extends Model {
     public $table3;
     public $table4;
     public $table5;
+    public $table6;
     public $alias;
     public function __construct() {
         parent::__construct();
@@ -15,6 +16,7 @@ class ModelCatalog extends Model {
         $this->table3 = db_pref . $config['table3'];
         $this->table4 = db_pref . $config['table4'];
         $this->table5 = db_pref . $config['table5'];
+        $this->table6 = db_pref . $config['table6'];
         $this->alias = $config['alias'];
     }
     function CheckAliasCategory($alias, $id){
@@ -240,6 +242,8 @@ class ModelCatalog extends Model {
             $row['images'] = $this->db->select($sql);
             $sql = "SELECT * FROM $this->table5 WHERE module = '$this->alias' AND material_id = " . $row['id'];
             $row['tags'] = $this->db->select($sql);
+            $sql = "SELECT * FROM $this->table6 WHERE module = '$this->alias' AND material_id = " . $row['id'];
+            $row['files'] = $this->db->select($sql);
         }
         return $row;
     }

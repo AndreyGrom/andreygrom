@@ -14,21 +14,23 @@ class AdminFilesController extends AdminController {
         $upload_path = UPLOAD_FILES_DIR . $module . '/';
         if ($id > 0){
             foreach($_FILES as $file ){
-                $file = Func::getInstance()->UploadFile($file['name'], $file['tmp_name'], $upload_path);
+                $file_name = Func::getInstance()->UploadFile($file['name'], $file['tmp_name'], $upload_path);
                 $params = array(
                     'module' => $module,
                     'material_id' => $id,
-                    'name' => $file,
+                    'name' => $file_name,
+                    'desc' => $file['name'],
                 );
                 $this->db->insert($this->table, $params);
                 $this->assign(array(
-                    'file' => $file,
+                    'file_name' => $file_name,
                     'file_id' => $this->db->last_id(),
                     'module_config' => array('alias' => $module),
+                    'desc' => $file['name'],
                 ));
                 $this->smarty->template_dir = CONTROLLERS_DIR . $module . '/tpl/';
                 $html .= $this->fetch( 'file.tpl');
-                $done_files[] = array('id' => $this->db->last_id(), 'file' => $file) ;
+                $done_files[] = array('id' => $this->db->last_id(), 'file' => $file_name, 'desc' => $file['name']) ;
             }
         }
 
@@ -56,7 +58,7 @@ class AdminFilesController extends AdminController {
         if (isset($this->post['action']) && $this->post['action'] == "files-upload"){
             $this->UploadFiles();
         }
-        if (isset($this->post['action']) && $this->post['action'] == "remove-image"){
+        if (isset($this->post['action']) && $this->post['action'] == "remove-file"){
             $this->RemoveFile();
         }
     }

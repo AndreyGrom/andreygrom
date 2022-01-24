@@ -13,7 +13,7 @@
                 <div id="item-files">
                     <ul class="file-list clearfix">
                         {section name=i loop=$item.files}
-                            {include file="file.tpl" file=$item.files[i].name file_id = $item.files[i].id}
+                            {include file="file.tpl" file_name=$item.files[i].name file_id = $item.files[i].id desc = $item.files[i].desc}
                         {/section}
                     </ul>
                 </div>

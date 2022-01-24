@@ -28,6 +28,18 @@
                 {/section}*}
                 <div class="clearfix"></div>
                 <div>{$item.content}</div>
+                {if $item.files}
+                    <h5>Файлы для скачивания:</h5>
+                    <ul class="catalog-files">
+                        {section name=i loop=$item.files}
+                            <li>
+                                <a target="_blank" href="/upload/files/catalog/{$item.files[i].name}">
+                                    {$item.files[i].desc}
+                                </a>
+                            </li>
+                        {/section}
+                    </ul>
+                {/if}
                 <div class="item-catalog-meta-data clearfix">
                     <div class="item-catalog-date pull-left">{$item.date_publ}</div>
                     <div class="clearfix"></div>

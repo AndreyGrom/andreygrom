@@ -6,6 +6,7 @@ return array(
     'table3'  => 'catalog_p',
     'table4'  => 'images',
     'table5'  => 'tags',
+    'table6'  => 'files',
     'name'  => 'Каталог',
     'title'  => 'Каталог',
     'version'  => 4.0,
