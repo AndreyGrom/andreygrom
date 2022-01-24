@@ -55,7 +55,6 @@ function RemoveImage(id, obj, module) {
         type        : 'POST',
         data        : data,
         success     : function( respond){
-            console.log(respond);
             if( respond == true){
                 obj.remove();
             } else {
@@ -74,7 +73,6 @@ function SkinImage(img_id, material_id, module, table, els, then) {
         type        : 'POST',
         data        : data,
         success     : function( respond){
-            console.log(respond)
             if( respond == true){
                 els.show();
                 then.hide();

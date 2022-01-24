@@ -2,11 +2,25 @@
 
 class AdminImagesController extends AdminController {
     private $table;
+    private $alias;
+    private $name;
+    private $version;
     public function __construct() {
         parent::__construct();
+        $config = include (__DIR__) . '/init.php';
+        $this->alias = $config['alias'];
         $this->table = db_pref . 'images';
+        $this->name = $config['name'];
+        $this->version = $config['version'];
+        $this->page_title = $config['title'];
+        $this->assign(array(
+            'module_config' => $config,
+        ));
     }
+    public function ShowMenu(){
 
+        $this->widget_left_top .= $this->fetch('menu.tpl');
+    }
     public function UploadImages(){
         $html = '';
         $module = $this->post['module'];
@@ -63,6 +77,12 @@ class AdminImagesController extends AdminController {
         }
         die($rs);
     }
+
+    public function ShowIndex(){
+        $sql = "SELECT * FROM $this->table";
+
+        $this->content = $this->SetTemplate('index.tpl');
+    }
     public function Index(){
         if (isset($this->post['action']) && $this->post['action'] == "images-upload"){
             $this->UploadImages();
@@ -73,6 +93,10 @@ class AdminImagesController extends AdminController {
         if (isset($this->post['action']) && $this->post['action'] == "set-skin"){
             $this->SetSkin();
         }
+
+        $this->ShowMenu();
+        $this->ShowIndex();
+        return $this->content;
     }
 }
 ?>
