@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Пошел вон"
+ AuthUserFile "/home/username/data/.htpasswd"
+Require valid-user

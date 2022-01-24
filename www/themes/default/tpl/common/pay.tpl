@@ -1,0 +1,2 @@
+<iframe src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&targets=%D0%9F%D0%BE%D0%B6%D0%B5%D1%80%D1%82%D0%B2%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BD%D0%B0%20%D1%81%D0%B0%D0%B9%D1%82&targets-hint=&default-sum=100&button-text=14&payment-type-choice=on&mobile-payment-type-choice=on&fio=on&hint=&successURL=http%3A%2F%2Fandreygrom3%2F&quickpay=shop&account=4100117001578294&"
+        width="100%" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>

@@ -50,6 +50,15 @@
 </div>
     <p>&nbsp;</p>
 {/if}
+
+    <div class="card">
+        <div class="card-header">
+            <strong>Пожертвовать на сайт</strong>
+        </div>
+        {include file="./pay.tpl"}
+    </div>
+    <p>&nbsp;</p>
+
 <h6>Метки</h6>
 <h6>Последние комментарии</h6>
 <h6>Популярное</h6>

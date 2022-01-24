@@ -56,7 +56,9 @@
                         <li><a href="/catalog/{$others[i].alias}">{$others[i].title}</a></li>
                     {/section}
                 </ul>
-                <p>&nbsp&;</p>
+                <p>&nbsp;</p>
+                {include file="../../common/pay.tpl"}
+                <p>&nbsp;</p>
 
                 {if isset($comments_form)}
                     <h5><i class="fa fa-comment"></i> Есть что добавить или возникли вопросы? Пишите в комментариях!</h5>
