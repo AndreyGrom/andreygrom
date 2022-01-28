@@ -33,6 +33,15 @@ class Func {
         }
         return $string;
     }
+    function generatePassword($length = 8){
+        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+        $numChars = strlen($chars);
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= substr($chars, rand(1, $numChars) - 1, 1);
+        }
+        return $string;
+    }
     public function TranslitURL($str)
     {
         $tr = array(
@@ -214,6 +223,24 @@ class Func {
     public function getBasename($filename) {
         $path_info = pathinfo($filename);
         return $this->pcgbasename($filename,'.'.$path_info['extension']);
+    }
+
+    public function GetSiteUrl(){
+        if( isset($_SERVER['HTTPS'] ) ) {
+            $proto = 'https://';
+        } else {
+            $proto = 'http://';
+        }
+        return $proto.$_SERVER['SERVER_NAME'].'/';
+    }
+    public function GetSelfUrl(){
+        if( isset($_SERVER['HTTPS'] ) ) {
+            $proto = 'https://';
+        } else {
+            $proto = 'http://';
+        }
+        return $proto . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+
     }
 
     // TODO Возможно переделать

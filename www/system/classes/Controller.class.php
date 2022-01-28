@@ -102,9 +102,8 @@ class Controller
             'site_theme'                 => $this->config->Theme,
             'module_default'             => $this->config->ModuleDefault,
             'module_name'                => $this->controller,
-            // TODO сделать получение URL через функцию
-            'site_url'                   => 'http://'.$_SERVER['SERVER_NAME'].'/',
-            'self_url'                   => 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'],
+            'site_url'                   => $this->func->GetSiteUrl(),
+            'self_url'                   => $this->func->GetSelfUrl(),
             'template_dir'               => '/'.$this->templates_dir,
             'theme_dir'                  => HTML_THEMES_DIR . $this->config->Theme.'/',
             'config'                     => $this->config,

@@ -25,7 +25,7 @@ class AdminLoginController extends AdminController {
                     $_SESSION['admin'] = $user;
                     $hash = $user['hash'];
                     if ($hash == ''){
-                        $hash = $this->generatePassword(20);
+                        $hash = $this->func->generatePassword(20);
                         $this->db->query("UPDATE " . db_pref . "users SET hash = '$hash' WHERE id = " . $user['id']);
                     }
                     setcookie('admin_hash', $hash, time() + 3600*24*30*6, '/');
@@ -60,15 +60,6 @@ class AdminLoginController extends AdminController {
         return $this->content;
     }
 
-    // TODO перенести в функции
-    function generatePassword($length = 8){
-        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
-        $numChars = strlen($chars);
-        $string = '';
-        for ($i = 0; $i < $length; $i++) {
-            $string .= substr($chars, rand(1, $numChars) - 1, 1);
-        }
-        return $string;
-    }
+
 }
 ?>

@@ -56,7 +56,7 @@ class AdminController {
         $this->widget_content_bottom = '';
         $this->widget_footer_top = '';
         $this->page_title = '';
-        $this->site_url = $this->GetSiteUrl();
+        $this->site_url = $this->func->GetSiteUrl();
     }
 
     public function LoadModel($model){
@@ -69,17 +69,6 @@ class AdminController {
             $this->$method_name = new $class_name();
         }
     }
-
-    // TODO перенести в функции
-    public function GetSiteUrl(){
-        if( isset($_SERVER['HTTPS'] ) ) {
-            $proto = 'https://';
-        } else {
-            $proto = 'http://';
-        }
-        return $proto.$_SERVER['SERVER_NAME'].'/';
-    }
-
 
     public function AssingCommonVars(){
         $this->smarty->assign(array(
@@ -202,26 +191,18 @@ class AdminController {
         foreach($list as $v){
             if (file_exists(CONTROLLERS_DIR.$v.'/init.php')){
                 $module = include_once(CONTROLLERS_DIR.$v.'/init.php');
-
-                //$class_name = 'Init'.mb_convert_case($v, MB_CASE_TITLE, "UTF-8");
-                //$class_name = 'InitModule';
-                //if (class_exists($class_name)){
-                    //$class = new $class_name();
-                    $module_class_name = mb_convert_case($v, MB_CASE_TITLE, "UTF-8").'Controller';
-                    $module_admin_class_name = 'Admin'.$module_class_name;
-                    // TODO ПОДУМАТЬ
-                    $m [] = array(
-                        'admin_class_name'  => $module_admin_class_name,
-                        'class_name'        => $module_class_name,
-                        'alias'             => $v,
-                        'name'              => $module['name'],
-                        'author'            => $module['author'],
-                        'visible'           => $module['visible'],
-                    );
-                //}
+                $module_class_name = mb_convert_case($v, MB_CASE_TITLE, "UTF-8").'Controller';
+                $module_admin_class_name = 'Admin'.$module_class_name;
+                $m [] = array(
+                    'admin_class_name'  => $module_admin_class_name,
+                    'class_name'        => $module_class_name,
+                    'alias'             => $v,
+                    'name'              => $module['name'],
+                    'author'            => $module['author'],
+                    'visible'           => $module['visible'],
+                );
             }
         }
-
         return $m;
     }
     public function GetThemes(){
