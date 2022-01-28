@@ -35,13 +35,13 @@
                             {/if}
                         </td>
                         <td>
-                            <a target="_blank" class="btn btn-primary btn-mini" data-original-title="Перейти к материалу" title="" data-toggle="tooltip" href="/{$module_config.alias}/{$items[i].alias}">
+                            <a target="_blank" class="btn btn-primary btn-xs" data-original-title="Перейти к материалу" title="" data-toggle="tooltip" href="/{$module_config.alias}/{$items[i].alias}">
                                 <span class="glyphicon glyphicon-share-alt"></span>
                             </a>
-                            <a class="btn btn-success btn-mini" data-original-title="Редактировать материал" title="" data-toggle="tooltip" href="?c={$module_config.alias}&category_id={$category.id}&material_id={$items[i].id}">
+                            <a class="btn btn-success btn-xs" data-original-title="Редактировать материал" title="" data-toggle="tooltip" href="?c={$module_config.alias}&category_id={$category.id}&material_id={$items[i].id}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
-                            <a class="btn btn-danger btn-mini confirm" data-original-title="Материал будет полностью удален" title="" data-toggle="tooltip" href="?c={$module_config.alias}&action=remove-item&category_id={$category.id}&material_id={$items[i].id}">
+                            <a class="btn btn-danger btn-xs confirm" data-original-title="Материал будет полностью удален" title="" data-toggle="tooltip" href="?c={$module_config.alias}&action=remove-item&category_id={$category.id}&material_id={$items[i].id}">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
                         </td>

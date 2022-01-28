@@ -2,151 +2,315 @@
 class Analysis {
     public $url;
     private $html;
+    private $headers;
+    private $data;
+    private $rs;
     public function __construct() {
         include_once(__DIR__ . '/simple_html_dom.php');
-        $rs = new stdClass();
+        $this->rs = new stdClass();
+        $this->old_tags = array(
+            'applet' => 'Добавляет Java-апплет в документ. Вместо него следует использовать &lt;embed&gt; или &lt;object&gt;',
+            'acronym' => 'Этот тег вызывал постоянные вопросы, что такое акроним и чем он отличается от  аббревиатуры. Для упрощения остался единственный тег &lt;abbr&gt;',
+            'bgsound' => 'Определяет музыкальный файл, который будет проигрываться на веб-странице при  её открытии. Для воспроизведения музыки используйте новый элемент &lt;audio&gt;',
+            'dir' => 'Создает список, содержащий названия директорий, вместо него используйте &lt;ul&gt;',
+            'frame' => 'Фреймы более не  поддерживаются. Если они вам требуются, используйте другую версию HTML или &lt;iframe&gt; совместно со стилями',
+            'frameset' => 'Фреймы более не  поддерживаются. Если они вам требуются, используйте другую версию HTML или &lt;iframe&gt; совместно со стилями',
+            'noframe' => 'Фреймы более не  поддерживаются. Если они вам требуются, используйте другую версию HTML или &lt;iframe&gt; совместно со стилями',
+            'isindex' => 'Предназначен для поискового индекса в текущем документе. Комбинация  &lt;form&gt; и &lt;input&gt; лучше справляется с этой задачей',
+            'listing' => 'Для вывода листинга программы  предназначены &lt;pre&gt; и &lt;code&gt;',
+            'xmp' => 'Для вывода листинга программы  предназначены &lt;pre&gt; и &lt;code&gt;',
+            'nextid' => 'Этот тег не предназначен для людей и указывает  идентификатор следующего документа для автоматических редакторов HTML. Полностью исключён',
+            'noembed' => 'Предназначен для отображения информации на  веб-странице, если браузер не поддерживает работу с плагинами. В качестве  альтернативы используйте &lt;object&gt;',
+            'plaintext' => 'Отображает  содержимое контейнера «как есть», любые теги выводятся как текст. Вместо тега  используйте MIME-тип text/plain',
+            'rb' => 'Определяет базовый текст внутри &lt;ruby&gt;. Этот тег полностью исключён',
+            'strike' => 'Для зачёркнутого текста применяется &lt;s&gt;, а для указания редакторской  правки &lt;del&gt;',
+            'basefont' => 'Вместо этого тега применяются стили',
+            'big' => 'Вместо этого тега применяются стили',
+            'blink' => 'Вместо этого тега применяются стили',
+            'center' => 'Вместо этого тега применяются стили',
+            'font' => 'Вместо этого тега применяются стили',
+            'marquee' => 'Вместо этого тега применяются стили',
+            'multicol' => 'Вместо этого тега применяются стили',
+            'nobr' => 'Вместо этого тега применяются стили',
+            'spacer' => 'Вместо этого тега применяются стили',
+            'tt' => 'Вместо этого тега применяются стили',
+            'u' => 'Вместо этого тега применяются стили',
+        );
+    }
+    private function HeadersToArray(){
+        $this->headers = explode('\r\n', $this->headers);
+    }
+    function GetOldTags(){
+        $result = array();
+        foreach ($this->old_tags as $k => $t){
+            $result[] = $k;
+        }
+        return $result;
     }
     private function GetPage($url) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$this->site . $url);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-        curl_setopt ($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
+        //curl_setopt ($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
         curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_REFERER, $this->site.$url);
-        curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_file);
+        curl_setopt($ch, CURLOPT_REFERER, $url);
+        //curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_file);
         $result=curl_exec ($ch);
+        if ($result !== false)
+        {
+            $ch_info = curl_getinfo($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $this->headers = trim(substr($result, 0, $ch_info['header_size']));
+            $this->data = substr($result, $ch_info['header_size']);
+            $rs = true;
+        } else {
+            $rs = false;
+        }
         curl_close ($ch);
-        return $result;
+        return $rs;
     }
     private function UrlInfo(){
         $url =  parse_url($this->url); ;
-        $rs['url'] = $this->url;
-        $rs['host'] = $url['host'];
+        $this->rs->url = $this->url; // URL
+        $this->rs->host = $url['host']; // Host
         if (strpos($this->url, 'https://') === false){
-            $rs['ssl'] = 0;
-            $rs['proto'] = 'http://';
+            $this->rs->ssl = 0;
+            $this->rs->proto = 'http://';
         } else {
-            $$rs['ssl'] = 1;
-            $rs['proto'] = 'https://';
-        }
-        $rs['info'] = 'Информация об URL и протоколе';
-        return $rs;
+            $this->rs->ssl = 1;
+            $this->rs->proto = 'https://';
+        };
     }
-    private function PlainHtml($thml, $encoding){
-        // соотношение Текст/HTML
-        $thml = str_replace(array("\r", "\n"), '', $thml);
-        $thml = preg_replace("/ +/", " ", $thml);
-        $result['length'] = mb_strlen($thml, $encoding);
-        $result['length_plain'] = mb_strlen(strip_tags($thml), $encoding);
-        $result['ratio']['ratio'] = round(($result['length_plain']/$result['length'])*100);
-        if ($result['ratio']['ratio'] > 15){
-            $result['ratio']['success'][] = 'Соотношение текста в коде HTML между 15 и 70 процентов';
-        } else {
-            $resul['ratio']['errors'][] = 'Соотношение текста в коде HTML меньше 15 процентов';
-        }
-        unset($thml);
-        $result['info'] = 'Соотношение Текст/HTML';
-        return $result;
+    private function PlainHtml($data, $encoding){
+        $data = str_replace(array("\r", "\n"), '', $data);
+        $data = preg_replace("/ +/", " ", $data);
+        $this->rs->length_html = mb_strlen($data, $encoding); // Кол-во символов вместе с тегами
+        $this->rs->length_plain = mb_strlen(strip_tags($data), $encoding); // Кол-во без тегов
+        // соотношение Текст/HTML. Если меньше 15,  то плохо
+        $this->rs->ratio = round(($this->rs->length_plain/$this->rs->length_html)*100);
     }
     private function RootInfo($html){;
-        if ($h = $html->find('html')){
-            $result['count'] = count($h);
-            if (count($h) > 1){ // Больше одного html
-                $result['errors'][] = 'Больше одного тега html';
-            } else {
-                $result['success'][] = 'Как положено, один корень документа на странице';
-            }
-            if (isset($h[0]->lang)){ // задан язык страницы
-                $result['lang'] = $h[0]->lang;
-                $result['success'][] = 'Задан язык страницы (' . $result['lang'] . ')';
-            } else { // не задан язык страницы
-                $result['errors'][] = 'Не задан язык страницы';
-            }
-
-        } else {
-            $result['errors'][] = 'Не найден корень документа';;
+        $h = $html->find('html');
+        $this->rs->count = count($h); // Кол-во корневых тегов html на странице
+        foreach ($h as $i){
+            $this->rs->lang[] = $i->lang; // Язык страницы
         }
-        unset($h);
-        $result['info'] = 'Информация о корне документа (тег html)';
-        return $result;
+        unset($h);;
     }
 
     private function TitleInfo($html, $encoding){
         $h = $html->find('title');
-        if (count($h) > 0 && $h[0]->innertext !== ''){
-            $result['count'] = count($h);
-            if (count($h) > 1){
-                $result['errors'][] = 'Найдено больше одного title';
+        if (count($h) > 0){
+            foreach ($h as $i){
+                $title = array(
+                    'content' => $i->innertext,
+                    'length' => mb_strlen($i->innertext, $encoding),
+                );
+                $this->rs->title[] = $title; // title страницы
             }
-            $result['length'] = mb_strlen($h[0]->innertext, $encoding);
-            if ($result['length'] < 10 || $result['length'] > 70){
-                $result['warnings'][] = 'Длина заголовка ' . $result['length'] . ' символов';
-            } else {
-                $result['success'][] = 'Длина заголовка от 10 до 70' . ' символов';
-            }
-            $result['content'] = $h[0]->innertext;
-        } else {
-            $result['errors'][] = 'Не найден заголовок страницы';
         }
+        // Длина title должна быть от 10 до 70 символов
         unset($h);
-        $result['info'] = 'Информация о заголовке страницы (тег title)';
-        return $result;
     }
     private function DescriptionInfo($html, $encoding){
         $h = $html->find('meta[name=description]');
-        if (count($h) > 0 && $h[0]->content !== ''){
-            $result['length'] = mb_strlen($h[0]->content, $encoding);
-            if ($result['length'] < 70 || $result['length'] > 160){
-                $result['warnings'][] = 'Длина описания ' . $result['length'] . ' символов';
-            } else {
-                $result['success'][] = 'Длина описания от 70 до 160' . ' символов';
+        if (count($h) > 0){
+            foreach ($h as $i){
+                $desc = array(
+                    'content' => $i->innertext,
+                    'length' => mb_strlen($i->innertext, $encoding),
+                );
+                $this->rs->meta_description[] = $desc; // title страницы
             }
-            $result['content'] = $h[0]->content;
-        } else {
-            $result['errors'][] = 'Не найдено описание страницы';
         }
+        // Длина meta_description должна быть от 70 до 160 символов
         unset($h);
-        $result['info'] = 'Информация об описании страницы (тег meta-description)';
-        return $result;
     }
-    public function KeywordsInfo($html, $encoding){
+    private function KeywordsInfo($html, $encoding){
         $h = $html->find('meta[name=keywords]');
-        if (count($h) > 0 && $h[0]->content !== ''){
-            $result['length'] = mb_strlen($h[0]->content, $encoding);
-            if ($result['length'] > 250){
-                $result['warnings'][] = 'Общая длина ключевых слов ' . $result['length'] . ' символов';
-            } else {
-                $result['success'][] = 'Общая длина ключевых слов меньше 250 символов';
+        if (count($h) > 0){
+            foreach ($h as $i){
+                $keywords = array(
+                    'content' => $i->innertext,
+                    'length' => mb_strlen($i->innertext, $encoding),
+                );
+                $this->rs->meta_keywords[] = $keywords; // title страницы
             }
-            $result['content'] = $h[0]->content;
-        } else {
-            $result['errors'][] = 'Не найдены ключевые слова';
+        }
+        // Длина meta_keywords должна быть меньше 250 символов
+        unset($h);
+    }
+    private function MetaOpenGraph($html){
+        $h = $html->find('meta[property]');
+        if (count($h) > 0){
+            foreach ($h as $i){
+                // Разметка Open Graph
+                if (strpos($i->property,'og:') !== false){
+                    $this->rs->meta_og[] = array(
+                        'property' => $i->property,
+                        'content' =>  $i->content,
+                    );
+                }
+            }
         }
         unset($h);
-        $result['info'] = 'Информация о ключевых словах (тег meta-keywords)';
-        return $result;
     }
-
-    public function Run(){
-        $rs = new stdClass();
-        $rs->url_info = $this->UrlInfo();
-
-        if ($data = $this->GetPage($this->url)){
-            $rs->encoding = mb_detect_encoding($data);
-            $rs->plain_html = $this->PlainHtml($data, $rs->encoding);
-            $html = new simple_html_dom();
-            $html = $html->load($data);
-            unset($data);
-            $rs->root_info = $this->RootInfo($html);
-            $rs->title_info = $this->TitleInfo($html, $rs->encoding);
-            $rs->description_info = $this->DescriptionInfo($html, $rs->encoding);
-            $rs->keywords_info = $this->KeywordsInfo($html, $rs->encoding);
-
-        } else {
-            $rs['error'] = 'Не удалось загрузить страницу';
+    private function MetaTwitter($html){
+        $h = $html->find('meta[name]');
+        if (count($h) > 0){
+            foreach ($h as $i){
+                // Разметка Twitter
+                if (strpos($i->name,'twitter:') !== false){
+                    $this->rs->meta_twitter[] = array(
+                        'name' => $i->name,
+                        'content' =>  $i->content,
+                    );
+                }
+            }
         }
-        return $rs;
+        unset($h);
+    }
+    private function CaptionTags($html){
+        $tags = array();
+        $tags_null = array();
+        $h = $html->find('h1, h2, h3, h4, h5, h6');
+        if (count($h) > 0){
+            foreach ($h as $i){
+                if (trim($i->innertext) !== ''){
+                    $tags[$i->tag][] = $i->innertext;
+                } else {
+                    $tags_null[$i->tag] = '';
+                }
+            }
+            $this->rs->caption_tags['tags'] = $tags;
+            $this->rs->caption_tags['tags_null'] = $tags_null;
+        };
+        unset($h);
+    }
+    private function Images($html){
+        $h = $html->find('img');
+        if (count($h) > 0){
+            foreach ($h as $i){
+                $this->rs->images[] = array(
+                    'alt' => $i->alt,
+                    'src' =>  $i->src,
+                    'title' =>  $i->title,
+                );
+            }
+        }
+        unset($h);
+    }
+    private function Flash($html){
+        $h = $html->find('object, embed');
+        if (count($h) > 0){
+            foreach ($h as $i){
+                $this->rs->flash[] = array(
+                    'alt' => $i->alt,
+                    'src' =>  $i->src,
+                    'title' =>  $i->title,
+                );
+            }
+        }
+        unset($h);
+    }
+    private function Iframe($html){
+        $h = $html->find('iframe');
+        if (count($h) > 0){
+            foreach ($h as $i){
+                $this->rs->iframe[] = array(
+                    'src' =>  $i->src,
+                );
+            }
+        }
+        unset($h);
+    }
+    private function Links($html){
+        $h = $html->find('a');
+        if (count($h) > 0){
+            foreach ($h as $i){
+                if (isset($i->href) && $i->href !== ''){
+                    $link = parse_url($i->href);
+                    $l = array(
+                        'text' => trim($i->innertext),
+                        'href' => $i->href,
+                    );
+                    if (isset($link['host']) && $link['host'] !== $this->rs->host){
+                        $l['type'] = 'out';
+                    } else {
+                        $l['type'] = 'current';
+                    }
+                    if (isset($i->rel) && $i->rel == 'nofollow'){
+                        $l['nofollow'] = true;
+                    } else {
+                        $l['nofollow'] = false;
+                    }
+                    $this->rs->links[] = $l;
+                }
+            }
+        }
+    }
+    private function Favicon($html){
+        $h = $html->find('link[rel="icon"]');
+        if (count($h) > 0){
+            $this->rs->favicon = $h[0]->href;
+        }
+        unset($h);
+    }
+    private function Charset($html){
+        $h = $html->find('meta[charset]');
+        if (count($h) > 0){
+            $this->rs->charset = strtolower($h[0]->charset);
+        }
+        unset($h);
+    }
+    private function Robots(){
+        if ($this->rs->is_robots = $this->GetPage($this->rs->proto . $this->rs->host . '/robots.txt')){
+            $this->rs->robots = $this->data;
+        }
+    }
+    private function OldTags($html){
+        $h = $html->find(implode(',', $this->GetOldTags()));
+        if (count($h) > 0){
+            foreach ($h as $i){
+                $this->rs->old_tags[] = array(
+                    'tag' =>  $i->tag,
+                    'info' =>  $this->old_tags[$i->tag],
+                );
+            }
+        }
+        unset($h);
+    }
+    public function Run(){
+        $this->UrlInfo();
+        if ($this->GetPage($this->url)){
+            $this->rs->encoding = mb_detect_encoding($this->data);
+            $this->rs->headers = $this->headers;
+            $this->PlainHtml($this->data, $this->rs->encoding);
+            $html = new simple_html_dom();
+            $this->html = $html->load($this->data);
+            unset($data);
+            $this->RootInfo($this->html);
+            $this->TitleInfo($this->html, $this->rs->encoding);
+            $this->DescriptionInfo($this->html, $this->rs->encoding);
+            $this->KeywordsInfo($this->html, $this->rs->encoding);
+            $this->MetaOpenGraph($this->html);
+            $this->MetaTwitter($this->html);
+            $this->CaptionTags($this->html);
+            $this->Images($this->html);
+            $this->Flash($this->html);
+            $this->Iframe($this->html);
+            $this->Links($this->html);
+            $this->Favicon($this->html);
+            $this->Charset($this->html);
+            $this->OldTags($this->html);
+            $this->Robots();
+            unset($this->html);
+        } else {
+            $this->rs->error = 'Не удалось загрузить страницу';
+        }
+        return $this->rs;
     }
 
 }

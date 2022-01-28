@@ -89,7 +89,7 @@
     });
 
     $(".save").click(function () {
-        $(this).prepend('<img src="/system/design/img/load.gif">');
+        $(this).prepend(img_loader);
         $.ajax({
             type: "POST",
             data: "action=set&param=" + modal.find("#param").val() + "&value=" + modal.find("#value").val() + "&desc=" + modal.find("#desc").val(),

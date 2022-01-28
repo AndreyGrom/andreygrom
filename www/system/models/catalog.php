@@ -253,6 +253,8 @@ class ModelCatalog extends Model {
         $sql = "DELETE FROM $this->table3 WHERE material_id = $id";
         $rs = $this->db->query($sql);
         // TODO удалять фото
+        // TODO удалять файлы
+        // TODO удалять теги
         return $rs;
     }
     public function UploadImages($material_id){

@@ -185,7 +185,9 @@ class AdminController {
     public function DateFormat($date){
         return date("d.m.Y G:i:s", $date);
     }
-
+    public function DateFormat2($date){
+        return date("d.m.Y G:i:s", $date);
+    }
     public function Head($url, $anch=''){
         if ($anch!==''){
             $url.='#'.$anch;
