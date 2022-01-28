@@ -117,15 +117,21 @@ class ModelCatalog extends Model {
         return $result;
     }
     public function RemoveCategory($id){
+
         $category = $this->GetCategoryOnly($id);
         $img = UPLOAD_IMAGES_DIR . $this->alias . '/' .$category['image'];
         if (!is_dir($img) && file_exists($img)){
             unlink($img);
         }
+        // Если удаляемая категория является родителем,
+        // то потомков перемещаем на верхний уровень
+        $sql = "UPDATE $this->table SET parent_id = 0 WHERE parent_id = $id";
+        $rs = $this->db->query($sql);
         $sql = "DELETE FROM $this->table WHERE id = $id";
         $rs = $this->db->query($sql);
         $sql = "DELETE FROM $this->table3 WHERE category_id = $id";
         $rs = $this->db->query($sql);
+
         return $rs;
     }
 
@@ -268,11 +274,12 @@ class ModelCatalog extends Model {
                 }
             }
         }
+        // Удаляем сам материал
         $sql = "DELETE FROM $this->table2 WHERE id = $id";
         $rs = $this->db->query($sql);
+        // Удаляем связи с категориями
         $sql = "DELETE FROM $this->table3 WHERE material_id = $id";
         $rs = $this->db->query($sql);
-
         // Удаляем данные изображений из таблицы
         $sql = "DELETE FROM $this->table4 WHERE material_id = $id";
         $rs = $this->db->query($sql);

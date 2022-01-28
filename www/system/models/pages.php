@@ -84,10 +84,11 @@ class ModelPages extends Model {
         if (isset($params['publ'])){
             $sql .= "AND publ = 1";
         }
+        if ($row = $this->db->select($sql, array('single' => true))){
+            $row['date_create'] = $this->func->DateFormat($row["date_create"]);
+            $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
+        }
 
-        $row = $this->db->select($sql, array('single' => true));
-        $row['date_create'] = $this->func->DateFormat($row["date_create"]);
-        $row['date_edit'] = $this->func->DateFormat($row["date_edit"]);
         return $row;
     }
 
@@ -106,6 +107,10 @@ class ModelPages extends Model {
     }
 
     public function RemovePage($id){
+        // Если страница является родителем, то потомков
+        // переносим на верхний уровень
+        $sql = "UPDATE $this->table SET parent_id = 0 WHERE parent_id = $id";
+        $rs = $this->db->query($sql);
         $sql = "DELETE FROM $this->table WHERE id = $id";
         return $this->db->query($sql);
     }

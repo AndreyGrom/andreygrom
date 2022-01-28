@@ -37,17 +37,16 @@ class PagesController extends Controller {
                     array('text' => $row['title'], 'href' => ''),
                 );
             }
-
+            $this->SetPath($this->alias.'/');
+            $this->assign(array(
+                'item'   => $row,
+                'page_title'       => $row['title'],
+                'page_content'     => $row['content'],
+            ));
+            $this->content = $this->SetTemplate($row['template'] . '.tpl');
+        } else {
+            $this->content = $this->Fetch404();
         }
-        $this->SetPath($this->alias.'/');
-        $this->assign(array(
-            'item'   => $row,
-            'page_title'       => $row['title'],
-            'page_content'     => $row['content'],
-        ));
-        $this->content = $this->SetTemplate($row['template'] . '.tpl');
-   /*     $this->SetPath('pages/');
-        $this->content =$this->SetTemplate('main.tpl');*/
         return $this->content ;
     }
 

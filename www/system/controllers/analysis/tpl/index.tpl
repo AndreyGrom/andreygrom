@@ -43,16 +43,16 @@
                             {$items[i].last_update}
                         </td>
                         <td>
-                            <a class="btn btn-primary btn-xs" data-original-title="Загрузить/Обновить" title="" data-toggle="tooltip" href="?c={$module_config.alias}&action=download&id={$items[i].id}">
+                            <a class="btn btn-primary btn-xs" data-original-title="Загрузить/Обновить" title="" data-toggle="tooltip" href="?c={$module_config.alias}&action=download-site&id={$items[i].id}">
                                 <span class="glyphicon glyphicon-download-alt"></span>
                             </a>
-                            <a target="_blank" class="btn btn-primary btn-xs" data-original-title="Перейти к материалу" title="" data-toggle="tooltip" href="/{$module_config.alias}/{$items[i].id}">
+                            <a target="_blank" class="btn btn-primary btn-xs" data-original-title="Перейти к анализу" title="" data-toggle="tooltip" href="/{$module_config.alias}/{$items[i].id}">
                                 <span class="glyphicon glyphicon-share-alt"></span>
                             </a>
-                            <a class="btn btn-success btn-xs" data-original-title="Редактировать материал" title="" data-toggle="tooltip" href="?c={$module_config.alias}&id={$items[i].id}">
+                            <a class="btn btn-success btn-xs" data-original-title="Редактировать анализ" title="" data-toggle="tooltip" href="?c={$module_config.alias}&id={$items[i].id}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
-                            <a class="btn btn-danger btn-xs confirm" data-original-title="Материал будет полностью удален" title="" data-toggle="tooltip" href="?c={$module_config.alias}&action=remove-item&id={$items[i].id}">
+                            <a class="btn btn-danger btn-xs confirm" data-original-title="Анализ будет удален" title="" data-toggle="tooltip" href="?c={$module_config.alias}&action=remove-site&id={$items[i].id}">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
                         </td>

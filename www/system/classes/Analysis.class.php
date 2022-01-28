@@ -2,8 +2,8 @@
 class Analysis {
     public $url;
     private $html;
-    private $headers;
-    private $data;
+    public $headers;
+    public $data;
     private $rs;
     public function __construct() {
         include_once(__DIR__ . '/simple_html_dom.php');
@@ -47,16 +47,14 @@ class Analysis {
         }
         return $result;
     }
-    private function GetPage($url) {
+    public function GetPage($url) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-        //curl_setopt ($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
         curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_REFERER, $url);
-        //curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_file);
         $result=curl_exec ($ch);
         if ($result !== false)
         {

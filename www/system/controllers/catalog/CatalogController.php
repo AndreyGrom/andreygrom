@@ -124,7 +124,8 @@ class CatalogController extends Controller{
         $this->assign(array(
             'categories' => $this->categories,
         ));
-        if ($category = $this->ModelCatalog->CategoryExists($this->categories, $this->query[0])){
+        $query = isset($this->query[0]) ? $this->query[0] : '';
+        if ($category = $this->ModelCatalog->CategoryExists($this->categories, $query)){
             $this->ShowItems($category);
         }
         elseif (count($this->query) > 0){

@@ -2,7 +2,7 @@
 <aside>
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-9">
             <h2>Ошибка 404</h2>
             <h3>К сожалению, запрашиваемой Вами страницы не существует на нашем сайте.</h3>
             <p>Возможно, это случилось по одной из этих причин:</p>
@@ -19,6 +19,9 @@
                 <li>воспользоваться картой сайта или поиском</li>
                 <li>посетить основные разделы сайта</li>
             </ul>
+        </div>
+        <div class="col-sm-3">
+            {include file="./common/sidebar-right.tpl"}
         </div>
     </div>
 </div>

@@ -91,7 +91,6 @@ class AdminCatalogController extends AdminController{
     }
     public function RemoveCategory(){
         if ($this->ModelCatalog->RemoveCategory($this->category_id)){
-            // TODO Здесь удалять связи со всеми материалами
             $_SESSION['alert'] = "Категория удалена";
             $this->Head("?c=" . $this->alias);
         }

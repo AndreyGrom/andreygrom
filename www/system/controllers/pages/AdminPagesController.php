@@ -76,7 +76,6 @@ class AdminPagesController extends AdminController {
     }
 
     public function RemovePage(){
-        // TODO вложенные страницы перенаправлять  на верхний уровень
         if ($this->id > 1){
             $this->ModelPages->RemovePage($this->id);
             $this->alert('Страница удалена');
