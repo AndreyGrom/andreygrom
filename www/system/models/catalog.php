@@ -248,17 +248,38 @@ class ModelCatalog extends Model {
         return $row;
     }
     public function RemoveItem($id){
+        if ($item = $this->GetItem($id)){
+            // Удаляем файлы
+            if (count($item['files']) > 0){
+                $path = UPLOAD_FILES_DIR . $this->alias . "/";
+                foreach ($item['files'] as $f){
+                    if (is_file($path . $f['name'])){
+                        unlink($path . $f['name']);
+                    }
+                }
+            }
+            if (count($item['images']) > 0){
+                // Удаляем изображения
+                $path = UPLOAD_IMAGES_DIR . $this->alias . "/";
+                foreach ($item['images'] as $f){
+                    if (is_file($path . $f['name'])){
+                        unlink($path . $f['name']);
+                    }
+                }
+            }
+        }
         $sql = "DELETE FROM $this->table2 WHERE id = $id";
         $rs = $this->db->query($sql);
         $sql = "DELETE FROM $this->table3 WHERE material_id = $id";
         $rs = $this->db->query($sql);
-        // удалять фото
+
+        // Удаляем данные изображений из таблицы
         $sql = "DELETE FROM $this->table4 WHERE material_id = $id";
         $rs = $this->db->query($sql);
-        // удалять файлы
+        // Удаляем данные файлов из таблицы
         $sql = "DELETE FROM $this->table5 WHERE material_id = $id";
         $rs = $this->db->query($sql);
-        // удалять теги
+        // Удаляем теги
         $sql = "DELETE FROM $this->table6 WHERE material_id = $id";
         $rs = $this->db->query($sql);
         return $rs;
