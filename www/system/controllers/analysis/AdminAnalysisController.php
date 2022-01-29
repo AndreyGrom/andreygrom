@@ -82,13 +82,13 @@ class AdminAnalysisController extends AdminController{
         return $this->db->select($sql, array('single' => true));
     }
     public function DownloadSite(){
-        include_once "../../classes/Analysis.class.php";
         $item = $this->GetItem($this->get['id']);
         $a = new Analysis();
         if ($a->GetPage($item['url'])){
             $param = array(
                 'content' => $a->data,
                 'headers' => $a->headers,
+                'last_update' => time(),
             );
             $this->db->update($this->table, $param, "url = '" . $item['url'] . "'");
             $this->Head('?c=analysis');

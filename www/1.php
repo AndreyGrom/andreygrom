@@ -6,7 +6,7 @@ $info = new Analysis();
 $info->url = 'http://megacity.mobi/';
 //$info->url = 'http://andreygrom.ru/';
 $rs = $info->Run();
-//var_dump($rs);
+var_dump($rs);
 ?>
 <!doctype html>
 <html lang="en">

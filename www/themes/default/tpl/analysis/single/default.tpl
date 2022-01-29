@@ -4,62 +4,67 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
-                <h2 class="page-title">{$item.title}</h2>
-                <div class="item-catalog-meta-data clearfix">
-                    <ul class="item-rubrics pull-right">
-                        <li>Рубрики:</li>
-                        {section name=i loop=$item.parents}
-                            <li><a href="/catalog/{$item.parents[i].alias}" title="{$item.parents[i].title}">{$item.parents[i].title}</a></li>
-                        {/section}
-                    </ul>
-                    <div class="item-catalog-date pull-left">{$item.date_publ}</div>
-                </div>
-                {if $item.img_name}
-                    <div class="item-catalog-image">
-                        <img class="img-responsive" src="/upload/images/catalog/{$item.img_name}" alt="{$item.title}" title="{$item.title}">
+                <h2 class="page-title">Страница: {$item->url}</h2>
+                {if property_exists($item, 'host')}
+                    <p>Сайт: <strong>{$item->proto}{$item->host}</strong></p>
+                {/if}
+                {if property_exists($item, 'ssl')}
+                    <div class="alert alert-success">Защищено сертификатом SSL (протокл https://)</div>
+                {else}
+                    <div class="alert alert-danger">Не защищено сертификатом SSL (протокл http://)</div>
+                {/if}
+                <p>Кодировка исходного кода (не тег meta[charset]): <strong>{$item->encoding}</strong></p>
+                <p>Значение тега meta[charset]: <strong>{$item->charset}</strong></p>
+                {if $item->encoding|lower == $item->charset|lower}
+                    <div class="alert alert-success">Верно! Значение meta[charset] и реальная кодировка исходного кода
+                        HTML совпадает
+                    </div>
+                {else}
+                    <div class="alert alert-danger">Ошибка! значение meta[charset] и реальная кодировка исходного кода
+                        HTML не совпадает
                     </div>
                 {/if}
-                {*{section name=i loop=$item.images}
-                    <div class="catalog-image">
-                        <a href="/upload/images/catalog/{$item.images[i].name}" class="fancybox">
-                            <img src="/upload/images/catalog/{$item.images[i].name}" alt="{$item.title}">
-                        </a>
+                <p>Длина исходного кода с пробелами: <strong>{$item->length_html}</strong></p>
+                <p>Длина текста с пробелами(без html-тегов): <strong>{$item->length_plain}</strong></p>
+                {if $item->ratio < 15}
+                    <div class="alert alert-danger">
+                        Ошибка! Соотношение HMTL/Текст: <strong>{$item->ratio}%</strong><br>
+                        Должно быть больше 15%
                     </div>
-                {/section}*}
-                <div class="clearfix"></div>
-                <div>{$item.content}</div>
-                {if $item.files}
-                    <h5>Файлы для скачивания:</h5>
-                    <ul class="catalog-files">
-                        {section name=i loop=$item.files}
-                            <li>
-                                <a target="_blank" href="/upload/files/catalog/{$item.files[i].name}">
-                                    {$item.files[i].desc}
-                                </a>
-                            </li>
-                        {/section}
-                    </ul>
+                {else}
+                    <div class="alert alert-success">
+                        Верно! Соотношение HMTL/Текст: <strong>{$item->ratio}%</strong><br>
+                        Должно быть больше 15%
+                    </div>
                 {/if}
-                <div class="item-catalog-meta-data clearfix">
-                    <div class="item-catalog-date pull-left">{$item.date_publ}</div>
-                    <div class="clearfix"></div>
-                    {if $item.tags}
-                        <ul class="item-tags">
-                            <li>Метки:</li>
-                            {section name=i loop=$item.tags}
-                                <li><a href="/catalog/tag={$item.tags[i].name}">{$item.tags[i].name}</a></li>
-                            {/section}
-                        </ul>
+                <p><strong>Title страницы:</strong></p>
+                {if property_exists($item, 'title')}
+                    <p>Title страницы: {$item->title[0]['content']}</p>
+                    {if count($item->title) > 1}
+                        <div class="alert alert-danger">
+                            Ошибка: на странице должен быть только один тег title. Сейчас их {count($item->title)}
+                        </div>
+                        <p>&nbsp;</p>
                     {/if}
-                    <div class="clearfix"></div>
-                    <ul class="item-rubrics">
-                        <li>Рубрики:</li>
-                        {section name=i loop=$item.parents}
-                            <li><a href="/catalog/{$item.parents[i].alias}">{$item.parents[i].title}</a></li>
-                        {/section}
-                    </ul>
+                    {if $item->title[0]['length'] >= 10 && $item->title[0]['length'] <= 70}
+                        <div class="alert alert-success">
+                            Длина тега title нормальная. Она должна быть от 10 до 70 символов
+                        </div>
+                    {else}
+                        <div class="alert alert-danger">
+                            Ошибка! Длина title должна быть от 10 до 70 символов. Сейчас длина
+                            - {$item->title[0]['length']}
+                        </div>
+                        <p>&nbsp;</p>
+                    {/if}
+                {elseif property_exists($item, 'title') || $item->title == ''}
+                    <div class="alert alert-danger">
+                        Ошибка! Title не задан
+                    </div>
                     <p>&nbsp;</p>
-                </div>
+                {/if}
+
+
                 {include file="../../common/socials.tpl"}
                 <p>&nbsp;</p>
                 <h5>Вам будет интересно:</h5>
@@ -73,7 +78,8 @@
                 <p>&nbsp;</p>
 
                 {if isset($comments_form)}
-                    <h5><i class="fa fa-comment"></i> Есть что добавить или возникли вопросы? Пишите в комментариях!</h5>
+                    <h5><i class="fa fa-comment"></i> Есть что добавить или возникли вопросы? Пишите в комментариях!
+                    </h5>
                     {$comments}
                     {$comments_form}
                 {/if}

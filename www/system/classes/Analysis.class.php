@@ -259,7 +259,7 @@ class Analysis {
     private function Charset($html){
         $h = $html->find('meta[charset]');
         if (count($h) > 0){
-            $this->rs->charset = strtolower($h[0]->charset);
+            $this->rs->charset = $h[0]->charset;
         }
         unset($h);
     }
@@ -282,7 +282,10 @@ class Analysis {
     }
     public function Run(){
         $this->UrlInfo();
-        if ($this->GetPage($this->url)){
+        if ($this->data == ''){
+            $this->GetPage($this->url);
+        }
+        if ($this->data !== ''){
             $this->rs->encoding = mb_detect_encoding($this->data);
             $this->rs->headers = $this->headers;
             $this->PlainHtml($this->data, $this->rs->encoding);
