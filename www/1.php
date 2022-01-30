@@ -4,7 +4,7 @@ ini_set("display_errors", 0);
 include_once('system/classes/Analysis.class.php');
 $info = new Analysis();
 $info->url = 'http://megacity.mobi/';
-//$info->url = 'http://andreygrom.ru/';
+$info->url = 'https://www.youtube.com/watch?v=PRZby3GTbAE';
 $rs = $info->Run();
 var_dump($rs);
 ?>

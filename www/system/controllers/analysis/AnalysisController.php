@@ -1,5 +1,6 @@
 <?php
 class AnalysisController extends Controller{
+    private $alias;
     private $table;
     public function __construct($query, $controller) {
         parent::__construct($query, $controller);
@@ -19,14 +20,26 @@ class AnalysisController extends Controller{
         $this->content = $this->SetTemplate('default.tpl');
     }
     public function ShowItem(){
-        if ($item = $this->GetItem($this->query[0])){
+        if ($item = $this->GetItem($this->query[0])){;
             $analysis = new Analysis();
             $analysis->url = $item['url'];
             $analysis->data = $item['content'];
-            $analysis->headers = $item['headers'];
-            $analysis->headers = explode(PHP_EOL, $analysis->headers);
+            $analysis->headers = explode(PHP_EOL, $item['headers']);
+            if (count($analysis->headers) > 0){
+                foreach ($analysis->headers as &$h){
+                    $a = explode(':', $h);
+                    $h = array($a[0], isset($a[1]) ? trim($a[1]) : '');
+                }
+            }
             $rs = $analysis->Run();
             //var_dump($rs);
+            $this->page_title = "Анализ страницы " . $item['url'];
+            $this->meta_description = isset($rs->meta_description[0]['content']) ? $rs->meta_description[0]['content'] : '';
+            $this->meta_keywords = isset($rs->meta_keywords[0]['content']) ? $rs->meta_keywords[0]['content'] : '';
+            if ($this->meta_title == ''){
+                $this->meta_title = $this->page_title . '. Анализ сайтов. '. $this->config->SiteTitle;
+            }
+
             $this->assign(array(
                 'item' => $rs,
             ));

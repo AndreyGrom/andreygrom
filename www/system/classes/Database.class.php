@@ -30,7 +30,7 @@ class Database {
         if ($this->mysqli->connect_error) {
             die('Connect Error (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
         }
-        $this->mysqli->set_charset("utf8");
+        $this->mysqli->set_charset("utf8mb4");
 	}
     public function query($sql){
         $result = $this->mysqli->query($sql);
@@ -64,12 +64,12 @@ class Database {
         return $return;
     }
     public function input($text){
-        $text = stripcslashes($text);
-        if (!get_magic_quotes_gpc()){
+        //$text = stripcslashes($text);
+        //if (!get_magic_quotes_gpc()){
             return $this->mysqli->real_escape_string(trim($text));
-        } else {
-            return trim($text);
-        }
+        //} else {
+            //return trim($text);
+        //}
 	}
     public function last_id(){
         return $this->mysqli->insert_id;

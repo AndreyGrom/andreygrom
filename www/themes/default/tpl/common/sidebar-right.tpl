@@ -1,7 +1,7 @@
 {catalog_categories}
 {if $catalog_categories}
 <div class="card">
-    {catalog_categories}
+    {catalog_categories source="catalog_categories"}
     <div class="card-header">
         <strong>Категории</strong>
     </div>

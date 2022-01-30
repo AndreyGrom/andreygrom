@@ -9,6 +9,7 @@ https://fastvps.ru/partnership_and_loyalty
 Модуль управления файлами
 Модуль управления изображениями
 Модуль управления тегами
+Кнопка Наверх
 
 https://seo-inf.ru/tools/punycode/
 https://seo-inf.ru/tools/whois/

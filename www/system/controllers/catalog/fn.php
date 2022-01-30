@@ -1,7 +1,7 @@
 <?php
-function CatalogGetCategories($params, &$smarty){
+function CatalogGetCategories($params, $smarty){
     $db = Database::getInstance();
-    $source = $params['source'] ? $params['source'] : "catalog_categories";
+    $source = isset($params['source']) ? $params['source'] : "catalog_categories";
     $sql = "SELECT * FROM `".db_pref."catalog_c` WHERE public = 1";
     if (isset($params['no_id'])){
         $sql .= " AND ID NOT IN(".$params['no_id'].")";
@@ -9,16 +9,16 @@ function CatalogGetCategories($params, &$smarty){
     if (isset($params['order'])){
         $sql .= " ORDER BY ".$params['order'];
     }
-    $limit = $params['limit'] ? $params['limit'] : 20;
+    $limit = isset($params['limit']) ? $params['limit'] : 20;
     $items = $db->select($sql);
     $items =  Func::getInstance()->getStructure($items);
     $smarty->assign($source, $items);
 }
-function CatalogGetLastPublic($params, &$smarty){
+function CatalogGetLastPublic($params, $smarty){
     $db = Database::getInstance();
-    $source = $params['source'] ? $params['source'] : "catalog_last";
-    $limit = $params['limit'] ? $params['limit'] : 5;
-    $sort = $params['sort'] ? $params['sort'] : "date_publ DESC";
+    $source = isset($params['source']) ? $params['source'] : "catalog_last";
+    $limit = isset($params['limit']) ? $params['limit'] : 5;
+    $sort = isset($params['sort']) ? $params['sort'] : "date_publ DESC";
     $sql = "SELECT * FROM ".db_pref."catalog_i WHERE public = 1";
     if (isset($params['no_id'])){
         $sql .= " AND ID NOT IN(".$params['no_id'].")";

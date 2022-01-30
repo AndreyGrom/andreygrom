@@ -53,8 +53,17 @@ class Analysis {
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-        curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_REFERER, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+        curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)');
+        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+        //$f = fopen('errors.txt', 'a+');
+        //curl_setopt($ch, CURLOPT_STDERR, $f);
+        curl_setopt($ch, CURLOPT_TIMEOUT,30); // times out after 4s
         $result=curl_exec ($ch);
         if ($result !== false)
         {
@@ -117,10 +126,10 @@ class Analysis {
         if (count($h) > 0){
             foreach ($h as $i){
                 $desc = array(
-                    'content' => $i->innertext,
-                    'length' => mb_strlen($i->innertext, $encoding),
+                    'content' => $i->content,
+                    'length' => mb_strlen($i->content, $encoding),
                 );
-                $this->rs->meta_description[] = $desc; // title страницы
+                $this->rs->meta_description[] = $desc; // meta_description страницы
             }
         }
         // Длина meta_description должна быть от 70 до 160 символов
@@ -131,10 +140,10 @@ class Analysis {
         if (count($h) > 0){
             foreach ($h as $i){
                 $keywords = array(
-                    'content' => $i->innertext,
-                    'length' => mb_strlen($i->innertext, $encoding),
+                    'content' => $i->content,
+                    'length' => mb_strlen($i->content, $encoding),
                 );
-                $this->rs->meta_keywords[] = $keywords; // title страницы
+                $this->rs->meta_keywords[] = $keywords; // meta_keywords страницы
             }
         }
         // Длина meta_keywords должна быть меньше 250 символов
@@ -176,8 +185,8 @@ class Analysis {
         $h = $html->find('h1, h2, h3, h4, h5, h6');
         if (count($h) > 0){
             foreach ($h as $i){
-                if (trim($i->innertext) !== ''){
-                    $tags[$i->tag][] = $i->innertext;
+                if (trim(strip_tags($i->innertext)) !== ''){
+                    $tags[$i->tag][] = trim(strip_tags($i->innertext));
                 } else {
                     $tags_null[$i->tag] = '';
                 }
@@ -187,10 +196,26 @@ class Analysis {
         };
         unset($h);
     }
+    function array_unique_key($array, $key) {
+        $tmp = $key_array = array();
+        $i = 0;
+        foreach($array as $val) {
+            if (!in_array($val[$key], $key_array)) {
+                $key_array[$i] = $val[$key];
+                $tmp[$i] = $val;
+            }
+            $i++;
+        }
+        $tmp = array_values($tmp);
+        return $tmp;
+    }
     private function Images($html){
         $h = $html->find('img');
         if (count($h) > 0){
             foreach ($h as $i){
+                if (strpos($i->src, 'http') === false){
+                    $i->src = $this->rs->proto . $this->rs->host . $i->src;
+                }
                 $this->rs->images[] = array(
                     'alt' => $i->alt,
                     'src' =>  $i->src,
@@ -199,11 +224,13 @@ class Analysis {
             }
         }
         unset($h);
+        $this->rs->images = $this->array_unique_key($this->rs->images, 'src');
     }
     private function Flash($html){
         $h = $html->find('object, embed');
         if (count($h) > 0){
             foreach ($h as $i){
+                if ($i->src == '') continue;
                 $this->rs->flash[] = array(
                     'alt' => $i->alt,
                     'src' =>  $i->src,
@@ -217,6 +244,7 @@ class Analysis {
         $h = $html->find('iframe');
         if (count($h) > 0){
             foreach ($h as $i){
+                if ($i->src == '') continue;
                 $this->rs->iframe[] = array(
                     'src' =>  $i->src,
                 );
@@ -231,7 +259,7 @@ class Analysis {
                 if (isset($i->href) && $i->href !== ''){
                     $link = parse_url($i->href);
                     $l = array(
-                        'text' => trim($i->innertext),
+                        'text' => trim(strip_tags($i->innertext)),
                         'href' => $i->href,
                     );
                     if (isset($link['host']) && $link['host'] !== $this->rs->host){
@@ -253,6 +281,9 @@ class Analysis {
         $h = $html->find('link[rel="icon"]');
         if (count($h) > 0){
             $this->rs->favicon = $h[0]->href;
+            if (strpos($this->rs->favicon, 'http') === false){
+                $this->rs->favicon = $this->rs->proto . $this->rs->host . $this->rs->favicon;
+            }
         }
         unset($h);
     }
@@ -306,7 +337,7 @@ class Analysis {
             $this->Favicon($this->html);
             $this->Charset($this->html);
             $this->OldTags($this->html);
-            $this->Robots();
+            //$this->Robots();
             unset($this->html);
         } else {
             $this->rs->error = 'Не удалось загрузить страницу';

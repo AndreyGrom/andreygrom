@@ -49,9 +49,6 @@
                             <a target="_blank" class="btn btn-primary btn-xs" data-original-title="Перейти к анализу" title="" data-toggle="tooltip" href="/{$module_config.alias}/{$items[i].id}">
                                 <span class="glyphicon glyphicon-share-alt"></span>
                             </a>
-                            <a class="btn btn-success btn-xs" data-original-title="Редактировать анализ" title="" data-toggle="tooltip" href="?c={$module_config.alias}&id={$items[i].id}">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </a>
                             <a class="btn btn-danger btn-xs confirm" data-original-title="Анализ будет удален" title="" data-toggle="tooltip" href="?c={$module_config.alias}&action=remove-site&id={$items[i].id}">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>

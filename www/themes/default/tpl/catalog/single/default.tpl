@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
-                <h2 class="page-title">{$item.title}</h2>
+                <h1 class="page-title">{$item.title}</h1>
                 <div class="item-catalog-meta-data clearfix">
                     <ul class="item-rubrics pull-right">
                         <li>Рубрики:</li>

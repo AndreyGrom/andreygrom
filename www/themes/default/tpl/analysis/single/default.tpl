@@ -5,64 +5,51 @@
         <div class="row">
             <div class="col-sm-9">
                 <h2 class="page-title">Страница: {$item->url}</h2>
-                {if property_exists($item, 'host')}
-                    <p>Сайт: <strong>{$item->proto}{$item->host}</strong></p>
-                {/if}
-                {if property_exists($item, 'ssl')}
-                    <div class="alert alert-success">Защищено сертификатом SSL (протокл https://)</div>
-                {else}
-                    <div class="alert alert-danger">Не защищено сертификатом SSL (протокл http://)</div>
-                {/if}
-                <p>Кодировка исходного кода (не тег meta[charset]): <strong>{$item->encoding}</strong></p>
-                <p>Значение тега meta[charset]: <strong>{$item->charset}</strong></p>
-                {if $item->encoding|lower == $item->charset|lower}
-                    <div class="alert alert-success">Верно! Значение meta[charset] и реальная кодировка исходного кода
-                        HTML совпадает
+                <div class="card text-center">
+                    <div class="card-header">
+                        SEO-ОПТИМИЗАЦИЯ
                     </div>
-                {else}
-                    <div class="alert alert-danger">Ошибка! значение meta[charset] и реальная кодировка исходного кода
-                        HTML не совпадает
+                    <div class="card-body">
+                        <h5 class="card-title">Показаны только поверхностные данные</h5>
+                        <p class="card-text">Для более глубокого анализа закажите соответствующую услугу</p>
+                        <a data-toggle="modal" data-target="#order-modal" href="#" class="btn btn-primary">Сделать заказ</a>
                     </div>
-                {/if}
-                <p>Длина исходного кода с пробелами: <strong>{$item->length_html}</strong></p>
-                <p>Длина текста с пробелами(без html-тегов): <strong>{$item->length_plain}</strong></p>
-                {if $item->ratio < 15}
-                    <div class="alert alert-danger">
-                        Ошибка! Соотношение HMTL/Текст: <strong>{$item->ratio}%</strong><br>
-                        Должно быть больше 15%
+                    <div class="card-footer text-muted">
+                        Используется свой собственный алгоритм анализа страниц <a href="#"><strong>AG CMS ANALYSIS</strong></a>
                     </div>
-                {else}
-                    <div class="alert alert-success">
-                        Верно! Соотношение HMTL/Текст: <strong>{$item->ratio}%</strong><br>
-                        Должно быть больше 15%
+                </div>
+
+                {include file="../inc/common.tpl"}
+                {include file="../inc/ratio.tpl"}
+                {include file="../inc/title.tpl"}
+                {include file="../inc/description.tpl"}
+                {include file="../inc/keywords.tpl"}
+                {include file="../inc/meta-og.tpl"}
+                {include file="../inc/meta-twitter.tpl"}
+                {include file="../inc/captions.tpl"}
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#images">Изображения ({count($item->images)})</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#links">Ссылки ({count($item->links)})</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#flash">Flash/Iframe</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="images">
+                        {include file="../inc/images.tpl"}
                     </div>
-                {/if}
-                <p><strong>Title страницы:</strong></p>
-                {if property_exists($item, 'title')}
-                    <p>Title страницы: {$item->title[0]['content']}</p>
-                    {if count($item->title) > 1}
-                        <div class="alert alert-danger">
-                            Ошибка: на странице должен быть только один тег title. Сейчас их {count($item->title)}
-                        </div>
-                        <p>&nbsp;</p>
-                    {/if}
-                    {if $item->title[0]['length'] >= 10 && $item->title[0]['length'] <= 70}
-                        <div class="alert alert-success">
-                            Длина тега title нормальная. Она должна быть от 10 до 70 символов
-                        </div>
-                    {else}
-                        <div class="alert alert-danger">
-                            Ошибка! Длина title должна быть от 10 до 70 символов. Сейчас длина
-                            - {$item->title[0]['length']}
-                        </div>
-                        <p>&nbsp;</p>
-                    {/if}
-                {elseif property_exists($item, 'title') || $item->title == ''}
-                    <div class="alert alert-danger">
-                        Ошибка! Title не задан
+                    <div class="tab-pane fade" id="links">
+                        {include file="../inc/links.tpl"}
                     </div>
-                    <p>&nbsp;</p>
-                {/if}
+                    <div class="tab-pane fade" id="flash">
+                        {include file="../inc/flash.tpl"}
+                    </div>
+                </div>
 
 
                 {include file="../../common/socials.tpl"}

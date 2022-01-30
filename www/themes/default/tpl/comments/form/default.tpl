@@ -35,17 +35,6 @@
                             <input type="email" class="form-control" name="email" id="email" placeholder="Email (не публикуется)">
                         </div>
                     </div>
-                    {if $captcha}
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-sm-12 control-label">Код с картинки:</label>
-                                <div class="col-sm-5">
-                                    <input required value="" name="captcha" type="tel" class="form-control">
-                                </div>
-                                <div class="col-sm-7"><img style="cursor: pointer" class="img-responsive" id="captcha" src="{$html_plugins_dir}captcha/index.php?hash={$rand}&sn=comment" alt=""/></div>
-                            </div>
-                        </div>
-                    {/if}
                     <div class="form-group">
                         <button id="add-comment" type="submit" class="btn-outline" style="width:100%;display:block">Добавить комментарий</button>
                     </div>
