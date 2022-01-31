@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <h3 class="panel-title text-uppercase">
                 <span class="glyphicon glyphicon-pencil"></span>
-                {if !$item}
+                {if !isset($item)}
                     Создание новой категории
                 {else}
                     Редактирование категории
@@ -15,7 +15,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            {if $item}
+            {if isset($item)}
                 <table class="table table-bordered table-hover">
                     <tr>
                         <td>URL: <br><a target="_blank" href="{$site_url}{$module_config.alias}/{$item.alias}">{$site_url}{$module_config.alias}/{$item.alias}</a>

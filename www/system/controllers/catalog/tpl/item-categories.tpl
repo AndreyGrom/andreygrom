@@ -1,4 +1,4 @@
-<ul{if !$sub} class="list-unstyled"{else} style="list-style: none;padding-left:10px;"{/if}>
+<ul{if !isset($sub)} class="list-unstyled"{else} style="list-style: none;padding-left:10px;"{/if}>
     {section name=i loop=$categories}
         <li>
             <label>
@@ -8,7 +8,7 @@
                         {/section}
                        value="{$categories[i].id}"/> {$categories[i].title}
             </label>
-            {if $categories[i].sub}
+            {if isset($categories[i].sub)}
                 {include file="item-categories.tpl" categories=$categories[i].sub sub=true}
             {/if}
         </li>

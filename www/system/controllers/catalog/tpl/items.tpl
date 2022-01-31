@@ -13,7 +13,7 @@
                 </div>
             {/if}
             <div class="{if $num_pages > 1}col-sm-6{else}col-sm-12{/if} text-right">
-                <p style="margin-top: 10px;">Показано материалов: {$start}-{$items_count + $start} из {$total}</p>
+                <p style="margin-top: 10px;">Показано материалов: {$start}-{count($items) + $start} из {$total}</p>
             </div>
 
             <table class="table table-striped">

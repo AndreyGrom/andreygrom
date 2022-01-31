@@ -12,45 +12,60 @@
                     <div class="card-body">
                         <h5 class="card-title">Показаны только поверхностные данные</h5>
                         <p class="card-text">Для более глубокого анализа закажите соответствующую услугу</p>
-                        <a data-toggle="modal" data-target="#order-modal" href="#" class="btn btn-primary">Сделать заказ</a>
+                        <a data-toggle="modal" data-target="#order-modal" href="#" class="btn btn-primary">Заказать SEO-оптимизацию</a>
                     </div>
                     <div class="card-footer text-muted">
                         Используется свой собственный алгоритм анализа страниц <a href="#"><strong>AG CMS ANALYSIS</strong></a>
                     </div>
                 </div>
 
-                {include file="../inc/common.tpl"}
-                {include file="../inc/ratio.tpl"}
-                {include file="../inc/title.tpl"}
-                {include file="../inc/description.tpl"}
-                {include file="../inc/keywords.tpl"}
-                {include file="../inc/meta-og.tpl"}
-                {include file="../inc/meta-twitter.tpl"}
-                {include file="../inc/captions.tpl"}
+                {if $return}
+                    {include file="../inc/common.tpl"}
+                    {include file="../inc/ratio.tpl"}
+                    {include file="../inc/title.tpl"}
+                    {include file="../inc/description.tpl"}
+                    {include file="../inc/keywords.tpl"}
+                    {include file="../inc/meta-og.tpl"}
+                    {include file="../inc/meta-twitter.tpl"}
 
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#images">Изображения ({count($item->images)})</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#links">Ссылки ({count($item->links)})</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#flash">Flash/Iframe</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="images">
-                        {include file="../inc/images.tpl"}
-                    </div>
-                    <div class="tab-pane fade" id="links">
-                        {include file="../inc/links.tpl"}
-                    </div>
-                    <div class="tab-pane fade" id="flash">
-                        {include file="../inc/flash.tpl"}
-                    </div>
-                </div>
 
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#links">Ссылки ({if property_exists($item, 'links')}{count($item->links)}{else}0{/if})</a>
+                        </li>
+                        {if property_exists($item, 'caption_tags')}
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#captions">Заголовки ({count($item->caption_tags)})</a>
+                        </li>
+                        {/if}
+                        {if property_exists($item, 'images')}
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#images">Изображения ({count($item->images)})</a>
+                        </li>
+                        {/if}
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#flash">Flash/Iframe</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="links">
+                            {include file="../inc/links.tpl"}
+                        </div>
+                        <div class="tab-pane fade" id="images">
+                            {include file="../inc/images.tpl"}
+                        </div>
+                        <div class="tab-pane fade" id="captions">
+                            {include file="../inc/captions.tpl"}
+                        </div>
+                        <div class="tab-pane fade" id="flash">
+                            {include file="../inc/flash.tpl"}
+                        </div>
+                    </div>
+                {else}
+                    <p>&nbsp;</p>
+                    <div class="alert alert-danger">Страница еще не загружена. Зайдите попозже</div>
+                {/if}
+                <hr>
 
                 {include file="../../common/socials.tpl"}
                 <p>&nbsp;</p>

@@ -52,6 +52,14 @@
                             <a class="dropdown-item" href="#">Что-то еще здесь</a>
                         </div>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Инструменты
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/analysis/">Анализ сайтов/страниц</a>
+                        </div>
+                    </li>
                 </ul>
 
 

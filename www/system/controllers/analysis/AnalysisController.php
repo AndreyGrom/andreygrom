@@ -33,6 +33,8 @@ class AnalysisController extends Controller{
             }
             $rs = $analysis->Run();
             //var_dump($rs);
+            $return = $item['content'] !== '';
+
             $this->page_title = "Анализ страницы " . $item['url'];
             $this->meta_description = isset($rs->meta_description[0]['content']) ? $rs->meta_description[0]['content'] : '';
             $this->meta_keywords = isset($rs->meta_keywords[0]['content']) ? $rs->meta_keywords[0]['content'] : '';
@@ -42,6 +44,7 @@ class AnalysisController extends Controller{
 
             $this->assign(array(
                 'item' => $rs,
+                'return' => $return,
             ));
         }
         $this->SetPath('/analysis/single/');

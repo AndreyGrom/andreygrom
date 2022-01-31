@@ -4,67 +4,95 @@
     <div class="col-md-6">
         <table class="table table-hover table-inverse">
             <caption>Информация о сервере</caption>
+            {if property_exists($details, 'ip')}
             <tr>
                 <td>IP:</td>
                 <td>{$details->ip}</td>
             </tr>
+            {/if}
+            {if property_exists($details, 'hostname')}
             <tr>
                 <td>Имя хоста:</td>
                 <td>{$details->hostname}</td>
             </tr>
+            {/if}
+            {if property_exists($details, 'city')}
             <tr>
                 <td>Город:</td>
                 <td>{$details->city}</td>
             </tr>
+            {/if}
+            {if property_exists($details, 'region')}
             <tr>
                 <td>Регион:</td>
                 <td>{$details->region}</td>
             </tr>
+            {/if}
+            {if property_exists($details, 'country')}
             <tr>
                 <td>Страна:</td>
                 <td>{$details->country}</td>
             </tr>
+            {/if}
+            {if property_exists($details, 'org')}
             <tr>
                 <td>Организация:</td>
                 <td>{$details->org}</td>
             </tr>
+            {/if}
+            {if property_exists($details, 'timezone')}
             <tr>
                 <td>Часовой пояс:</td>
                 <td>{$details->timezone}</td>
             </tr>
+            {/if}
         </table>
     </div>
     <div class="col-md-6">
         <table class="table table-hover table-inverse">
             <caption>Информация о вас</caption>
+            {if property_exists($details2, 'ip')}
             <tr>
                 <td>IP:</td>
                 <td>{$details2->ip}</td>
             </tr>
+            {/if}
+            {if property_exists($details2, 'hostname')}
             <tr>
                 <td>Имя хоста:</td>
                 <td>{$details2->hostname}</td>
             </tr>
+            {/if}
+            {if property_exists($details2, 'city')}
             <tr>
                 <td>Город:</td>
                 <td>{$details2->city}</td>
             </tr>
+            {/if}
+            {if property_exists($details2, 'region')}
             <tr>
                 <td>Регион:</td>
                 <td>{$details2->region}</td>
             </tr>
+            {/if}
+            {if property_exists($details2, 'country')}
             <tr>
                 <td>Страна:</td>
                 <td>{$details2->country}</td>
             </tr>
+            {/if}
+            {if property_exists($details2, 'org')}
             <tr>
                 <td>Организация:</td>
                 <td>{$details2->org}</td>
             </tr>
+            {/if}
+            {if property_exists($details2, 'timezone')}
             <tr>
                 <td>Часовой пояс:</td>
                 <td>{$details2->timezone}</td>
             </tr>
+            {/if}
         </table>
     </div>
 </div>

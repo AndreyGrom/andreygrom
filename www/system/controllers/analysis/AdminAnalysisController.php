@@ -19,7 +19,7 @@ class AdminAnalysisController extends AdminController{
         $this->widget_left_top .= $this->fetch('menu.tpl');
     }
     public function ShowIndex(){
-        $sql = "SELECT * FROM $this->table";
+        $sql = "SELECT * FROM $this->table ORDER BY last_update DESC";
         $params = array(
             'sql' => $sql,
             'per_page' => 20,
@@ -84,16 +84,15 @@ class AdminAnalysisController extends AdminController{
     public function DownloadSite(){
         $item = $this->GetItem($this->get['id']);
         $a = new Analysis();
-        if ($a->GetPage($item['url'])){
-            $a->data = preg_replace('#<script[^>]*>.*?</script>#is', '', $a->data);
+        $a->url = $item['url'];
+        if ($rs = $a->GetPage($item['url'])){
             $param = array(
                 'content' => $a->data,
                 'headers' => $a->headers,
                 'last_update' => time(),
             );
-
             $this->db->update($this->table, $param, "url = '" . $item['url'] . "'");
-
+            //var_dump($this->db->error());exit;
             $this->Head('?c=analysis');
         }
     }

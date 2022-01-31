@@ -1,14 +1,14 @@
 <div class="form-horizontal" role="form">
     <div class="form-group">
         <div class="col-sm-12">
-            {if !$item}
+            {if !isset($item)}
                 <span class="form-control">Сначала сохраните материал</span>
             {else}
                 <a id="upload-files" href="#" class="btn btn-dark">Выбрать файлы</a>
                 <span id="upload-files-status"></span>
             {/if}
         </div>
-        {if $item}
+        {if isset($item)}
             <div class="col-sm-12">
                 <div id="item-files">
                     <ul class="file-list clearfix">

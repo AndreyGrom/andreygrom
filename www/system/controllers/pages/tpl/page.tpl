@@ -3,8 +3,8 @@
         <div class="panel-heading">
             <h3 class="panel-title text-uppercase">
                 <span class="glyphicon glyphicon-duplicate"></span>
-                {if !$page}Создание новой страницы{else}Редактирование страницы{/if}
-                {if $page.id > 1}
+                {if !isset($page)}Создание новой страницы{else}Редактирование страницы{/if}
+                {if isset($page) && $page.id > 1}
                     <a href="?c=pages&id={$page.id}&action=remove-page" class="btn btn-danger btn-xs pull-right confirm">
                         <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> Удалить страницу
                     </a>
@@ -12,7 +12,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            {if $page}
+            {if isset($page)}
                     <table class="table table-bordered table-hover">
                         <tr>
                             <td>URL: <br><a target="_blank" href="{$site_url}{$page.alias}">{$site_url}{$page.alias}</a></td>

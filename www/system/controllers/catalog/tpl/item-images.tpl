@@ -1,7 +1,7 @@
 
 <div class="row">
     <div class="col-sm-12">
-        {if !$item}
+        {if !isset($item)}
             <span class="form-control">Сначала сохраните материал</span>
         {else}
             <a id="upload-images" href="#" class="btn btn-dark">Выбрать файлы</a>
@@ -9,7 +9,7 @@
         {/if}
     </div>
 </div>
-{if $item}
+{if isset($item)}
     <div class="row">
         <div class="col-sm-12">
             <div id="item-images">

@@ -65,7 +65,7 @@ class AdminCommentsController extends AdminController {
         $params = array(
             'sql' => $sql,
             'per_page' => 20,
-            'current_page' => $this->get['page'],
+            'current_page' => isset($this->get['page']) ? $this->get['page'] : 1,
             'link' => '?c=comments' . $url,
             'get_name' => 'page',
         );

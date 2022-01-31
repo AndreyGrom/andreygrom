@@ -2,7 +2,9 @@
     {section name=i loop=$item->images}
         <div class="row">
             <div class="col-sm-3">
-                <img src="{$item->images[i].src}" alt="{$item->images[i].alt}" title="{$item->images[i].title}" class="img-fluid">
+                <a class="fancybox" href="{$item->images[i].src}" title="{$item->images[i].alt}">
+                    <img src="{$item->images[i].src}" alt="{$item->images[i].alt}" title="{$item->images[i].title}" class="img-fluid">
+                </a>
                 <br><br>
             </div>
             <div class="col-sm-9">

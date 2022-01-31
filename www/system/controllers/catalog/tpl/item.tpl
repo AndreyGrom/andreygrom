@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <h3 class="panel-title text-uppercase">
                 <span class="glyphicon glyphicon-pencil"></span>
-                {if !$item}
+                {if !isset($item)}
                     Создание нового материала
                 {else}
                     Редактирование материала
@@ -11,12 +11,12 @@
             </h3>
         </div>
         <div class="panel-body">
-            {if $item}
+            {if isset($item)}
                 <table class="table table-bordered table-hover">
                     <tr>
                         <td>URL: <br><a target="_blank" href="{$site_url}{$module_config.alias}/{$item.alias}">{$site_url}{$module_config.alias}/{$item.alias}</a>
                         </td>
-                        <td>Дата создания: <br>{$item.date_create|date_format:"%D %T"}</td>
+                        <td>Дата создания: <br>{$item.date_publ|date_format:"%D %T"}</td>
                         <td>Дата изменения: <br>{$item.date_edit|date_format:"%D %T"}</td>
                     </tr>
                 </table>

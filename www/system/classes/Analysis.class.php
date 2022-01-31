@@ -40,6 +40,12 @@ class Analysis {
     private function HeadersToArray(){
         $this->headers = explode('\r\n', $this->headers);
     }
+    private function GetFullLink($link){
+        if (strpos($link, 'http') === false){
+            $link = $this->rs->proto . $this->rs->host . $link;
+        }
+        return $link;
+    }
     function GetOldTags(){
         $result = array();
         foreach ($this->old_tags as $k => $t){
@@ -65,12 +71,14 @@ class Analysis {
         //curl_setopt($ch, CURLOPT_STDERR, $f);
         curl_setopt($ch, CURLOPT_TIMEOUT,30); // times out after 4s
         $result=curl_exec ($ch);
+
         if ($result !== false)
         {
             $ch_info = curl_getinfo($ch);
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $this->headers = trim(substr($result, 0, $ch_info['header_size']));
             $this->data = substr($result, $ch_info['header_size']);
+            $this->data = iconv(mb_detect_encoding($this->data), "UTF-8//TRANSLIT//IGNORE", $this->data);
             $rs = true;
         } else {
             $rs = false;
@@ -94,7 +102,7 @@ class Analysis {
         $data = str_replace(array("\r", "\n"), '', $data);
         $data = preg_replace("/ +/", " ", $data);
         $this->rs->length_html = mb_strlen($data, $encoding); // Кол-во символов вместе с тегами
-        $this->rs->length_plain = mb_strlen(strip_tags($data), $encoding); // Кол-во без тегов
+        $this->rs->length_plain = mb_strlen($this->html->plaintext, $encoding); // Кол-во без тегов
         // соотношение Текст/HTML. Если меньше 15,  то плохо
         $this->rs->ratio = round(($this->rs->length_plain/$this->rs->length_html)*100);
     }
@@ -213,18 +221,17 @@ class Analysis {
         $h = $html->find('img');
         if (count($h) > 0){
             foreach ($h as $i){
-                if (strpos($i->src, 'http') === false){
-                    $i->src = $this->rs->proto . $this->rs->host . $i->src;
-                }
                 $this->rs->images[] = array(
                     'alt' => $i->alt,
-                    'src' =>  $i->src,
+                    'src' =>  $this->GetFullLink($i->src),
                     'title' =>  $i->title,
                 );
             }
         }
         unset($h);
-        $this->rs->images = $this->array_unique_key($this->rs->images, 'src');
+        if(isset($this->rs->images)){
+            $this->rs->images = $this->array_unique_key($this->rs->images, 'src');
+        }
     }
     private function Flash($html){
         $h = $html->find('object, embed');
@@ -233,7 +240,7 @@ class Analysis {
                 if ($i->src == '') continue;
                 $this->rs->flash[] = array(
                     'alt' => $i->alt,
-                    'src' =>  $i->src,
+                    'src' =>  $this->GetFullLink($i->src),
                     'title' =>  $i->title,
                 );
             }
@@ -246,7 +253,7 @@ class Analysis {
             foreach ($h as $i){
                 if ($i->src == '') continue;
                 $this->rs->iframe[] = array(
-                    'src' =>  $i->src,
+                    'src' =>  $this->GetFullLink($i->src),
                 );
             }
         }
@@ -260,7 +267,7 @@ class Analysis {
                     $link = parse_url($i->href);
                     $l = array(
                         'text' => trim(strip_tags($i->innertext)),
-                        'href' => $i->href,
+                        'href' => $this->GetFullLink($i->href),
                     );
                     if (isset($link['host']) && $link['host'] !== $this->rs->host){
                         $l['type'] = 'out';
@@ -281,16 +288,23 @@ class Analysis {
         $h = $html->find('link[rel="icon"]');
         if (count($h) > 0){
             $this->rs->favicon = $h[0]->href;
-            if (strpos($this->rs->favicon, 'http') === false){
-                $this->rs->favicon = $this->rs->proto . $this->rs->host . $this->rs->favicon;
-            }
+            $this->rs->favicon = $this->GetFullLink($this->rs->favicon);
         }
         unset($h);
     }
     private function Charset($html){
-        $h = $html->find('meta[charset]');
+        $h = $html->find('meta[charset], META[charset]');
         if (count($h) > 0){
             $this->rs->charset = $h[0]->charset;
+        } else{
+            if ($h = $html->find('meta[http-equiv=Content-Type]',0)){
+                $fullvalue = $h->content;
+                preg_match('/charset=(.+)/', $fullvalue, $matches);
+                if (count($matches) > 1){
+                    $this->rs->charset = $matches[1];
+                }
+            }
+
         }
         unset($h);
     }
@@ -317,12 +331,14 @@ class Analysis {
             $this->GetPage($this->url);
         }
         if ($this->data !== ''){
+            $html = new simple_html_dom();
+            $this->html = $html->load($this->data);
             $this->rs->encoding = mb_detect_encoding($this->data);
             $this->rs->headers = $this->headers;
             $this->PlainHtml($this->data, $this->rs->encoding);
-            $html = new simple_html_dom();
-            $this->html = $html->load($this->data);
-            unset($data);
+
+
+            //unset($data);
             $this->RootInfo($this->html);
             $this->TitleInfo($this->html, $this->rs->encoding);
             $this->DescriptionInfo($this->html, $this->rs->encoding);
