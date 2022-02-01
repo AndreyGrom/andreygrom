@@ -1,11 +1,23 @@
-<h3>Общие данные</h3>
+
+<p>&nbsp;</p>
 {if property_exists($item, 'host')}
-    <p>
+    <div class="clearfix">
         {if property_exists($item, 'favicon')}
             <img style="width: 50px;" src="{$item->favicon}" alt="">
         {/if}
         Сайт: <strong>{$item->proto}{$item->host}</strong>
-    </p>
+        <div class="pull-right">
+            Обновлено: {$last_update}
+            <div class="text-right">
+            {if $upd}
+                <a href="/analysis/{$id}/update" class="btn btn-dark">Обновить</a>
+            {else}
+                Обновлять можно только раз в сутки
+            {/if}
+            </div>
+        </div>
+    </div>
+    <p>&nbsp;</p>
 {/if}
 
 {if property_exists($item, 'ssl') && $item->ssl == 1}

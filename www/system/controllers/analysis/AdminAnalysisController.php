@@ -86,9 +86,10 @@ class AdminAnalysisController extends AdminController{
         $a = new Analysis();
         $a->url = $item['url'];
         if ($rs = $a->GetPage($item['url'])){
+            $analysis = $a->Run();
             $param = array(
-                'content' => $a->data,
-                'headers' => $a->headers,
+                'content' => json_encode($analysis),
+                'headers' => '',
                 'last_update' => time(),
             );
             $this->db->update($this->table, $param, "url = '" . $item['url'] . "'");

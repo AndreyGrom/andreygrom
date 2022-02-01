@@ -3,7 +3,7 @@
     <div class="alert alert-success">Отлично! Найдены метатеги Open Graph</div>
     <ul>
         {section name=i loop=$item->meta_og}
-            <li>{$item->meta_og[i].property} : {$item->meta_og[i].content}</li>
+            <li>{$item->meta_og[i]->property} : {$item->meta_og[i]->content}</li>
         {/section}
     </ul>
 {else}

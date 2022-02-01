@@ -4,7 +4,9 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
-                <h2 class="page-title">Страница: {$item->url}</h2>
+                <h2 class="page-title">
+                    Страница: {if isset($item)}{$item->url}{/if}
+                </h2>
                 <div class="card text-center">
                     <div class="card-header">
                         SEO-ОПТИМИЗАЦИЯ
@@ -19,7 +21,7 @@
                     </div>
                 </div>
 
-                {if $return}
+                {if isset($item)}
                     {include file="../inc/common.tpl"}
                     {include file="../inc/ratio.tpl"}
                     {include file="../inc/title.tpl"}
@@ -35,7 +37,7 @@
                         </li>
                         {if property_exists($item, 'caption_tags')}
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#captions">Заголовки ({count($item->caption_tags)})</a>
+                            <a class="nav-link" data-toggle="tab" href="#captions">Заголовки({if property_exists($item, 'caption_tags')}{$item->caption_tags->count}{else}0{/if})</a>
                         </li>
                         {/if}
                         {if property_exists($item, 'images')}
@@ -49,15 +51,19 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="links">
+                            <p>&nbsp;</p>
                             {include file="../inc/links.tpl"}
                         </div>
                         <div class="tab-pane fade" id="images">
+                            <p>&nbsp;</p>
                             {include file="../inc/images.tpl"}
                         </div>
                         <div class="tab-pane fade" id="captions">
+                            <p>&nbsp;</p>
                             {include file="../inc/captions.tpl"}
                         </div>
                         <div class="tab-pane fade" id="flash">
+                            <p>&nbsp;</p>
                             {include file="../inc/flash.tpl"}
                         </div>
                     </div>
@@ -69,7 +75,7 @@
 
                 {include file="../../common/socials.tpl"}
                 <p>&nbsp;</p>
-                <h5>Вам будет интересно:</h5>
+                <h5>Последние проанализированные страницы:</h5>
                 <ul class="others-items check">
                     {section name=i loop=$others}
                         <li><a href="/catalog/{$others[i].alias}">{$others[i].title}</a></li>

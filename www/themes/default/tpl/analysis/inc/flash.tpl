@@ -7,9 +7,9 @@
         </tr>
         {section name=i loop=$item->flash}
             <tr>
-                <td>{$item->flash[i].src}</td>
-                <td>{$item->flash[i].alt}</td>
-                <td>{$item->flash[i].title}</td>
+                <td>{$item->flash[i]->src}</td>
+                <td>{$item->flash[i]->alt}</td>
+                <td>{$item->flash[i]->title}</td>
             </tr>
         {/section}
     </table>
@@ -23,7 +23,7 @@
         </tr>
         {section name=i loop=$item->iframe}
             <tr>
-                <td>{$item->iframe[i].src}</td>
+                <td>{$item->iframe[i]->src}</td>
             </tr>
         {/section}
     </table>

@@ -3,7 +3,7 @@
     <div class="alert alert-success">Отлично! Найдены метатеги Twitter</div>
     <ul>
         {section name=i loop=$item->meta_twitter}
-            <li>{$item->meta_twitter[i].name} : {$item->meta_twitter[i].content}</li>
+            <li>{$item->meta_twitter[i]->name} : {$item->meta_twitter[i]->content}</li>
         {/section}
     </ul>
 {else}

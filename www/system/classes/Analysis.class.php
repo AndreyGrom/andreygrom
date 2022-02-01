@@ -41,8 +41,12 @@ class Analysis {
         $this->headers = explode('\r\n', $this->headers);
     }
     private function GetFullLink($link){
+        $sl = '';
+        if (substr($link, 0, 1) !== '/'){
+            $sl = '/';
+        }
         if (strpos($link, 'http') === false){
-            $link = $this->rs->proto . $this->rs->host . $link;
+            $link = $this->rs->proto . $this->rs->host . $sl . $link;
         }
         return $link;
     }
@@ -191,16 +195,24 @@ class Analysis {
         $tags = array();
         $tags_null = array();
         $h = $html->find('h1, h2, h3, h4, h5, h6');
+        $count = $count_null = 0;
         if (count($h) > 0){
             foreach ($h as $i){
-                if (trim(strip_tags($i->innertext)) !== ''){
-                    $tags[$i->tag][] = trim(strip_tags($i->innertext));
+                $content = trim(strip_tags($i->innertext));
+                if ($content !== ''){
+                    $tags[$i->tag][] = $content;
+                    $count ++;
                 } else {
                     $tags_null[$i->tag] = '';
+                    $count_null ++;
                 }
             }
+            ksort($tags);
+            ksort($tags_null);
             $this->rs->caption_tags['tags'] = $tags;
             $this->rs->caption_tags['tags_null'] = $tags_null;
+            $this->rs->caption_tags['count'] = $count;
+            $this->rs->caption_tags['count_null'] = $count_null;
         };
         unset($h);
     }
@@ -327,16 +339,15 @@ class Analysis {
     }
     public function Run(){
         $this->UrlInfo();
-        if ($this->data == ''){
+        /*if ($this->data == ''){
             $this->GetPage($this->url);
-        }
+        }*/
         if ($this->data !== ''){
             $html = new simple_html_dom();
             $this->html = $html->load($this->data);
             $this->rs->encoding = mb_detect_encoding($this->data);
             $this->rs->headers = $this->headers;
             $this->PlainHtml($this->data, $this->rs->encoding);
-
 
             //unset($data);
             $this->RootInfo($this->html);
@@ -354,7 +365,8 @@ class Analysis {
             $this->Charset($this->html);
             $this->OldTags($this->html);
             //$this->Robots();
-            unset($this->html);
+            //unset($this->html);
+            //unset($this->data);
         } else {
             $this->rs->error = 'Не удалось загрузить страницу';
         }

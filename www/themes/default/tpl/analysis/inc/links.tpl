@@ -9,10 +9,10 @@
             </tr>
             {section name=i loop=$item->links}
                 <tr>
-                    <td style="max-width: 400px;">{$item->links[i].href}</td>
-                    <td>{$item->links[i].text}</td>
-                    <td>{$item->links[i].type}</td>
-                    <td>{if $item->links[i].nofollow}nofollow{else}dofollow{/if}</td>
+                    <td style="max-width: 400px;">{$item->links[i]->href}</td>
+                    <td>{$item->links[i]->text}</td>
+                    <td>{$item->links[i]->type}</td>
+                    <td>{if $item->links[i]->nofollow}nofollow{else}dofollow{/if}</td>
                 </tr>
             {/section}
         </table>
