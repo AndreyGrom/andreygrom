@@ -3,13 +3,12 @@ error_reporting(-1);
 ini_set("display_errors", 1);
 include_once "./AGSpam.class.php";
 $com = new AGSpam();
-$com->email = 'hkryaker@yandex.ru';
 $com->url = 'https://socialnye-apteki.ru/filial/';
+$com->url = 'http://provoda/system/controllers/mailforms/action.php';
+$com->email = 'hkryaker@yandex.ru';
 $com->count = 1;
-$com->proxy = '50.206.25.105:80';
-$com->RunComment();
-$url_list = $com->url_list;
-$current_number = $com->current_number;
+
+$com->RunMail();
 $date = date("d.m.Y G:i:s", time());
 $date = date("G:i:s", time());
 ?>

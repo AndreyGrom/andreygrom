@@ -13,3 +13,5 @@ https://fastvps.ru/partnership_and_loyalty
 
 https://seo-inf.ru/tools/punycode/
 https://seo-inf.ru/tools/whois/
+
+Анализ текста, семантики, и.т.д. на анализаторе
