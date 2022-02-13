@@ -6,6 +6,7 @@ class AGSpam{
     public $email; // Email
     public $url; // URL страницуе без последнего номера
     public $url_list;
+    public $data_list;
     public $current_number;
     public $proxy = false;
     public function __construct() {
@@ -36,13 +37,11 @@ class AGSpam{
             //curl_setopt($ch, CURLOPT_PROXYUSERPWD, $loginpassw);
             //доступные значения для типа используемого прокси-сервера:  CURLPROXY_HTTP (по умолчанию), CURLPROXY_SOCKS4, CURLPROXY_SOCKS5, CURLPROXY_SOCKS4A или CURLPROXY_SOCKS5_HOSTNAME.
             //curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
-            var_dump($this->proxy);
         }
         curl_exec($ch);
         $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $redirectURL = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
         curl_close($ch);
-        var_dump($redirectURL);
         return $redirectURL;
     }
     function Post($url, $data){
@@ -96,13 +95,16 @@ class AGSpam{
             $this->url_list[] = $url;
         }
     }
+    function LogMail($data){
+        file_put_contents('./log2.txt', $data . "\n", FILE_APPEND);
+    }
     function Mail(){
         $url = $this->url;
         $name =  $this->RndName();
         $email = $this->email;
-        $message = "Достал спам? Я могу помочь!";
+        $message = "Достал спам? Я могу помочь! Mail сервер может отвалиться.";
         $data = array(
-            'form_id=7',
+            'form_id=1',
             'f1=' . $name,
             'f4=' . $email,
             'f6=' . $message,
@@ -110,10 +112,13 @@ class AGSpam{
         );
         $data = implode('&', $data);
         $rs = $this->Post($url, $data);
+        return $rs;
     }
-    public function RunMail($data){
+    public function RunMail(){
         for ($i = 0; $i < $this->count; $i++){
-            $this->Mail();
+            $rs = $this->Mail();
+            $this->LogMail($rs);
+            $this->data_list[] = $rs;
         }
     }
 }

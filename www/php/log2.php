@@ -1,19 +1,14 @@
 <?php
 if (isset($_GET['action']) && $_GET['action'] == 'clear'){
-    if (file_exists('log.txt')){
-        unlink('log.txt');
-    }
-    Header("Location: ./log.php");
+    unlink('./log2.txt');
+    Header("Location: ./log2.php");
 }
+$file = file('log2.txt');
 $items = array();
-if (file_exists('log.txt')){
-    $file = file('log.txt');
-    foreach ($file as $item) {
-        if ($item == '..' || $item == '.') continue;
-        $items[] = $item;
-    }
+foreach ($file as $item) {
+    if ($item == '..' || $item == '.') continue;
+    $items[] = $item;
 }
-
 ?>
 <!doctype html>
 <html lang="ru">

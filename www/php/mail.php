@@ -4,11 +4,11 @@ ini_set("display_errors", 1);
 include_once "./AGSpam.class.php";
 $com = new AGSpam();
 $com->url = 'https://socialnye-apteki.ru/filial/';
-$com->url = 'http://provoda/system/controllers/mailforms/action.php';
+$com->url = 'https://socialnye-apteki.ru/system/controllers/mailforms/action.php';
 $com->email = 'hkryaker@yandex.ru';
 $com->count = 1;
-
 $com->RunMail();
+$data_list = $com->data_list;
 $date = date("d.m.Y G:i:s", time());
 $date = date("G:i:s", time());
 ?>
@@ -31,20 +31,18 @@ $date = date("G:i:s", time());
 <table>
     <tr>
         <td>Дата и время</td>
-        <td>Всего постов</td>
         <td>Линки</td>
         <td>Следующий через</td>
     </tr>
     <tr>
         <td><?php echo $date; ?>(мск)</td>
-        <td><?php echo $current_number; ?></td>
-        <td><a target="_blank" href="./log.php">Log.txt</a></td>
+        <td><a target="_blank" href="./log2.php">Log.txt</a></td>
         <td><span id="second"></span> секунд</td>
     </tr>
 </table>
 <hr>
-<?php foreach ($url_list as $item) {  ?>
-    <a target="_blank" href="<?php echo $item; ?>"><?php echo $item; ?></a><br>
+<?php foreach ($data_list as $item) {  ?>
+    <?php echo $item; ?><br>
 <?php } ?>
 <!--<script>
     setTimeout(function(){
